@@ -91,9 +91,10 @@ Those copies are git-ignored and regenerated on every build.
 
 ### Manual smoke test
 
-Drop a large PDF named `scan45.pdf` into `public/`, then open `#/selftest` and
-click **Run on /scan45.pdf**. It runs all three levels and reports sizes, timing,
-and the isolation state.
+Open **`#/selftest`** and click **Run on bundled fixture** (a small committed
+PDF). It runs all three levels and reports sizes, timing, and whether the page
+is cross-origin isolated. To test a big file, drop a PDF named `scan45.pdf` into
+`public/` (git-ignored) and use **Run on /scan45.pdf**, or just pick any file.
 
 ## Build
 

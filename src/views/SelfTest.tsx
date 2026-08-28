@@ -43,14 +43,14 @@ export function SelfTest() {
     setRows((prev) => prev.map((r) => (r.level === level ? { ...r, text, done } : r)));
   }
 
-  async function useFixture() {
-    const res = await fetch(`${import.meta.env.BASE_URL}scan45.pdf`);
+  async function useFixture(name: string) {
+    const res = await fetch(`${import.meta.env.BASE_URL}${name}`);
     if (!res.ok) {
-      alert('No fixture at /scan45.pdf — use the file picker instead.');
+      alert(`No fixture at /${name} — use the file picker instead.`);
       return;
     }
     const blob = await res.blob();
-    await runAll(new File([blob], 'scan45.pdf', { type: 'application/pdf' }));
+    await runAll(new File([blob], name, { type: 'application/pdf' }));
   }
 
   return (
@@ -64,8 +64,16 @@ export function SelfTest() {
         <button
           type="button"
           disabled={running}
-          onClick={useFixture}
+          onClick={() => useFixture('selftest-fixture.pdf')}
           className="rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+        >
+          Run on bundled fixture
+        </button>
+        <button
+          type="button"
+          disabled={running}
+          onClick={() => useFixture('scan45.pdf')}
+          className="rounded-lg border border-paper-200 px-3 py-2 text-sm font-semibold disabled:opacity-50"
         >
           Run on /scan45.pdf
         </button>
