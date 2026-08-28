@@ -5,36 +5,38 @@
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 @theme {
-  --color-paper-50: #faf8f4;
-  --color-paper-100: #f2ede4;
-  --color-paper-200: #e4dccc;
+  /* Cool neutral surface — soft cool white / light grey. */
+  --color-paper-50: #fbfcfe;
+  --color-paper-100: #eef1f6;
+  --color-paper-200: #dde3ec;
 
-  --color-brand-50: #edfcf9;
-  --color-brand-100: #d2f7ef;
-  --color-brand-200: #a8ede0;
-  --color-brand-300: #6fddca;
-  --color-brand-400: #38c4b0;
-  --color-brand-500: #14a89a;
-  --color-brand-600: #0d8578;
-  --color-brand-700: #106b62;
-  --color-brand-800: #125650;
-  --color-brand-900: #134842;
+  /* Blue accent ramp (the default brand colour). */
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #d9e6ff;
+  --color-brand-200: #b9d1ff;
+  --color-brand-300: #8bb4fb;
+  --color-brand-400: #5b90f5;
+  --color-brand-500: #3b74ec;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4fc4;
+  --color-brand-800: #1c419b;
+  --color-brand-900: #1c3a7c;
 
-  --color-ink-500: #6b7280;
-  --color-ink-700: #374151;
-  --color-ink-900: #1a1f24;
+  --color-ink-500: #64748b;
+  --color-ink-700: #334155;
+  --color-ink-900: #131a26;
 
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 :root {
-  --bg: #faf8f4;
-  --fg: #1a1f24;
+  --bg: #f4f6fa;
+  --fg: #131a26;
 }
 
 [data-theme='dark'] {
-  --bg: #0b1512;
-  --fg: #e7efec;
+  --bg: #0d1017;
+  --fg: #e5e9f0;
 }
 
 /* "Wygins" — a warm editorial palette: cream paper, vermilion accent, tan lines.
