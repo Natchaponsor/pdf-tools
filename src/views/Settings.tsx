@@ -6,6 +6,7 @@ const OPTIONS: { id: ThemePref; label: string }[] = [
   { id: 'system', label: 'System' },
   { id: 'light', label: 'Light' },
   { id: 'dark', label: 'Dark' },
+  { id: 'wygins', label: 'Wygins' },
 ];
 
 export function Settings() {
@@ -17,7 +18,7 @@ export function Settings() {
 
       <section className="space-y-3">
         <h2 className="text-sm font-semibold text-ink-700 dark:text-white/80">Appearance</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {OPTIONS.map((o) => (
             <button
               key={o.id}
@@ -51,7 +52,7 @@ export function Settings() {
         <h2 className="text-sm font-semibold text-ink-700 dark:text-white/80">About</h2>
         <p className="text-sm text-ink-500 dark:text-white/60">
           Paperplane is open source under the AGPL-3.0 license. It&rsquo;s built with React, Vite,
-          MuPDF, Ghostscript, pdf.js, and pdf-lib.
+          MuPDF, Ghostscript, and pdf-lib.
         </p>
         <a
           href="https://github.com/Natchaponsor/pdf-tools"

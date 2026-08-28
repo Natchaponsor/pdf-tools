@@ -37,6 +37,33 @@
   --fg: #e7efec;
 }
 
+/* "Wygins" — a warm editorial palette: cream paper, vermilion accent, tan lines.
+   Overriding the Tailwind theme custom properties re-skins every utility that
+   references them (bg-brand-600, border-paper-200, text-ink-900, …). */
+[data-theme='wygins'] {
+  --bg: #fbf1d2;
+  --fg: #241f18;
+
+  --color-paper-50: #fdf7e3;
+  --color-paper-100: #f6e8c3;
+  --color-paper-200: #e7d3a0;
+
+  --color-brand-50: #fdf1ea;
+  --color-brand-100: #fadecb;
+  --color-brand-200: #f4bb9c;
+  --color-brand-300: #ee956d;
+  --color-brand-400: #e97544;
+  --color-brand-500: #e4531c;
+  --color-brand-600: #c6430f;
+  --color-brand-700: #9f370f;
+  --color-brand-800: #7b2e13;
+  --color-brand-900: #5a2410;
+
+  --color-ink-500: #867661;
+  --color-ink-700: #4d4133;
+  --color-ink-900: #241f18;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }

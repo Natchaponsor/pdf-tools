@@ -14,7 +14,7 @@ export function Home({ compact = false }: { compact?: boolean }) {
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(9rem,1fr))] gap-3">
         {TOOLS.map((tool) => (
           <button
             key={tool.id}

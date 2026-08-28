@@ -25,7 +25,7 @@ touches the network.
 | --- | --- |
 | **Compress PDF** | Shrink one or several PDFs at once (shared 50 MB budget). Three quality levels, first-page preview and before/after size per file, download individually or as a `.zip`. |
 | **Merge PDFs** | Combine several PDFs into one, in an order you set. |
-| **Split PDF** | Extract a page range (`1-3, 5, 8-10`) or burst into single-page PDFs (`.zip`). |
+| **Split PDF** | Pick pages from a thumbnail grid (tap to select, or All / None / Odd / Even / a range), then pull them out as one PDF or a `.zip` of single pages. |
 | **Organize pages** | Drag page thumbnails to reorder, rotate, or delete, then export a new PDF. |
 | **PDF to image** | Render pages to PNG or JPG at 72/150/300 DPI — one page, or a `.zip`. |
 | **Images to PDF** | Combine JPG/PNG images into one PDF (fit-to-image, A4, or Letter). |
@@ -62,6 +62,11 @@ expected, and the app tells you so instead of pretending.
   and loaded on demand, so the home screen stays light.
 - **Hash-based routing** (`#/compress`). No history API, so a refresh or a deep
   link works on GitHub Pages with no server rewrites.
+- **Themes** (Settings → Appearance): System / Light / Dark / **Wygins** (a warm
+  cream-and-vermilion palette). Themes are Tailwind v4 custom-property overrides
+  scoped to `<html data-theme>`, so one rule re-skins every utility.
+- **Responsive tool grid**: the home screen packs feature cards with
+  `auto-fill` columns — 2 up on a phone, up to seven across on a wide desktop.
 - **[`mupdf`](https://www.npmjs.com/package/mupdf)** — MuPDF.js WASM. One shared
   ES-module worker handles the lossless compression tier, page counts, page
   rendering (organize thumbnails, PDF → image), and first-page previews.

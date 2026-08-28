@@ -73,13 +73,17 @@ export interface SplitFile {
   bytes: Uint8Array;
 }
 
-export async function splitToSinglePages(file: File): Promise<SplitFile[]> {
+/** One single-page PDF per given page index (defaults to every page). */
+export async function splitToSinglePages(
+  file: File,
+  indices?: number[],
+): Promise<SplitFile[]> {
   const src = await load(file);
   const base = file.name.replace(/\.pdf$/i, '');
-  const count = src.getPageCount();
-  const pad = String(count).length;
+  const pageIndices = indices ?? src.getPageIndices();
+  const pad = String(src.getPageCount()).length;
   const results: SplitFile[] = [];
-  for (let i = 0; i < count; i++) {
+  for (const i of pageIndices) {
     const out = await PDFDocument.create();
     const [page] = await out.copyPages(src, [i]);
     out.addPage(page);
