@@ -14,3 +14,6 @@ scratch-test/
 
 # Local self-test fixture (large; not committed) — see src/views/SelfTest.tsx
 public/scan45.pdf
+
+# local compress test fixtures
+public/small*.pdf

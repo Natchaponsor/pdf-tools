@@ -23,7 +23,7 @@ touches the network.
 
 | Tool | What it does |
 | --- | --- |
-| **Compress PDF** | Shrink a PDF for email or upload. Three quality levels. Before/after size. 50 MB limit. |
+| **Compress PDF** | Shrink one or several PDFs for email or upload. Three quality levels. First-page preview + before/after size per file. Download individually or as a `.zip`. 50 MB combined limit. |
 
 More tools are in progress: merge, split, reorder / rotate / delete pages,
 PDF → image, images → PDF, compress image, page numbers, watermark.

@@ -54,6 +54,12 @@ export interface CompressOutcome {
   ms: number;
 }
 
+export interface PageImage {
+  blob: Blob;
+  width: number;
+  height: number;
+}
+
 let mupdfWorker: Worker | null = null;
 function getMupdfWorker(): Worker {
   mupdfWorker ??= new Worker(new URL('./workers/mupdf.worker.ts', import.meta.url), {
@@ -64,47 +70,24 @@ function getMupdfWorker(): Worker {
 
 let jobId = 0;
 
-export async function compressPdf(
-  file: File,
-  level: CompressLevel,
-  onProgress: (p: CompressProgress) => void,
-): Promise<CompressOutcome> {
-  const buffer = await file.arrayBuffer();
-  const id = ++jobId;
-
-  if (level === 'light') {
-    return runMupdf(id, buffer, onProgress);
-  }
-  return runGhostscript(id, buffer, GS_ARGS[level], onProgress);
-}
-
-function runMupdf(
-  id: number,
-  buffer: ArrayBuffer,
-  onProgress: (p: CompressProgress) => void,
-): Promise<CompressOutcome> {
+/** One-shot request/response against the shared MuPDF worker. */
+function callMupdf(
+  payload: Record<string, unknown>,
+  transfer: Transferable[],
+): Promise<Record<string, unknown>> {
   const worker = getMupdfWorker();
-  onProgress({ ratio: null, note: 'Cleaning up the document…' });
-
+  const id = ++jobId;
   return new Promise((resolve, reject) => {
     const handle = (event: MessageEvent) => {
       const data = event.data;
       if (data.id !== id) return;
-      if (data.type === 'done') {
-        cleanup();
-        resolve({
-          blob: new Blob([data.output], { type: 'application/pdf' }),
-          outputBytes: data.output.byteLength,
-          ms: data.ms,
-        });
-      } else if (data.type === 'error') {
-        cleanup();
-        reject(new Error(data.message));
-      }
+      cleanup();
+      if (data.type === 'done') resolve(data);
+      else reject(new Error(data.message ?? 'MuPDF worker error'));
     };
     const onErr = () => {
       cleanup();
-      reject(new Error('The compression engine failed to load.'));
+      reject(new Error('The PDF engine failed to load.'));
     };
     function cleanup() {
       worker.removeEventListener('message', handle);
@@ -112,8 +95,42 @@ function runMupdf(
     }
     worker.addEventListener('message', handle);
     worker.addEventListener('error', onErr);
-    worker.postMessage({ id, op: 'compress-lossless', file: buffer }, [buffer]);
+    worker.postMessage({ id, ...payload }, transfer);
   });
+}
+
+export async function compressPdf(
+  file: File,
+  level: CompressLevel,
+  onProgress: (p: CompressProgress) => void,
+): Promise<CompressOutcome> {
+  const buffer = await file.arrayBuffer();
+
+  if (level === 'light') {
+    onProgress({ ratio: null, note: 'Cleaning up the document…' });
+    const data = await callMupdf({ op: 'compress-lossless', file: buffer }, [buffer]);
+    const output = data.output as ArrayBuffer;
+    return {
+      blob: new Blob([output], { type: 'application/pdf' }),
+      outputBytes: output.byteLength,
+      ms: data.ms as number,
+    };
+  }
+  return runGhostscript(++jobId, buffer, GS_ARGS[level], onProgress);
+}
+
+/** Render page 1 of a PDF to a PNG, for a visual "is this the right file?" check. */
+export async function renderFirstPage(
+  source: Blob | ArrayBuffer,
+  maxWidth = 360,
+): Promise<PageImage> {
+  const buffer = source instanceof Blob ? await source.arrayBuffer() : source.slice(0);
+  const data = await callMupdf({ op: 'render-first-page', file: buffer, maxWidth }, [buffer]);
+  return {
+    blob: new Blob([data.output as ArrayBuffer], { type: 'image/jpeg' }),
+    width: data.width as number,
+    height: data.height as number,
+  };
 }
 
 function runGhostscript(
