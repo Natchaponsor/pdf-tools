@@ -39,16 +39,17 @@
   --fg: #e5e9f0;
 }
 
-/* "Wygins" — a warm editorial palette: cream paper, vermilion accent, tan lines.
-   Overriding the Tailwind theme custom properties re-skins every utility that
-   references them (bg-brand-600, border-paper-200, text-ink-900, …). */
-[data-theme='wygins'] {
-  --bg: #fbf1d2;
-  --fg: #241f18;
+/* "Spring" — a bright, warm editorial palette. Overriding the Tailwind theme
+   custom properties re-skins every utility that references them (bg-brand-600,
+   border-paper-200, text-ink-900, …). The home feature blocks get solid colour
+   tiles with knockout text (see the .tool-card rules below). */
+[data-theme='spring'] {
+  --bg: #fef8db;
+  --fg: #3c3423;
 
-  --color-paper-50: #fdf7e3;
-  --color-paper-100: #f6e8c3;
-  --color-paper-200: #e7d3a0;
+  --color-paper-50: #fffdf1;
+  --color-paper-100: #f8efcf;
+  --color-paper-200: #ecdcac;
 
   --color-brand-50: #fdf1ea;
   --color-brand-100: #fadecb;
@@ -61,9 +62,51 @@
   --color-brand-800: #7b2e13;
   --color-brand-900: #5a2410;
 
-  --color-ink-500: #867661;
-  --color-ink-700: #4d4133;
-  --color-ink-900: #241f18;
+  --color-ink-500: #8a7a5c;
+  --color-ink-700: #574a33;
+  --color-ink-900: #3c3423;
+
+  /* Feature-block tile colours, cycled across the grid. */
+  --tile-1: #9d6db9; /* orchid  */
+  --tile-2: #ba831a; /* gold    */
+  --tile-3: #dd4f18; /* vermilion */
+  --tile-4: #5192ab; /* teal    */
+  --tile-5: #7c9c43; /* leaf    */
+}
+
+/* Solid tiles with text/icon knocked out in the page background colour. */
+[data-theme='spring'] .tool-card {
+  border-color: transparent;
+  background: var(--tile-1);
+  color: var(--bg);
+}
+[data-theme='spring'] .tool-card:nth-child(5n + 2) {
+  background: var(--tile-2);
+}
+[data-theme='spring'] .tool-card:nth-child(5n + 3) {
+  background: var(--tile-3);
+}
+[data-theme='spring'] .tool-card:nth-child(5n + 4) {
+  background: var(--tile-4);
+}
+[data-theme='spring'] .tool-card:nth-child(5n + 5) {
+  background: var(--tile-5);
+}
+[data-theme='spring'] .tool-card:hover {
+  border-color: transparent;
+  filter: brightness(0.94);
+}
+[data-theme='spring'] .tool-card__title {
+  color: var(--bg);
+  font-size: 1rem;
+  line-height: 1.15;
+}
+[data-theme='spring'] .tool-card__blurb {
+  display: none;
+}
+[data-theme='spring'] .tool-card__icon {
+  background: rgb(255 255 255 / 0.18);
+  color: var(--bg);
 }
 
 html {

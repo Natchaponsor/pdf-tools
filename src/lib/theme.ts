@@ -1,13 +1,14 @@
-export type ThemePref = 'system' | 'light' | 'dark' | 'wygins';
-export type ResolvedTheme = 'light' | 'dark' | 'wygins';
+export type ThemePref = 'system' | 'light' | 'dark' | 'spring';
+export type ResolvedTheme = 'light' | 'dark' | 'spring';
 
 const KEY = 'paperplane:theme';
-const PREFS: ThemePref[] = ['system', 'light', 'dark', 'wygins'];
+const PREFS: ThemePref[] = ['system', 'light', 'dark', 'spring'];
 const mq = () => window.matchMedia('(prefers-color-scheme: dark)');
 
 export function getThemePref(): ThemePref {
   try {
     const v = localStorage.getItem(KEY);
+    if (v === 'wygins') return 'spring'; // renamed
     if (v && (PREFS as string[]).includes(v)) return v as ThemePref;
   } catch {
     /* storage may be unavailable */

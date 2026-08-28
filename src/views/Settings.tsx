@@ -6,7 +6,7 @@ const OPTIONS: { id: ThemePref; label: string }[] = [
   { id: 'system', label: 'System' },
   { id: 'light', label: 'Light' },
   { id: 'dark', label: 'Dark' },
-  { id: 'wygins', label: 'Wygins' },
+  { id: 'spring', label: 'Spring' },
 ];
 
 export function Settings() {
