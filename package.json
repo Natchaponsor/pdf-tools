@@ -1,0 +1,39 @@
+{
+  "name": "paperplane",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "author": "Top",
+  "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "sync-vendor": "node scripts/sync-vendor.mjs",
+    "predev": "npm run sync-vendor",
+    "dev": "vite",
+    "prebuild": "npm run sync-vendor",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "browser-image-compression": "^2.0.2",
+    "jszip": "^3.10.1",
+    "mupdf": "^1.28.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.2.108",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@jspawn/ghostscript-wasm": "0.0.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~5.9.3",
+    "vite": "^8.2.2"
+  }
+}
