@@ -1,3 +1,8 @@
+/** Wrap engine output bytes in a Blob (copies into a plain ArrayBuffer). */
+export function bytesToBlob(bytes: Uint8Array, type: string): Blob {
+  return new Blob([new Uint8Array(bytes)], { type });
+}
+
 /**
  * Save a blob to the user's device. This is a user-initiated action (a click on
  * a download button) — the data is already on the device and nothing leaves it.

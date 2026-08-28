@@ -6,6 +6,7 @@
  *   balanced  Ghostscript /ebook  (150dpi)  ~95%  keeps vector text
  *   maximum   Ghostscript /screen (72dpi)   ~97%  keeps vector text
  */
+import { callMupdf } from './mupdfClient';
 
 export type CompressLevel = 'light' | 'balanced' | 'maximum';
 
@@ -43,7 +44,6 @@ const GS_ARGS: Record<Exclude<CompressLevel, 'light'>, string[]> = {
 };
 
 export interface CompressProgress {
-  /** 0–1 when known, otherwise null (indeterminate). */
   ratio: number | null;
   note: string;
 }
@@ -54,50 +54,7 @@ export interface CompressOutcome {
   ms: number;
 }
 
-export interface PageImage {
-  blob: Blob;
-  width: number;
-  height: number;
-}
-
-let mupdfWorker: Worker | null = null;
-function getMupdfWorker(): Worker {
-  mupdfWorker ??= new Worker(new URL('./workers/mupdf.worker.ts', import.meta.url), {
-    type: 'module',
-  });
-  return mupdfWorker;
-}
-
-let jobId = 0;
-
-/** One-shot request/response against the shared MuPDF worker. */
-function callMupdf(
-  payload: Record<string, unknown>,
-  transfer: Transferable[],
-): Promise<Record<string, unknown>> {
-  const worker = getMupdfWorker();
-  const id = ++jobId;
-  return new Promise((resolve, reject) => {
-    const handle = (event: MessageEvent) => {
-      const data = event.data;
-      if (data.id !== id) return;
-      cleanup();
-      if (data.type === 'done') resolve(data);
-      else reject(new Error(data.message ?? 'MuPDF worker error'));
-    };
-    const onErr = () => {
-      cleanup();
-      reject(new Error('The PDF engine failed to load.'));
-    };
-    function cleanup() {
-      worker.removeEventListener('message', handle);
-      worker.removeEventListener('error', onErr);
-    }
-    worker.addEventListener('message', handle);
-    worker.addEventListener('error', onErr);
-    worker.postMessage({ id, ...payload }, transfer);
-  });
-}
+let gsJobId = 0;
 
 export async function compressPdf(
   file: File,
@@ -116,21 +73,7 @@ export async function compressPdf(
       ms: data.ms as number,
     };
   }
-  return runGhostscript(++jobId, buffer, GS_ARGS[level], onProgress);
-}
-
-/** Render page 1 of a PDF to a PNG, for a visual "is this the right file?" check. */
-export async function renderFirstPage(
-  source: Blob | ArrayBuffer,
-  maxWidth = 360,
-): Promise<PageImage> {
-  const buffer = source instanceof Blob ? await source.arrayBuffer() : source.slice(0);
-  const data = await callMupdf({ op: 'render-first-page', file: buffer, maxWidth }, [buffer]);
-  return {
-    blob: new Blob([data.output as ArrayBuffer], { type: 'image/jpeg' }),
-    width: data.width as number,
-    height: data.height as number,
-  };
+  return runGhostscript(++gsJobId, buffer, GS_ARGS[level], onProgress);
 }
 
 function runGhostscript(
@@ -143,14 +86,14 @@ function runGhostscript(
   const worker = new Worker(`${import.meta.env.BASE_URL}workers/gs.worker.js`);
   onProgress({ ratio: null, note: 'Loading the compression engine…' });
 
-  // Ghostscript's per-page output doesn't stream reliably from WASM, so show a
-  // gentle elapsed-time hint once the engine is up.
   const start = performance.now();
   let ticking = false;
   const tick = setInterval(() => {
     if (!ticking) return;
-    const s = Math.round((performance.now() - start) / 1000);
-    onProgress({ ratio: null, note: `Compressing… ${s}s elapsed` });
+    onProgress({
+      ratio: null,
+      note: `Compressing… ${Math.round((performance.now() - start) / 1000)}s elapsed`,
+    });
   }, 1000);
 
   return new Promise((resolve, reject) => {

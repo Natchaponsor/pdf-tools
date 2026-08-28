@@ -7,10 +7,10 @@ import { formatBytes, formatDuration, percentSmaller } from '../lib/format';
 import {
   COMPRESS_LEVELS,
   compressPdf,
-  renderFirstPage,
   type CompressLevel,
   type CompressProgress,
 } from '../lib/compress';
+import { renderFirstPage } from '../lib/pdfDoc';
 import { downloadBlob } from '../lib/download';
 
 interface Item {

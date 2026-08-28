@@ -1,0 +1,144 @@
+import type { SVGProps } from 'react';
+
+/**
+ * Original line icons for Paperplane. 24×24, 1.6 stroke, round caps/joins.
+ * Intentionally simple and consistent — not derived from any icon set.
+ */
+function base(props: SVGProps<SVGSVGElement>) {
+  return {
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.6,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+    ...props,
+  };
+}
+
+export function IconCompress(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M9 4v4H5M15 4v4h4M9 20v-4H5M15 20v-4h4" />
+      <path d="M12 9v6" />
+      <path d="m9.5 12 2.5 3 2.5-3" />
+    </svg>
+  );
+}
+
+export function IconMerge(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="4" width="9" height="12" rx="1.5" />
+      <rect x="12" y="8" width="9" height="12" rx="1.5" />
+    </svg>
+  );
+}
+
+export function IconSplit(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="4" y="4" width="16" height="16" rx="1.5" />
+      <path d="M12 4v16" strokeDasharray="2 2.5" />
+    </svg>
+  );
+}
+
+export function IconOrganize(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="4" width="7" height="9" rx="1.5" />
+      <rect x="14" y="8" width="7" height="9" rx="1.5" />
+      <path d="M10 8h4m0 0-2-2m2 2-2 2" />
+    </svg>
+  );
+}
+
+export function IconPdfToImage(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="4" y="3" width="10" height="14" rx="1.5" />
+      <rect x="10" y="8" width="10" height="13" rx="1.5" />
+      <circle cx="13.5" cy="12" r="1.2" />
+      <path d="m11 19 3-3 3 2.5" />
+    </svg>
+  );
+}
+
+export function IconImageToPdf(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="5" width="12" height="10" rx="1.5" />
+      <circle cx="7" cy="9" r="1.1" />
+      <path d="m5 14 3-3 3 2.5" />
+      <path d="M14 9h6v11a1 1 0 0 1-1 1h-8" />
+    </svg>
+  );
+}
+
+export function IconImage(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <circle cx="8.5" cy="9.5" r="1.5" />
+      <path d="m4 17 5-5 4 3.5L16 12l4 4" />
+    </svg>
+  );
+}
+
+export function IconNumber(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="4" y="4" width="16" height="16" rx="1.5" />
+      <path d="M13 9.5 15 8v8M9 16h2" />
+      <path d="M8.5 9.8A1.8 1.8 0 0 1 12 10c0 1.3-1.8 2-3.5 4H12" />
+    </svg>
+  );
+}
+
+export function IconWatermark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="4" y="4" width="16" height="16" rx="1.5" />
+      <path d="M8 15.5 16 8" opacity="0.5" />
+      <path d="M8 11.5 12.5 7M11.5 17 16 12.5" opacity="0.5" />
+    </svg>
+  );
+}
+
+export function IconHome(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 11 12 4l8 7" />
+      <path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9" />
+    </svg>
+  );
+}
+
+export function IconGrid(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="4" y="4" width="7" height="7" rx="1.5" />
+      <rect x="13" y="4" width="7" height="7" rx="1.5" />
+      <rect x="4" y="13" width="7" height="7" rx="1.5" />
+      <rect x="13" y="13" width="7" height="7" rx="1.5" />
+    </svg>
+  );
+}
+
+export function IconSettings(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" />
+    </svg>
+  );
+}
+
+export function IconBack(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
+  );
+}
