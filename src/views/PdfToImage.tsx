@@ -7,7 +7,7 @@ import { FileRow } from './AddPageNumbers';
 import { openDoc, getPageCount, renderPage, type RasterFormat } from '../lib/pdfDoc';
 import { parsePageRanges } from '../lib/pdf';
 import { zipFiles } from '../lib/zip';
-import { downloadBlob } from '../lib/download';
+import { SaveAs } from '../components/SaveAs';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
 
@@ -165,27 +165,17 @@ export function PdfToImage() {
             {result.kind === 'image' ? 'Image ready' : `${result.count} images`}
           </p>
           <p className="text-sm text-ink-500 dark:text-white/60">{formatBytes(result.blob.size)}</p>
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() =>
-                downloadBlob(
-                  result.blob,
-                  result.kind === 'image' ? result.name : `${base}-images.zip`,
-                )
-              }
-              className="rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
-            >
-              Download{result.kind === 'zip' ? ' .zip' : ''}
-            </button>
-            <button
-              type="button"
-              onClick={reset}
-              className="rounded-xl border border-brand-300 px-4 py-2.5 font-semibold text-brand-700 hover:bg-white dark:border-brand-700 dark:text-brand-200 dark:hover:bg-white/10"
-            >
-              Start over
-            </button>
-          </div>
+          <SaveAs
+            blob={result.blob}
+            defaultName={result.kind === 'image' ? result.name : `${base}-images.zip`}
+          />
+          <button
+            type="button"
+            onClick={reset}
+            className="text-sm font-semibold text-brand-700 hover:underline dark:text-brand-300"
+          >
+            Start over
+          </button>
         </div>
       )}
     </ToolShell>

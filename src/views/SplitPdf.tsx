@@ -11,7 +11,8 @@ import {
   splitToSinglePages,
 } from '../lib/pdf';
 import { zipFiles } from '../lib/zip';
-import { downloadBlob, bytesToBlob } from '../lib/download';
+import { bytesToBlob } from '../lib/download';
+import { SaveAs } from '../components/SaveAs';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
 
@@ -178,22 +179,14 @@ export function SplitPdf() {
           <p className="text-xl font-bold text-brand-800 dark:text-brand-200">
             {result.count} single-page PDFs
           </p>
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => downloadBlob(result.blob, `${base}-pages.zip`)}
-              className="rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
-            >
-              Download .zip
-            </button>
-            <button
-              type="button"
-              onClick={reset}
-              className="rounded-xl border border-brand-300 px-4 py-2.5 font-semibold text-brand-700 hover:bg-white dark:border-brand-700 dark:text-brand-200 dark:hover:bg-white/10"
-            >
-              Start over
-            </button>
-          </div>
+          <SaveAs blob={result.blob} defaultName={`${base}-pages.zip`} />
+          <button
+            type="button"
+            onClick={reset}
+            className="text-sm font-semibold text-brand-700 hover:underline dark:text-brand-300"
+          >
+            Start over
+          </button>
         </div>
       )}
     </ToolShell>

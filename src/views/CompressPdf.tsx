@@ -12,6 +12,7 @@ import {
 } from '../lib/compress';
 import { renderFirstPage } from '../lib/pdfDoc';
 import { downloadBlob } from '../lib/download';
+import { SaveAs } from '../components/SaveAs';
 
 interface Item {
   file: File;
@@ -313,25 +314,33 @@ function Results({
     outTotal,
   );
 
+  const single = ok.length === 1 ? ok[0] : null;
+
   return (
     <div className="space-y-4">
       {ok.length > 0 && (
-        <div className="rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
-          <p className="text-xl font-bold text-brand-800 dark:text-brand-200">
-            {rows.length > 1 ? `${ok.length} of ${rows.length} PDFs compressed` : null}
-            {rows.length > 1 ? ' · ' : ''}
-            {overallPct > 0 ? `${overallPct}% smaller` : 'Already tightly packed'}
-          </p>
-          <p className="mt-1 text-sm text-ink-500 dark:text-white/60">
-            {formatBytes(inTotal)} → {formatBytes(outTotal)} total
-          </p>
-          <button
-            type="button"
-            onClick={onDownloadAll}
-            className="mt-4 rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
-          >
-            {ok.length > 1 ? 'Download all (.zip)' : 'Download'}
-          </button>
+        <div className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
+          <div>
+            <p className="text-xl font-bold text-brand-800 dark:text-brand-200">
+              {rows.length > 1 ? `${ok.length} of ${rows.length} PDFs compressed` : null}
+              {rows.length > 1 ? ' · ' : ''}
+              {overallPct > 0 ? `${overallPct}% smaller` : 'Already tightly packed'}
+            </p>
+            <p className="mt-1 text-sm text-ink-500 dark:text-white/60">
+              {formatBytes(inTotal)} → {formatBytes(outTotal)} total
+            </p>
+          </div>
+          {single ? (
+            <SaveAs blob={single.blob!} defaultName={single.name} />
+          ) : (
+            <button
+              type="button"
+              onClick={onDownloadAll}
+              className="rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
+            >
+              Download all (.zip)
+            </button>
+          )}
         </div>
       )}
 
@@ -353,24 +362,22 @@ function Results({
               )}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate font-medium text-ink-900 dark:text-white">{r.name}</p>
               {r.error ? (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{r.error}</p>
+                <>
+                  <p className="truncate font-medium text-ink-900 dark:text-white">{r.name}</p>
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{r.error}</p>
+                </>
               ) : (
                 <>
-                  <p className="mt-1 text-sm text-ink-500 dark:text-white/60">
+                  <p className="text-sm text-ink-500 dark:text-white/60">
                     {formatBytes(r.inputBytes)} → {formatBytes(r.outputBytes ?? 0)} ·{' '}
                     {percentSmaller(r.inputBytes, r.outputBytes ?? r.inputBytes)}% smaller
                     {r.ms != null ? ` · ${formatDuration(r.ms)}` : ''}
                   </p>
-                  {r.url && (
-                    <a
-                      href={r.url}
-                      download={r.name}
-                      className="mt-2 inline-block text-sm font-semibold text-brand-700 hover:underline dark:text-brand-300"
-                    >
-                      Download
-                    </a>
+                  {r.blob && !single && (
+                    <div className="mt-2">
+                      <SaveAs variant="inline" blob={r.blob} defaultName={r.name} />
+                    </div>
                   )}
                 </>
               )}

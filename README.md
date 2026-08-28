@@ -33,6 +33,9 @@ touches the network.
 | **Add page numbers** | Position, style (`1`, `Page 1`, `1 / N`), size, and start number. |
 | **Add watermark** | Diagonal or horizontal text with adjustable opacity and size. |
 
+Every result screen lets you rename the file before saving (the extension is
+fixed; a blank name falls back to the generated default).
+
 ### Compress PDF — how it works
 
 | Level | Engine | Approach | Typical result\* |

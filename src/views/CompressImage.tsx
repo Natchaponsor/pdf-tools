@@ -6,6 +6,7 @@ import { ProgressBar } from '../components/ProgressBar';
 import { compressImage, type ImageQuality } from '../lib/image';
 import { zipFiles } from '../lib/zip';
 import { downloadBlob } from '../lib/download';
+import { SaveAs } from '../components/SaveAs';
 import { formatBytes, percentSmaller } from '../lib/format';
 import { errorMessage } from '../lib/errors';
 
@@ -96,41 +97,48 @@ export function CompressImage() {
 
       {rows ? (
         <div className="space-y-4">
-          <div className="rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
-            <p className="text-xl font-bold text-brand-800 dark:text-brand-200">
-              {percentSmaller(inTotal, outTotal)}% smaller
-            </p>
-            <p className="mt-1 text-sm text-ink-500 dark:text-white/60">
-              {formatBytes(inTotal)} → {formatBytes(outTotal)} total
-            </p>
-            <button
-              type="button"
-              onClick={downloadAll}
-              className="mt-4 rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
-            >
-              {rows.length > 1 ? 'Download all (.zip)' : 'Download'}
-            </button>
-          </div>
-          <ul className="space-y-2">
-            {rows.map((r, i) => (
-              <li
-                key={i}
-                className="flex items-center gap-3 rounded-xl border border-paper-200 bg-white p-3 dark:border-white/10 dark:bg-white/5"
+          <div className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
+            <div>
+              <p className="text-xl font-bold text-brand-800 dark:text-brand-200">
+                {percentSmaller(inTotal, outTotal)}% smaller
+              </p>
+              <p className="mt-1 text-sm text-ink-500 dark:text-white/60">
+                {formatBytes(inTotal)} → {formatBytes(outTotal)} total
+              </p>
+            </div>
+            {rows.length === 1 ? (
+              <SaveAs blob={rows[0].blob} defaultName={rows[0].name} />
+            ) : (
+              <button
+                type="button"
+                onClick={downloadAll}
+                className="rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
               >
-                <img src={r.url} alt="" className="h-12 w-12 shrink-0 rounded object-cover" />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-ink-900 dark:text-white">{r.name}</p>
-                  <p className="text-sm text-ink-500 dark:text-white/60">
-                    {formatBytes(r.inputBytes)} → {formatBytes(r.outputBytes)} ·{' '}
-                    {percentSmaller(r.inputBytes, r.outputBytes)}%
-                  </p>
-                </div>
-                <a href={r.url} download={r.name} className="text-sm font-semibold text-brand-700 dark:text-brand-300">
-                  Save
-                </a>
-              </li>
-            ))}
-          </ul>
+                Download all (.zip)
+              </button>
+            )}
+          </div>
+          {rows.length > 1 && (
+            <ul className="space-y-2">
+              {rows.map((r, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-3 rounded-xl border border-paper-200 bg-white p-3 dark:border-white/10 dark:bg-white/5"
+                >
+                  <img src={r.url} alt="" className="h-12 w-12 shrink-0 rounded object-cover" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm text-ink-500 dark:text-white/60">
+                      {formatBytes(r.inputBytes)} → {formatBytes(r.outputBytes)} ·{' '}
+                      {percentSmaller(r.inputBytes, r.outputBytes)}%
+                    </p>
+                    <div className="mt-1.5">
+                      <SaveAs variant="inline" blob={r.blob} defaultName={r.name} />
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
           <button
             type="button"
             onClick={reset}

@@ -24,7 +24,8 @@ import { ProgressBar } from '../components/ProgressBar';
 import { FileRow } from './AddPageNumbers';
 import { openDoc, renderPage } from '../lib/pdfDoc';
 import { organizePages, type RotationAngle, type PageOp } from '../lib/pdf';
-import { downloadBlob, bytesToBlob } from '../lib/download';
+import { bytesToBlob } from '../lib/download';
+import { SaveAs } from '../components/SaveAs';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
 
@@ -191,27 +192,17 @@ export function OrganizePages() {
                   <p className="text-lg font-bold text-brand-800 dark:text-brand-200">
                     New PDF ready · {kept.length} pages · {formatBytes(result.bytes)}
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        downloadBlob(
-                          result.blob,
-                          file.name.replace(/\.pdf$/i, '') + '-organized.pdf',
-                        )
-                      }
-                      className="rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
-                    >
-                      Download
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setResult(null)}
-                      className="rounded-xl border border-brand-300 px-4 py-2.5 font-semibold text-brand-700 dark:border-brand-700 dark:text-brand-200"
-                    >
-                      Keep editing
-                    </button>
-                  </div>
+                  <SaveAs
+                    blob={result.blob}
+                    defaultName={file.name.replace(/\.pdf$/i, '') + '-organized.pdf'}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setResult(null)}
+                    className="text-sm font-semibold text-brand-700 hover:underline dark:text-brand-300"
+                  >
+                    Keep editing
+                  </button>
                 </div>
               ) : busy ? (
                 <ProgressBar ratio={null} label="Building PDF…" />
