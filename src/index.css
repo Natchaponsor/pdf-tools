@@ -68,11 +68,11 @@
   --color-ink-700: #574a33;
   --color-ink-900: #3c3423;
 
-  --t1-bg: #d8c0e2; --t1-fg: #6b4a86; --t1-chip: rgb(0 0 0 / 0.06); /* pastel lilac */
-  --t2-bg: #d3a02c; --t2-fg: var(--bg); --t2-chip: rgb(255 255 255 / 0.2); /* gold */
-  --t3-bg: #e0531c; --t3-fg: var(--bg); --t3-chip: rgb(255 255 255 / 0.2); /* vermilion */
-  --t4-bg: #bcdae9; --t4-fg: #365f74; --t4-chip: rgb(0 0 0 / 0.06); /* pastel sky */
-  --t5-bg: #efe3c0; --t5-fg: #c1521f; --t5-chip: rgb(193 82 31 / 0.12); /* pale cream */
+  --t1-bg: #e6d6ee; --t1-fg: #6a4a86; --t1-chip: rgb(0 0 0 / 0.05); /* lilac */
+  --t2-bg: #f1e2ad; --t2-fg: #876213; --t2-chip: rgb(0 0 0 / 0.05); /* butter gold */
+  --t3-bg: #f7d2bf; --t3-fg: #b8461c; --t3-chip: rgb(0 0 0 / 0.05); /* peach */
+  --t4-bg: #cbe4f0; --t4-fg: #35607a; --t4-chip: rgb(0 0 0 / 0.05); /* sky */
+  --t5-bg: #e3eccf; --t5-fg: #62742f; --t5-chip: rgb(0 0 0 / 0.05); /* sage */
 }
 
 [data-theme='summer'] {
@@ -98,11 +98,11 @@
   --color-ink-700: #574d38;
   --color-ink-900: #3a3122;
 
-  --t1-bg: #17b0a6; --t1-fg: var(--bg); --t1-chip: rgb(255 255 255 / 0.2); /* turquoise */
-  --t2-bg: #f26b3e; --t2-fg: var(--bg); --t2-chip: rgb(255 255 255 / 0.2); /* coral */
-  --t3-bg: #f4b53a; --t3-fg: #5a3d10; --t3-chip: rgb(0 0 0 / 0.1); /* sun yellow */
-  --t4-bg: #e76ba0; --t4-fg: var(--bg); --t4-chip: rgb(255 255 255 / 0.2); /* pink */
-  --t5-bg: #57bfe0; --t5-fg: var(--bg); --t5-chip: rgb(255 255 255 / 0.2); /* sky */
+  --t1-bg: #c3ebe4; --t1-fg: #0e857b; --t1-chip: rgb(0 0 0 / 0.05); /* aqua */
+  --t2-bg: #f8d5c6; --t2-fg: #cf5330; --t2-chip: rgb(0 0 0 / 0.05); /* peach */
+  --t3-bg: #fbe8b6; --t3-fg: #97690f; --t3-chip: rgb(0 0 0 / 0.05); /* sun */
+  --t4-bg: #f6d5e3; --t4-fg: #bf4a80; --t4-chip: rgb(0 0 0 / 0.05); /* pink */
+  --t5-bg: #cfeaf6; --t5-fg: #2d7997; --t5-chip: rgb(0 0 0 / 0.05); /* sky */
 }
 
 [data-theme='fall'] {
@@ -128,11 +128,11 @@
   --color-ink-700: #57452f;
   --color-ink-900: #2f2418;
 
-  --t1-bg: #b5541f; --t1-fg: var(--bg); --t1-chip: rgb(255 255 255 / 0.18); /* rust */
-  --t2-bg: #c9911f; --t2-fg: var(--bg); --t2-chip: rgb(255 255 255 / 0.2); /* amber */
-  --t3-bg: #7d8a3f; --t3-fg: var(--bg); --t3-chip: rgb(255 255 255 / 0.18); /* olive */
-  --t4-bg: #963321; --t4-fg: var(--bg); --t4-chip: rgb(255 255 255 / 0.18); /* brick */
-  --t5-bg: #8a5a34; --t5-fg: var(--bg); --t5-chip: rgb(255 255 255 / 0.18); /* walnut */
+  --t1-bg: #f0d5c2; --t1-fg: #a5461b; --t1-chip: rgb(0 0 0 / 0.05); /* terracotta */
+  --t2-bg: #f2e4bb; --t2-fg: #876213; --t2-chip: rgb(0 0 0 / 0.05); /* wheat */
+  --t3-bg: #dfe4c4; --t3-fg: #5b6a2d; --t3-chip: rgb(0 0 0 / 0.05); /* sage */
+  --t4-bg: #f1d2c9; --t4-fg: #8d3220; --t4-chip: rgb(0 0 0 / 0.05); /* rosewood */
+  --t5-bg: #e7dac9; --t5-fg: #6d4a2c; --t5-chip: rgb(0 0 0 / 0.05); /* taupe */
 }
 
 [data-theme='winter'] {
@@ -158,11 +158,11 @@
   --color-ink-700: #c5d5e8;
   --color-ink-900: #e9f1fb;
 
-  --t1-bg: #1c3a5c; --t1-fg: #dbe9f7; --t1-chip: rgb(255 255 255 / 0.12); /* deep blue */
-  --t2-bg: #c6a23b; --t2-fg: #2a2410; --t2-chip: rgb(0 0 0 / 0.16); /* gold */
-  --t3-bg: #365f8a; --t3-fg: #eaf2fb; --t3-chip: rgb(255 255 255 / 0.16); /* slate blue */
-  --t4-bg: #a9cbe6; --t4-fg: #17324f; --t4-chip: rgb(0 0 0 / 0.08); /* pale ice */
-  --t5-bg: #e9eef6; --t5-fg: #17324f; --t5-chip: rgb(0 0 0 / 0.06); /* snow */
+  --t1-bg: #c9deef; --t1-fg: #1d3a5b; --t1-chip: rgb(0 0 0 / 0.06); /* ice blue */
+  --t2-bg: #ece0b4; --t2-fg: #74591a; --t2-chip: rgb(0 0 0 / 0.06); /* pale gold */
+  --t3-bg: #d3def0; --t3-fg: #33517c; --t3-chip: rgb(0 0 0 / 0.06); /* periwinkle frost */
+  --t4-bg: #d7ebe6; --t4-fg: #2b5f56; --t4-chip: rgb(0 0 0 / 0.06); /* mint frost */
+  --t5-bg: #eef4fb; --t5-fg: #1b3350; --t5-chip: rgb(0 0 0 / 0.06); /* snow */
 }
 
 /* Feature tiles: solid colour blocks with the title + icon knocked out. */
