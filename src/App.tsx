@@ -30,16 +30,8 @@ function View({ route }: { route: string }) {
 export function App() {
   const route = useHashRoute();
   const inTool = toolByRoute(route) != null;
-  const base = '/' + (route.split('/')[1] ?? '');
-  // The tool grid wants room to breathe; individual tool forms read better narrow.
-  const wide = route === '/' || base === '/tools';
-
   return (
-    <div
-      className={`mx-auto flex min-h-dvh flex-col px-4 pb-24 pt-5 sm:px-6 ${
-        wide ? 'max-w-6xl' : 'max-w-2xl'
-      }`}
-    >
+    <div className="mx-auto flex min-h-dvh max-w-2xl flex-col px-4 pb-24 pt-5 sm:px-6">
       <header className="mb-6 flex items-center justify-between">
         <button
           type="button"

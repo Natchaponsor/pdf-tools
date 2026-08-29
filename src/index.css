@@ -45,124 +45,126 @@
    Each overrides the Tailwind theme custom properties (re-skinning every
    utility that references them) and defines five feature-tile colours. */
 
+/* Palettes from the "Colors of the Seasons" reference (CodeofColors.com). */
+
 [data-theme='spring'] {
-  --bg: #fef8db;
-  --fg: #3c3423;
+  --bg: #fff8f0;
+  --fg: #4a3f38;
 
-  --color-paper-50: #fffdf1;
-  --color-paper-100: #f8efcf;
-  --color-paper-200: #ecdcac;
+  --color-paper-50: #fffdfa;
+  --color-paper-100: #f8ede8;
+  --color-paper-200: #eddcd5;
 
-  --color-brand-50: #fdf1ea;
-  --color-brand-100: #fadecb;
-  --color-brand-200: #f4bb9c;
-  --color-brand-300: #ee956d;
-  --color-brand-400: #e97544;
-  --color-brand-500: #e4531c;
-  --color-brand-600: #c6430f;
-  --color-brand-700: #9f370f;
-  --color-brand-800: #7b2e13;
-  --color-brand-900: #5a2410;
+  --color-brand-50: #fdeef2;
+  --color-brand-100: #fbdae3;
+  --color-brand-200: #f6b9ca;
+  --color-brand-300: #f090ac;
+  --color-brand-400: #e5688b;
+  --color-brand-500: #d94b74;
+  --color-brand-600: #c93e67;
+  --color-brand-700: #a83354;
+  --color-brand-800: #872c46;
+  --color-brand-900: #6f273c;
 
-  --color-ink-500: #8a7a5c;
-  --color-ink-700: #574a33;
-  --color-ink-900: #3c3423;
+  --color-ink-500: #8a7d74;
+  --color-ink-700: #5c4f46;
+  --color-ink-900: #4a3f38;
 
-  --t1-bg: #e6d6ee; --t1-fg: #6a4a86; --t1-chip: rgb(0 0 0 / 0.05); /* lilac */
-  --t2-bg: #f1e2ad; --t2-fg: #876213; --t2-chip: rgb(0 0 0 / 0.05); /* butter gold */
-  --t3-bg: #f7d2bf; --t3-fg: #b8461c; --t3-chip: rgb(0 0 0 / 0.05); /* peach */
-  --t4-bg: #cbe4f0; --t4-fg: #35607a; --t4-chip: rgb(0 0 0 / 0.05); /* sky */
-  --t5-bg: #e3eccf; --t5-fg: #62742f; --t5-chip: rgb(0 0 0 / 0.05); /* sage */
+  --t1-bg: #f3a8bc; --t1-fg: #8a2947; --t1-chip: rgb(0 0 0 / 0.06); /* #F3A8BC */
+  --t2-bg: #f5ad94; --t2-fg: #9c3f1f; --t2-chip: rgb(0 0 0 / 0.06); /* #F5AD94 */
+  --t3-bg: #fff1a6; --t3-fg: #806a0d; --t3-chip: rgb(0 0 0 / 0.06); /* #FFF1A6 */
+  --t4-bg: #b4f9a5; --t4-fg: #256821; --t4-chip: rgb(0 0 0 / 0.06); /* #B4F9A5 */
+  --t5-bg: #9ee7f5; --t5-fg: #146374; --t5-chip: rgb(0 0 0 / 0.06); /* #9EE7F5 */
 }
 
 [data-theme='summer'] {
-  --bg: #fffbef;
-  --fg: #3a3122;
+  --bg: #fffcf3;
+  --fg: #26383f;
 
   --color-paper-50: #ffffff;
-  --color-paper-100: #f3efe0;
-  --color-paper-200: #e5e0cd;
+  --color-paper-100: #eef2f3;
+  --color-paper-200: #dbe4e6;
 
-  --color-brand-50: #e6faf7;
-  --color-brand-100: #c6f2eb;
-  --color-brand-200: #96e6db;
-  --color-brand-300: #5fd3c5;
-  --color-brand-400: #2fbcac;
-  --color-brand-500: #14a99a;
-  --color-brand-600: #0e8f83;
-  --color-brand-700: #0d7268;
-  --color-brand-800: #0f5b53;
-  --color-brand-900: #114b45;
+  --color-brand-50: #ebf3f8;
+  --color-brand-100: #cfe3ef;
+  --color-brand-200: #a4cadf;
+  --color-brand-300: #6ea9c6;
+  --color-brand-400: #3f87ab;
+  --color-brand-500: #236e96;
+  --color-brand-600: #1e5f81;
+  --color-brand-700: #1a4f6b;
+  --color-brand-800: #183f56;
+  --color-brand-900: #163648;
 
-  --color-ink-500: #8a7c5f;
-  --color-ink-700: #574d38;
-  --color-ink-900: #3a3122;
+  --color-ink-500: #5f7278;
+  --color-ink-700: #3a4a4f;
+  --color-ink-900: #26383f;
 
-  --t1-bg: #c3ebe4; --t1-fg: #0e857b; --t1-chip: rgb(0 0 0 / 0.05); /* aqua */
-  --t2-bg: #f8d5c6; --t2-fg: #cf5330; --t2-chip: rgb(0 0 0 / 0.05); /* peach */
-  --t3-bg: #fbe8b6; --t3-fg: #97690f; --t3-chip: rgb(0 0 0 / 0.05); /* sun */
-  --t4-bg: #f6d5e3; --t4-fg: #bf4a80; --t4-chip: rgb(0 0 0 / 0.05); /* pink */
-  --t5-bg: #cfeaf6; --t5-fg: #2d7997; --t5-chip: rgb(0 0 0 / 0.05); /* sky */
+  --t1-bg: #236e96; --t1-fg: #eaf4fa; --t1-chip: rgb(255 255 255 / 0.16); /* #236E96 */
+  --t2-bg: #15b2d3; --t2-fg: #073c49; --t2-chip: rgb(0 0 0 / 0.08); /* #15B2D3 */
+  --t3-bg: #ffd700; --t3-fg: #665400; --t3-chip: rgb(0 0 0 / 0.09); /* #FFD700 */
+  --t4-bg: #f3872f; --t4-fg: #5e2f0a; --t4-chip: rgb(0 0 0 / 0.08); /* #F3872F */
+  --t5-bg: #ff598f; --t5-fg: #6b1233; --t5-chip: rgb(0 0 0 / 0.08); /* #FF598F */
 }
 
 [data-theme='fall'] {
-  --bg: #f7efe0;
-  --fg: #2f2418;
+  --bg: #f9f3e6;
+  --fg: #3a2c18;
 
-  --color-paper-50: #fdf8ee;
-  --color-paper-100: #efe3cd;
-  --color-paper-200: #ddc9a8;
+  --color-paper-50: #fdf9f0;
+  --color-paper-100: #f1e6d1;
+  --color-paper-200: #e0cba8;
 
-  --color-brand-50: #fbf0e8;
-  --color-brand-100: #f5ddc9;
-  --color-brand-200: #ebbd9c;
-  --color-brand-300: #de9a70;
-  --color-brand-400: #d1783f;
-  --color-brand-500: #c1521f;
-  --color-brand-600: #a8471b;
-  --color-brand-700: #883a19;
-  --color-brand-800: #6d3018;
-  --color-brand-900: #562815;
+  --color-brand-50: #fbf0e7;
+  --color-brand-100: #f5ddc8;
+  --color-brand-200: #eab992;
+  --color-brand-300: #df8f5a;
+  --color-brand-400: #db7333;
+  --color-brand-500: #d45b12;
+  --color-brand-600: #b94c10;
+  --color-brand-700: #973d10;
+  --color-brand-800: #7a3212;
+  --color-brand-900: #632a12;
 
   --color-ink-500: #8a7454;
   --color-ink-700: #57452f;
-  --color-ink-900: #2f2418;
+  --color-ink-900: #3a2c18;
 
-  --t1-bg: #f0d5c2; --t1-fg: #a5461b; --t1-chip: rgb(0 0 0 / 0.05); /* terracotta */
-  --t2-bg: #f2e4bb; --t2-fg: #876213; --t2-chip: rgb(0 0 0 / 0.05); /* wheat */
-  --t3-bg: #dfe4c4; --t3-fg: #5b6a2d; --t3-chip: rgb(0 0 0 / 0.05); /* sage */
-  --t4-bg: #f1d2c9; --t4-fg: #8d3220; --t4-chip: rgb(0 0 0 / 0.05); /* rosewood */
-  --t5-bg: #e7dac9; --t5-fg: #6d4a2c; --t5-chip: rgb(0 0 0 / 0.05); /* taupe */
+  --t1-bg: #603c14; --t1-fg: #f3e8da; --t1-chip: rgb(255 255 255 / 0.13); /* #603C14 */
+  --t2-bg: #9c2706; --t2-fg: #fce7de; --t2-chip: rgb(255 255 255 / 0.14); /* #9C2706 */
+  --t3-bg: #d45b12; --t3-fg: #fdefe3; --t3-chip: rgb(255 255 255 / 0.16); /* #D45B12 */
+  --t4-bg: #f3bc2e; --t4-fg: #684608; --t4-chip: rgb(0 0 0 / 0.09); /* #F3BC2E */
+  --t5-bg: #5f5426; --t5-fg: #f1eee0; --t5-chip: rgb(255 255 255 / 0.13); /* #5F5426 */
 }
 
 [data-theme='winter'] {
-  --bg: #0c1a2e;
-  --fg: #e9f1fb;
+  --bg: #37576a;
+  --fg: #eef4f7;
 
-  --color-paper-50: #13233c;
-  --color-paper-100: #1a2b47;
-  --color-paper-200: #2a3f5c;
+  --color-paper-50: #2f4a5b;
+  --color-paper-100: #385768;
+  --color-paper-200: #4c6b7e;
 
-  --color-brand-50: #eef5fc;
-  --color-brand-100: #d7e8f6;
-  --color-brand-200: #b3d2ec;
-  --color-brand-300: #8bb9de;
-  --color-brand-400: #679fce;
-  --color-brand-500: #4f8ec5;
-  --color-brand-600: #3f7cb8;
-  --color-brand-700: #356aa0;
-  --color-brand-800: #2f587f;
-  --color-brand-900: #294967;
+  --color-brand-50: #eef4f8;
+  --color-brand-100: #d6e6f0;
+  --color-brand-200: #b2d1e4;
+  --color-brand-300: #8bb8d5;
+  --color-brand-400: #6a9fc4;
+  --color-brand-500: #568cb4;
+  --color-brand-600: #4a7ca3;
+  --color-brand-700: #3f6a8b;
+  --color-brand-800: #375a75;
+  --color-brand-900: #314d63;
 
-  --color-ink-500: #9fb3cc;
-  --color-ink-700: #c5d5e8;
-  --color-ink-900: #e9f1fb;
+  --color-ink-500: #a9c0cd;
+  --color-ink-700: #cfe0e9;
+  --color-ink-900: #eef4f7;
 
-  --t1-bg: #c9deef; --t1-fg: #1d3a5b; --t1-chip: rgb(0 0 0 / 0.06); /* ice blue */
-  --t2-bg: #ece0b4; --t2-fg: #74591a; --t2-chip: rgb(0 0 0 / 0.06); /* pale gold */
-  --t3-bg: #d3def0; --t3-fg: #33517c; --t3-chip: rgb(0 0 0 / 0.06); /* periwinkle frost */
-  --t4-bg: #d7ebe6; --t4-fg: #2b5f56; --t4-chip: rgb(0 0 0 / 0.06); /* mint frost */
-  --t5-bg: #eef4fb; --t5-fg: #1b3350; --t5-chip: rgb(0 0 0 / 0.06); /* snow */
+  --t1-bg: #84a5b8; --t1-fg: #1c333d; --t1-chip: rgb(0 0 0 / 0.07); /* #84A5B8 */
+  --t2-bg: #b3daf1; --t2-fg: #184863; --t2-chip: rgb(0 0 0 / 0.05); /* #B3DAF1 */
+  --t3-bg: #cbcbcb; --t3-fg: #333333; --t3-chip: rgb(0 0 0 / 0.05); /* #CBCBCB */
+  --t4-bg: #707571; --t4-fg: #eef1ef; --t4-chip: rgb(255 255 255 / 0.14); /* #707571 */
+  --t5-bg: #42687c; --t5-fg: #e6eef2; --t5-chip: rgb(255 255 255 / 0.14); /* #42687C */
 }
 
 /* Feature tiles: solid colour blocks with the title + icon knocked out. */
