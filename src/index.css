@@ -1,8 +1,10 @@
 @import 'tailwindcss';
 
-/* Manual theme control: `dark:` utilities key off <html data-theme="dark">.
-   theme.ts resolves "system" to an explicit value and keeps it in sync. */
-@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+/* `dark:` utilities apply for the Dark theme and the Winter theme (a night palette). */
+@custom-variant dark (&:where(
+  [data-theme='dark'], [data-theme='dark'] *,
+  [data-theme='winter'], [data-theme='winter'] *
+));
 
 @theme {
   /* Cool neutral surface — soft cool white / light grey. */
@@ -39,10 +41,10 @@
   --fg: #e5e9f0;
 }
 
-/* "Spring" — a bright, warm editorial palette. Overriding the Tailwind theme
-   custom properties re-skins every utility that references them (bg-brand-600,
-   border-paper-200, text-ink-900, …). The home feature blocks get solid colour
-   tiles with knockout text (see the .tool-card rules below). */
+/* ─── Seasonal themes ──────────────────────────────────────────────────────
+   Each overrides the Tailwind theme custom properties (re-skinning every
+   utility that references them) and defines five feature-tile colours. */
+
 [data-theme='spring'] {
   --bg: #fef8db;
   --fg: #3c3423;
@@ -66,47 +68,139 @@
   --color-ink-700: #574a33;
   --color-ink-900: #3c3423;
 
-  /* Feature-block tile colours, cycled across the grid. */
-  --tile-1: #9d6db9; /* orchid  */
-  --tile-2: #ba831a; /* gold    */
-  --tile-3: #dd4f18; /* vermilion */
-  --tile-4: #5192ab; /* teal    */
-  --tile-5: #7c9c43; /* leaf    */
+  --t1-bg: #d8c0e2; --t1-fg: #6b4a86; --t1-chip: rgb(0 0 0 / 0.06); /* pastel lilac */
+  --t2-bg: #d3a02c; --t2-fg: var(--bg); --t2-chip: rgb(255 255 255 / 0.2); /* gold */
+  --t3-bg: #e0531c; --t3-fg: var(--bg); --t3-chip: rgb(255 255 255 / 0.2); /* vermilion */
+  --t4-bg: #bcdae9; --t4-fg: #365f74; --t4-chip: rgb(0 0 0 / 0.06); /* pastel sky */
+  --t5-bg: #efe3c0; --t5-fg: #c1521f; --t5-chip: rgb(193 82 31 / 0.12); /* pale cream */
 }
 
-/* Solid tiles with text/icon knocked out in the page background colour. */
-[data-theme='spring'] .tool-card {
+[data-theme='summer'] {
+  --bg: #fffbef;
+  --fg: #3a3122;
+
+  --color-paper-50: #ffffff;
+  --color-paper-100: #f3efe0;
+  --color-paper-200: #e5e0cd;
+
+  --color-brand-50: #e6faf7;
+  --color-brand-100: #c6f2eb;
+  --color-brand-200: #96e6db;
+  --color-brand-300: #5fd3c5;
+  --color-brand-400: #2fbcac;
+  --color-brand-500: #14a99a;
+  --color-brand-600: #0e8f83;
+  --color-brand-700: #0d7268;
+  --color-brand-800: #0f5b53;
+  --color-brand-900: #114b45;
+
+  --color-ink-500: #8a7c5f;
+  --color-ink-700: #574d38;
+  --color-ink-900: #3a3122;
+
+  --t1-bg: #17b0a6; --t1-fg: var(--bg); --t1-chip: rgb(255 255 255 / 0.2); /* turquoise */
+  --t2-bg: #f26b3e; --t2-fg: var(--bg); --t2-chip: rgb(255 255 255 / 0.2); /* coral */
+  --t3-bg: #f4b53a; --t3-fg: #5a3d10; --t3-chip: rgb(0 0 0 / 0.1); /* sun yellow */
+  --t4-bg: #e76ba0; --t4-fg: var(--bg); --t4-chip: rgb(255 255 255 / 0.2); /* pink */
+  --t5-bg: #57bfe0; --t5-fg: var(--bg); --t5-chip: rgb(255 255 255 / 0.2); /* sky */
+}
+
+[data-theme='fall'] {
+  --bg: #f7efe0;
+  --fg: #2f2418;
+
+  --color-paper-50: #fdf8ee;
+  --color-paper-100: #efe3cd;
+  --color-paper-200: #ddc9a8;
+
+  --color-brand-50: #fbf0e8;
+  --color-brand-100: #f5ddc9;
+  --color-brand-200: #ebbd9c;
+  --color-brand-300: #de9a70;
+  --color-brand-400: #d1783f;
+  --color-brand-500: #c1521f;
+  --color-brand-600: #a8471b;
+  --color-brand-700: #883a19;
+  --color-brand-800: #6d3018;
+  --color-brand-900: #562815;
+
+  --color-ink-500: #8a7454;
+  --color-ink-700: #57452f;
+  --color-ink-900: #2f2418;
+
+  --t1-bg: #b5541f; --t1-fg: var(--bg); --t1-chip: rgb(255 255 255 / 0.18); /* rust */
+  --t2-bg: #c9911f; --t2-fg: var(--bg); --t2-chip: rgb(255 255 255 / 0.2); /* amber */
+  --t3-bg: #7d8a3f; --t3-fg: var(--bg); --t3-chip: rgb(255 255 255 / 0.18); /* olive */
+  --t4-bg: #963321; --t4-fg: var(--bg); --t4-chip: rgb(255 255 255 / 0.18); /* brick */
+  --t5-bg: #8a5a34; --t5-fg: var(--bg); --t5-chip: rgb(255 255 255 / 0.18); /* walnut */
+}
+
+[data-theme='winter'] {
+  --bg: #0c1a2e;
+  --fg: #e9f1fb;
+
+  --color-paper-50: #13233c;
+  --color-paper-100: #1a2b47;
+  --color-paper-200: #2a3f5c;
+
+  --color-brand-50: #eef5fc;
+  --color-brand-100: #d7e8f6;
+  --color-brand-200: #b3d2ec;
+  --color-brand-300: #8bb9de;
+  --color-brand-400: #679fce;
+  --color-brand-500: #4f8ec5;
+  --color-brand-600: #3f7cb8;
+  --color-brand-700: #356aa0;
+  --color-brand-800: #2f587f;
+  --color-brand-900: #294967;
+
+  --color-ink-500: #9fb3cc;
+  --color-ink-700: #c5d5e8;
+  --color-ink-900: #e9f1fb;
+
+  --t1-bg: #1c3a5c; --t1-fg: #dbe9f7; --t1-chip: rgb(255 255 255 / 0.12); /* deep blue */
+  --t2-bg: #c6a23b; --t2-fg: #2a2410; --t2-chip: rgb(0 0 0 / 0.16); /* gold */
+  --t3-bg: #365f8a; --t3-fg: #eaf2fb; --t3-chip: rgb(255 255 255 / 0.16); /* slate blue */
+  --t4-bg: #a9cbe6; --t4-fg: #17324f; --t4-chip: rgb(0 0 0 / 0.08); /* pale ice */
+  --t5-bg: #e9eef6; --t5-fg: #17324f; --t5-chip: rgb(0 0 0 / 0.06); /* snow */
+}
+
+/* Feature tiles: solid colour blocks with the title + icon knocked out. */
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card {
   border-color: transparent;
-  background: var(--tile-1);
-  color: var(--bg);
+  background: var(--t-bg);
+  color: var(--t-fg);
 }
-[data-theme='spring'] .tool-card:nth-child(5n + 2) {
-  background: var(--tile-2);
-}
-[data-theme='spring'] .tool-card:nth-child(5n + 3) {
-  background: var(--tile-3);
-}
-[data-theme='spring'] .tool-card:nth-child(5n + 4) {
-  background: var(--tile-4);
-}
-[data-theme='spring'] .tool-card:nth-child(5n + 5) {
-  background: var(--tile-5);
-}
-[data-theme='spring'] .tool-card:hover {
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:hover {
   border-color: transparent;
-  filter: brightness(0.94);
+  filter: brightness(0.95);
 }
-[data-theme='spring'] .tool-card__title {
-  color: var(--bg);
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 1) {
+  --t-bg: var(--t1-bg); --t-fg: var(--t1-fg); --t-chip: var(--t1-chip);
+}
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 2) {
+  --t-bg: var(--t2-bg); --t-fg: var(--t2-fg); --t-chip: var(--t2-chip);
+}
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 3) {
+  --t-bg: var(--t3-bg); --t-fg: var(--t3-fg); --t-chip: var(--t3-chip);
+}
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 4) {
+  --t-bg: var(--t4-bg); --t-fg: var(--t4-fg); --t-chip: var(--t4-chip);
+}
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 5) {
+  --t-bg: var(--t5-bg); --t-fg: var(--t5-fg); --t-chip: var(--t5-chip);
+}
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card__title {
+  color: var(--t-fg);
   font-size: 1rem;
   line-height: 1.15;
 }
-[data-theme='spring'] .tool-card__blurb {
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card__blurb {
   display: none;
 }
-[data-theme='spring'] .tool-card__icon {
-  background: rgb(255 255 255 / 0.18);
-  color: var(--bg);
+:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card__icon {
+  color: var(--t-fg);
+  background: var(--t-chip);
 }
 
 html {

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { navigate } from '../lib/useHashRoute';
+import { PRIVACY_LINE } from '../lib/constants';
 import { IconBack } from './icons';
 
 interface Props {
@@ -22,6 +23,7 @@ export function ToolShell({ title, blurb, children }: Props) {
         </button>
         <h1 className="text-2xl font-bold text-ink-900 dark:text-white">{title}</h1>
         <p className="mt-1 text-sm text-ink-500 dark:text-white/60">{blurb}</p>
+        <p className="mt-2 text-xs text-ink-500 dark:text-white/50">{PRIVACY_LINE}</p>
       </div>
       {children}
     </div>

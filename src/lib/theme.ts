@@ -1,8 +1,16 @@
-export type ThemePref = 'system' | 'light' | 'dark' | 'spring';
-export type ResolvedTheme = 'light' | 'dark' | 'spring';
+export type ThemePref =
+  | 'system'
+  | 'light'
+  | 'dark'
+  | 'spring'
+  | 'summer'
+  | 'fall'
+  | 'winter';
+export type ResolvedTheme = Exclude<ThemePref, 'system'>;
 
 const KEY = 'paperplane:theme';
-const PREFS: ThemePref[] = ['system', 'light', 'dark', 'spring'];
+const PREFS: ThemePref[] = ['system', 'light', 'dark', 'spring', 'summer', 'fall', 'winter'];
+const DARKISH: ResolvedTheme[] = ['dark', 'winter'];
 const mq = () => window.matchMedia('(prefers-color-scheme: dark)');
 
 export function getThemePref(): ThemePref {
@@ -24,7 +32,7 @@ function resolve(pref: ThemePref): ResolvedTheme {
 export function applyTheme(pref: ThemePref): void {
   const resolved = resolve(pref);
   document.documentElement.setAttribute('data-theme', resolved);
-  document.documentElement.style.colorScheme = resolved === 'dark' ? 'dark' : 'light';
+  document.documentElement.style.colorScheme = DARKISH.includes(resolved) ? 'dark' : 'light';
 }
 
 export function setThemePref(pref: ThemePref): void {

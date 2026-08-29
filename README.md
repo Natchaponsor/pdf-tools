@@ -62,10 +62,12 @@ expected, and the app tells you so instead of pretending.
   and loaded on demand, so the home screen stays light.
 - **Hash-based routing** (`#/compress`). No history API, so a refresh or a deep
   link works on GitHub Pages with no server rewrites.
-- **Themes** (Settings → Appearance): System / Light / Dark / **Spring** (a
-  bright warm palette — solid-colour feature tiles with knockout text). Themes
-  are Tailwind v4 custom-property overrides scoped to `<html data-theme>`, so one
-  rule re-skins every utility.
+- **Themes** (Settings → Appearance): System / Light / Dark, plus four seasonal
+  palettes — **Spring / Summer / Fall / Winter** — where the home feature blocks
+  become solid-colour tiles with knockout text. Winter is a navy night palette
+  and rides the same `dark:` variant as Dark. Each theme is a set of Tailwind v4
+  custom-property overrides scoped to `<html data-theme>`, so one rule re-skins
+  every utility.
 - **Responsive tool grid**: the home screen packs feature cards with
   `auto-fill` columns — 2 up on a phone, up to seven across on a wide desktop.
 - **[`mupdf`](https://www.npmjs.com/package/mupdf)** — MuPDF.js WASM. One shared

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FileDrop } from '../components/FileDrop';
 import { ProgressBar } from '../components/ProgressBar';
 import { Notice } from '../components/Notice';
-import { MAX_COMPRESS_BYTES } from '../lib/constants';
+import { MAX_COMPRESS_BYTES, PRIVACY_LINE } from '../lib/constants';
 import { formatBytes, formatDuration, percentSmaller } from '../lib/format';
 import {
   COMPRESS_LEVELS,
@@ -161,6 +161,7 @@ export function CompressPdf() {
           Shrink one or several PDFs for email or upload. Combined size up to{' '}
           {formatBytes(MAX_COMPRESS_BYTES)}.
         </p>
+        <p className="pt-1 text-xs text-ink-500 dark:text-white/50">{PRIVACY_LINE}</p>
       </header>
 
       {notice && <Notice tone="warn">{notice}</Notice>}

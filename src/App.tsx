@@ -68,7 +68,15 @@ export function App() {
       </main>
 
       <footer className="mt-10 border-t border-paper-200 pt-4 text-center text-xs text-ink-500 dark:border-white/10 dark:text-white/50">
-        {PRIVACY_LINE}
+        Built by Top Sortrakul with Claude Code ·{' '}
+        <a
+          href="https://github.com/Natchaponsor/pdf-tools"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="underline decoration-dotted underline-offset-2 hover:text-ink-700 dark:hover:text-white/80"
+        >
+          Source (AGPL-3.0)
+        </a>
       </footer>
 
       <TabBar route={route} />

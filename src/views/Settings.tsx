@@ -7,6 +7,9 @@ const OPTIONS: { id: ThemePref; label: string }[] = [
   { id: 'light', label: 'Light' },
   { id: 'dark', label: 'Dark' },
   { id: 'spring', label: 'Spring' },
+  { id: 'summer', label: 'Summer' },
+  { id: 'fall', label: 'Fall' },
+  { id: 'winter', label: 'Winter' },
 ];
 
 export function Settings() {
