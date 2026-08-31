@@ -194,7 +194,7 @@
 }
 :is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card__title {
   color: var(--t-fg);
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.15;
 }
 :is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card__blurb {
