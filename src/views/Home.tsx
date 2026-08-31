@@ -8,7 +8,7 @@ export function Home({ compact = false }: { compact?: boolean }) {
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Private PDF tools</h1>
           <p className="text-sm text-ink-500 dark:text-white/60">
-            Compress, merge, split, convert — all in your browser, nothing uploaded.
+            Manage your PDFs easily in your browser.
           </p>
         </div>
       )}
