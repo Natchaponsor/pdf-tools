@@ -1,8 +1,10 @@
 # Paperplane
 
 Private PDF tools that run **entirely in your browser** — compress, merge, split,
-organize pages, convert to and from images, add page numbers or watermarks, and
-shrink image files. No account, no server, and your files never leave your device.
+organize, rotate, convert to and from images, add page numbers or watermarks,
+password-protect or unlock, grayscale, strip blank pages, pull out embedded
+images, and shrink image files. No account, no server, and your files never
+leave your device.
 
 > **Files are processed on your device and never uploaded.** There is no backend,
 > no analytics, and no external request that carries your file anywhere. You can
@@ -19,7 +21,7 @@ touches the network.
 
 ## Features
 
-### v1
+### The tools (14)
 
 | Tool | What it does |
 | --- | --- |
@@ -73,21 +75,25 @@ expected, and the app tells you so instead of pretending.
   palette and rides the same `dark:` variant as Dark. Each theme is a set of
   Tailwind v4 custom-property overrides scoped to `<html data-theme>`, so one
   rule re-skins every utility.
-- **Responsive tool grid**: the home screen packs feature cards with
-  `auto-fill` columns — 2 up on a phone, up to seven across on a wide desktop.
+- **Layout**: a fixed 3-across tool grid, centred; the site footer is a
+  full-bleed band with the repo link and a feedback link.
 - **[`mupdf`](https://www.npmjs.com/package/mupdf)** — MuPDF.js WASM. One shared
-  ES-module worker handles the lossless compression tier, page counts, page
-  rendering (organize thumbnails, PDF → image), and first-page previews.
+  ES-module worker does the lossless compression tier, page counts and thumbnail
+  rendering, first-page previews, AES-256 password protect/unlock, and image
+  extraction (walking each page's XObject resources; JPEG streams come out as
+  their original bytes, everything else is decoded to PNG).
 - **[`@jspawn/ghostscript-wasm`](https://www.npmjs.com/package/@jspawn/ghostscript-wasm)**
-  — Ghostscript 9.56 WASM, for the image-downsampling compression tiers. Loaded
-  lazily in a plain worker served from `public/` so its `.wasm` path stays
-  correct under the Pages base path.
+  — Ghostscript 9.56 WASM. Powers the image-downsampling compression tiers and
+  the grayscale conversion. Loaded lazily in a plain worker served from
+  `public/` so its `.wasm` path stays correct under the Pages base path.
 - **[`pdf-lib`](https://www.npmjs.com/package/pdf-lib)** — merge, split, organize,
-  images → PDF, page numbers, watermark.
+  rotate, remove blank pages, images → PDF, page numbers, watermark.
 - **[`browser-image-compression`](https://www.npmjs.com/package/browser-image-compression)**
   — the image compressor. Run with `useWebWorker: false` on purpose: its worker
   mode fetches code from a CDN, which would break the privacy guarantee.
 - **[`jszip`](https://www.npmjs.com/package/jszip)** — multi-file `.zip` output.
+- **Blank-page detection** is a plain canvas ink-coverage check on the page
+  thumbnails — no extra dependency, no upload.
 
 ### No cross-origin isolation needed
 
@@ -162,6 +168,6 @@ No secrets required. The workflow uses the official GitHub Pages actions and the
 **AGPL-3.0-or-later.** MuPDF and Ghostscript are both AGPL, so anything that
 bundles them is too. The full text is in [`LICENSE`](./LICENSE).
 
-Copyright © 2026 Top. This program comes with ABSOLUTELY NO WARRANTY. This is
-free software, and you are welcome to redistribute it under the terms of the
-GNU Affero General Public License.
+Copyright © 2026 Top Sortrakul. This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it under the terms of
+the GNU Affero General Public License.
