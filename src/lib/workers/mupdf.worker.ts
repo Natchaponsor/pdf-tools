@@ -23,7 +23,9 @@ type Job =
       format: 'png' | 'jpeg';
       quality?: number;
     }
-  | { id: number; op: 'close'; docId: number };
+  | { id: number; op: 'close'; docId: number }
+  | { id: number; op: 'protect'; file: ArrayBuffer; password: string; permissions: number }
+  | { id: number; op: 'unlock'; file: ArrayBuffer; password: string };
 
 const openDocs = new Map<number, Document>();
 let docSeq = 0;
@@ -107,6 +109,53 @@ self.onmessage = async (event: MessageEvent<Job>) => {
         openDocs.get(job.docId)?.destroy();
         openDocs.delete(job.docId);
         self.postMessage({ id, type: 'done' });
+        return;
+      }
+
+      case 'protect': {
+        const doc = mupdf.Document.openDocument(
+          new Uint8Array(job.file),
+          'application/pdf',
+        ).asPDF() as PDFDocument | null;
+        if (!doc) throw new Error('This file is not a PDF document.');
+        if (doc.needsPassword()) {
+          throw new Error('This PDF already has a password. Unlock it first, then re-protect it.');
+        }
+        const out = toArrayBuffer(
+          doc
+            .saveToBuffer({
+              encrypt: 'aes-256',
+              'user-password': job.password,
+              'owner-password': job.password,
+              permissions: job.permissions,
+              compress: true,
+            })
+            .asUint8Array(),
+        );
+        doc.destroy();
+        self.postMessage({ id, type: 'done', output: out, ms: performance.now() - started }, {
+          transfer: [out],
+        });
+        return;
+      }
+
+      case 'unlock': {
+        const doc = mupdf.Document.openDocument(new Uint8Array(job.file), 'application/pdf');
+        if (!doc.needsPassword()) {
+          throw new Error("This PDF isn't password-protected — there's nothing to unlock.");
+        }
+        if (!doc.authenticatePassword(job.password)) {
+          throw new Error('That password is incorrect.');
+        }
+        const pdf = doc.asPDF() as PDFDocument | null;
+        if (!pdf) throw new Error('This file is not a PDF document.');
+        const out = toArrayBuffer(
+          pdf.saveToBuffer({ encrypt: 'none', compress: true }).asUint8Array(),
+        );
+        doc.destroy();
+        self.postMessage({ id, type: 'done', output: out, ms: performance.now() - started }, {
+          transfer: [out],
+        });
         return;
       }
     }

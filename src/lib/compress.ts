@@ -7,6 +7,7 @@
  *   maximum   Ghostscript /screen (72dpi)   ~97%  keeps vector text
  */
 import { callMupdf } from './mupdfClient';
+import { runGhostscript } from './ghostscript';
 
 export type CompressLevel = 'light' | 'balanced' | 'maximum';
 
@@ -54,8 +55,6 @@ export interface CompressOutcome {
   ms: number;
 }
 
-let gsJobId = 0;
-
 export async function compressPdf(
   file: File,
   level: CompressLevel,
@@ -73,66 +72,5 @@ export async function compressPdf(
       ms: data.ms as number,
     };
   }
-  return runGhostscript(++gsJobId, buffer, GS_ARGS[level], onProgress);
-}
-
-function runGhostscript(
-  id: number,
-  buffer: ArrayBuffer,
-  args: string[],
-  onProgress: (p: CompressProgress) => void,
-): Promise<CompressOutcome> {
-  // A fresh worker each run — Ghostscript keeps a lot of state and memory.
-  const worker = new Worker(`${import.meta.env.BASE_URL}workers/gs.worker.js`);
-  onProgress({ ratio: null, note: 'Loading the compression engine…' });
-
-  const start = performance.now();
-  let ticking = false;
-  const tick = setInterval(() => {
-    if (!ticking) return;
-    onProgress({
-      ratio: null,
-      note: `Compressing… ${Math.round((performance.now() - start) / 1000)}s elapsed`,
-    });
-  }, 1000);
-
-  return new Promise((resolve, reject) => {
-    const handle = (event: MessageEvent) => {
-      const data = event.data;
-      if (data.id !== id) return;
-      if (data.type === 'progress') {
-        ticking = true;
-        const ratio = data.pages ? data.page / data.pages : null;
-        onProgress({
-          ratio,
-          note: data.pages
-            ? `Compressing page ${data.page} of ${data.pages}…`
-            : `Compressing… ${Math.round((performance.now() - start) / 1000)}s elapsed`,
-        });
-      } else if (data.type === 'done') {
-        cleanup();
-        resolve({
-          blob: new Blob([data.output], { type: 'application/pdf' }),
-          outputBytes: data.output.byteLength,
-          ms: data.ms,
-        });
-      } else if (data.type === 'error') {
-        cleanup();
-        reject(new Error(data.message));
-      }
-    };
-    const onErr = () => {
-      cleanup();
-      reject(new Error('The compression engine failed to load.'));
-    };
-    function cleanup() {
-      clearInterval(tick);
-      worker.removeEventListener('message', handle);
-      worker.removeEventListener('error', onErr);
-      worker.terminate();
-    }
-    worker.addEventListener('message', handle);
-    worker.addEventListener('error', onErr);
-    worker.postMessage({ id, file: buffer, args }, [buffer]);
-  });
+  return runGhostscript(buffer, GS_ARGS[level], onProgress, 'Compressing');
 }

@@ -27,11 +27,14 @@ touches the network.
 | **Merge PDFs** | Combine several PDFs into one, in an order you set. |
 | **Split PDF** | Pick pages from a thumbnail grid (tap to select, or All / None / Odd / Even / a range), then pull them out as one PDF or a `.zip` of single pages. |
 | **Organize pages** | Drag page thumbnails to reorder, rotate, or delete, then export a new PDF. |
+| **Rotate PDF** | Tap individual pages to turn them, or rotate the whole document left/right at once. |
 | **PDF to image** | Render pages to PNG or JPG at 72/150/300 DPI — one page, or a `.zip`. |
 | **Images to PDF** | Combine JPG/PNG images into one PDF (fit-to-image, A4, or Letter). |
 | **Compress image** | Shrink JPG, PNG, or WebP files, several at a time. |
 | **Add page numbers** | Position, style (`1`, `Page 1`, `1 / N`), size, and start number. |
 | **Add watermark** | Diagonal or horizontal text with adjustable opacity and size. |
+| **Protect PDF** | Add an open password (AES-256), optionally block editing/copying — or remove a password you know. |
+| **Grayscale PDF** | Convert every colour page to black and white; text and vectors stay crisp. |
 
 Every result screen lets you rename the file before saving (the extension is
 fixed; a blank name falls back to the generated default).

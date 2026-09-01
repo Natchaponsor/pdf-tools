@@ -4,11 +4,14 @@ import {
   IconMerge,
   IconSplit,
   IconOrganize,
+  IconRotate,
   IconPdfToImage,
   IconImageToPdf,
   IconImage,
   IconNumber,
   IconWatermark,
+  IconLock,
+  IconGrayscale,
 } from '../components/icons';
 
 export interface Tool {
@@ -49,6 +52,13 @@ export const TOOLS: Tool[] = [
     icon: IconOrganize,
   },
   {
+    id: 'rotate',
+    route: '/rotate',
+    title: 'Rotate PDF',
+    blurb: 'Turn pages the right way up, one at a time or all at once.',
+    icon: IconRotate,
+  },
+  {
     id: 'pdf-to-image',
     route: '/pdf-to-image',
     title: 'PDF to image',
@@ -82,6 +92,20 @@ export const TOOLS: Tool[] = [
     title: 'Add watermark',
     blurb: 'Overlay text with adjustable opacity and position.',
     icon: IconWatermark,
+  },
+  {
+    id: 'protect',
+    route: '/protect',
+    title: 'Protect PDF',
+    blurb: 'Add a password, or remove one you know.',
+    icon: IconLock,
+  },
+  {
+    id: 'grayscale',
+    route: '/grayscale',
+    title: 'Grayscale PDF',
+    blurb: 'Convert colour pages to black and white.',
+    icon: IconGrayscale,
   },
 ];
 

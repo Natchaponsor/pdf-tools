@@ -16,6 +16,9 @@ const lazyViews: Record<string, ComponentType> = {
   '/compress-image': lazy(() => import('./views/CompressImage').then((m) => ({ default: m.CompressImage }))),
   '/page-numbers': lazy(() => import('./views/AddPageNumbers').then((m) => ({ default: m.AddPageNumbers }))),
   '/watermark': lazy(() => import('./views/AddWatermark').then((m) => ({ default: m.AddWatermark }))),
+  '/rotate': lazy(() => import('./views/RotatePdf').then((m) => ({ default: m.RotatePdf }))),
+  '/protect': lazy(() => import('./views/ProtectPdf').then((m) => ({ default: m.ProtectPdf }))),
+  '/grayscale': lazy(() => import('./views/Grayscale').then((m) => ({ default: m.Grayscale }))),
   '/selftest': lazy(() => import('./views/SelfTest').then((m) => ({ default: m.SelfTest }))),
 };
 
