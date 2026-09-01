@@ -12,6 +12,8 @@ import {
   IconWatermark,
   IconLock,
   IconGrayscale,
+  IconBlankPages,
+  IconExtractImages,
 } from '../components/icons';
 
 export interface Tool {
@@ -106,6 +108,20 @@ export const TOOLS: Tool[] = [
     title: 'Grayscale PDF',
     blurb: 'Convert colour pages to black and white.',
     icon: IconGrayscale,
+  },
+  {
+    id: 'remove-blank-pages',
+    route: '/remove-blank-pages',
+    title: 'Remove blank pages',
+    blurb: 'Finds empty pages, then removes the ones you confirm.',
+    icon: IconBlankPages,
+  },
+  {
+    id: 'extract-images',
+    route: '/extract-images',
+    title: 'Extract images',
+    blurb: 'Pull every embedded photo out of a PDF.',
+    icon: IconExtractImages,
   },
 ];
 

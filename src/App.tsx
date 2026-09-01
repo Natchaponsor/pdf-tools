@@ -19,6 +19,12 @@ const lazyViews: Record<string, ComponentType> = {
   '/rotate': lazy(() => import('./views/RotatePdf').then((m) => ({ default: m.RotatePdf }))),
   '/protect': lazy(() => import('./views/ProtectPdf').then((m) => ({ default: m.ProtectPdf }))),
   '/grayscale': lazy(() => import('./views/Grayscale').then((m) => ({ default: m.Grayscale }))),
+  '/remove-blank-pages': lazy(() =>
+    import('./views/RemoveBlankPages').then((m) => ({ default: m.RemoveBlankPages })),
+  ),
+  '/extract-images': lazy(() =>
+    import('./views/ExtractImages').then((m) => ({ default: m.ExtractImages })),
+  ),
   '/selftest': lazy(() => import('./views/SelfTest').then((m) => ({ default: m.SelfTest }))),
 };
 

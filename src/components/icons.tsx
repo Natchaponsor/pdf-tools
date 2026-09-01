@@ -172,6 +172,28 @@ export function IconGrayscale(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function IconBlankPages(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="3" width="12" height="16" rx="1.5" opacity="0.4" />
+      <rect x="8" y="6" width="13" height="16" rx="1.5" />
+      <path d="M11 11h7M11 14h5M11 17h6" />
+    </svg>
+  );
+}
+
+export function IconExtractImages(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="3" width="13" height="16" rx="1.5" />
+      <path d="M6.5 8h6M6.5 11h4" />
+      <rect x="11" y="12" width="10" height="9" rx="1.5" />
+      <circle cx="14" cy="15.3" r="1" />
+      <path d="m12 19 2.3-2.3 1.7 1.7 2-2.4 2 2.4" />
+    </svg>
+  );
+}
+
 /** GitHub mark — a filled glyph, so it doesn't use the line-icon base(). */
 export function IconGitHub(props: SVGProps<SVGSVGElement>) {
   return (

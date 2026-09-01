@@ -35,6 +35,8 @@ touches the network.
 | **Add watermark** | Diagonal or horizontal text with adjustable opacity and size. |
 | **Protect PDF** | Add an open password (AES-256), optionally block editing/copying — or remove a password you know. |
 | **Grayscale PDF** | Convert every colour page to black and white; text and vectors stay crisp. |
+| **Remove blank pages** | Auto-flags empty-looking pages from a thumbnail scan; you review and adjust, then export. |
+| **Extract images** | Pull every embedded raster out of a PDF — JPEGs keep their original bytes, everything else comes out as PNG. |
 
 Every result screen lets you rename the file before saving (the extension is
 fixed; a blank name falls back to the generated default).
@@ -65,12 +67,12 @@ expected, and the app tells you so instead of pretending.
   and loaded on demand, so the home screen stays light.
 - **Hash-based routing** (`#/compress`). No history API, so a refresh or a deep
   link works on GitHub Pages with no server rewrites.
-- **Themes** (Settings → Appearance): System / Light / Dark, plus four seasonal
-  palettes — **Spring / Summer / Fall / Winter** — where the home feature blocks
-  become solid-colour tiles with knockout text. Winter is a navy night palette
-  and rides the same `dark:` variant as Dark. Each theme is a set of Tailwind v4
-  custom-property overrides scoped to `<html data-theme>`, so one rule re-skins
-  every utility.
+- **Themes** (Settings → Appearance): **Light** (the default), System, Dark, plus
+  four seasonal palettes — **Spring / Summer / Fall / Winter** — where the home
+  feature blocks become solid-colour tiles with knockout text. Winter is a night
+  palette and rides the same `dark:` variant as Dark. Each theme is a set of
+  Tailwind v4 custom-property overrides scoped to `<html data-theme>`, so one
+  rule re-skins every utility.
 - **Responsive tool grid**: the home screen packs feature cards with
   `auto-fill` columns — 2 up on a phone, up to seven across on a wide desktop.
 - **[`mupdf`](https://www.npmjs.com/package/mupdf)** — MuPDF.js WASM. One shared

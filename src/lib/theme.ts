@@ -13,6 +13,9 @@ const PREFS: ThemePref[] = ['system', 'light', 'dark', 'spring', 'summer', 'fall
 const DARKISH: ResolvedTheme[] = ['dark', 'winter'];
 const mq = () => window.matchMedia('(prefers-color-scheme: dark)');
 
+/** Used until the visitor picks a theme in Settings. */
+export const DEFAULT_THEME: ThemePref = 'light';
+
 export function getThemePref(): ThemePref {
   try {
     const v = localStorage.getItem(KEY);
@@ -21,7 +24,7 @@ export function getThemePref(): ThemePref {
   } catch {
     /* storage may be unavailable */
   }
-  return 'system';
+  return DEFAULT_THEME;
 }
 
 function resolve(pref: ThemePref): ResolvedTheme {
