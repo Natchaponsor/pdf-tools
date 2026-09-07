@@ -95,6 +95,29 @@ expected, and the app tells you so instead of pretending.
 - **Blank-page detection** is a plain canvas ink-coverage check on the page
   thumbnails — no extra dependency, no upload.
 
+### Install / offline
+
+Paperplane is an installable PWA. **[`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/)**
+(Workbox) generates the service worker at build time — the Workbox runtime is
+pulled from `workbox-build` and **inlined into `dist/sw.js`**, so nothing is
+fetched from a CDN at runtime (open the network tab and check).
+
+- **Precache**: the app shell only — `index.html`, every JS/CSS chunk, the
+  icons and the web manifest (~1 MB). The tens-of-MB WASM engines are **not**
+  precached.
+- **Runtime cache** (`CacheFirst`): `*.wasm` and the `vendor/` + `workers/`
+  engine files cache on first use, then work offline.
+- `navigateFallback` serves `index.html`, so hash routes resolve offline.
+- **Updates**: `registerType: 'prompt'` — a new deploy shows an
+  "A new version is available / Reload" toast instead of swapping silently.
+- **Install**: an "Install app" button appears in **Settings** when the browser
+  offers it; iOS Safari gets an "Add to Home Screen" hint instead.
+
+Icons are generated once from `public/favicon.svg` with
+`@vite-pwa/assets-generator` (`npx pwa-assets-generator`, config in
+`pwa-assets.config.ts`) and committed to `public/`; the generator is not a
+build-time dependency.
+
 ### No cross-origin isolation needed
 
 Both WASM engines are **single-threaded** builds. They do **not** use

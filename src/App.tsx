@@ -1,6 +1,8 @@
 import { lazy, Suspense, type ComponentType, type ReactNode } from 'react';
 import { navigate, useHashRoute } from './lib/useHashRoute';
 import { IconGitHub } from './components/icons';
+import { PwaPrompt } from './components/PwaPrompt';
+import { ViewErrorBoundary } from './components/ViewErrorBoundary';
 import { Home } from './views/Home';
 
 const REPO = 'https://github.com/Natchaponsor/pdf-tools';
@@ -85,13 +87,16 @@ export function App() {
         </header>
 
         <main className="flex-1">
-          <Suspense fallback={<p className="py-10 text-center text-sm text-ink-500">Loading…</p>}>
-            <View route={route} />
-          </Suspense>
+          <ViewErrorBoundary resetKey={route}>
+            <Suspense fallback={<p className="py-10 text-center text-sm text-ink-500">Loading…</p>}>
+              <View route={route} />
+            </Suspense>
+          </ViewErrorBoundary>
         </main>
       </div>
 
       <SiteFooter />
+      <PwaPrompt />
     </div>
   );
 }

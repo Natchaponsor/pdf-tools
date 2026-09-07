@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PRIVACY_LINE } from '../lib/constants';
 import { getThemePref, setThemePref, type ThemePref } from '../lib/theme';
+import { usePwaInstall } from '../lib/usePwaInstall';
 
 const OPTIONS: { id: ThemePref; label: string }[] = [
   { id: 'system', label: 'System' },
@@ -14,10 +15,41 @@ const OPTIONS: { id: ThemePref; label: string }[] = [
 
 export function Settings() {
   const [theme, setTheme] = useState<ThemePref>(getThemePref);
+  const install = usePwaInstall();
 
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-bold text-ink-900 dark:text-white">Settings</h1>
+
+      {install.kind !== 'unsupported' && (
+        <section className="space-y-2">
+          <h2 className="text-sm font-semibold text-ink-700 dark:text-white/80">Install</h2>
+          {install.kind === 'installable' && (
+            <>
+              <p className="text-sm text-ink-500 dark:text-white/60">
+                Add Paperplane to your device for a full-screen app and offline access.
+              </p>
+              <button
+                type="button"
+                onClick={install.promptInstall}
+                className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
+              >
+                Install app
+              </button>
+            </>
+          )}
+          {install.kind === 'ios-hint' && (
+            <p className="text-sm text-ink-500 dark:text-white/60">
+              To install: tap the Share button, then &ldquo;Add to Home Screen&rdquo;.
+            </p>
+          )}
+          {install.kind === 'installed' && (
+            <p className="text-sm text-ink-500 dark:text-white/60">
+              Paperplane is installed and runs offline once each tool has been used.
+            </p>
+          )}
+        </section>
+      )}
 
       <section className="space-y-3">
         <h2 className="text-sm font-semibold text-ink-700 dark:text-white/80">Appearance</h2>
