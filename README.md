@@ -1,10 +1,10 @@
 # Paperplane
 
-Private PDF tools that run **entirely in your browser** — compress, merge, split,
-organize, rotate, convert to and from images, add page numbers or watermarks,
-password-protect or unlock, grayscale, strip blank pages, pull out embedded
-images, and shrink image files. No account, no server, and your files never
-leave your device.
+Private PDF tools that run **entirely in your browser** — compress, translate a
+scan, have one read aloud, merge, split, organize, rotate, convert to and from
+images, add page numbers or watermarks, password-protect or unlock, grayscale,
+strip blank pages, pull out embedded images, and shrink image files. No account,
+no server, and your files never leave your device.
 
 > **Files are processed on your device and never uploaded.** There is no backend,
 > no analytics, and no external request that carries your file anywhere. You can
@@ -25,11 +25,13 @@ touches the network.
 
 ## Features
 
-### The tools (14)
+### The tools (16)
 
 | Tool | What it does |
 | --- | --- |
 | **Compress PDF** | Shrink one or several PDFs at once (shared 50 MB budget). Three quality levels, first-page preview and before/after size per file, download individually or as a `.zip`. |
+| **Translate a PDF** | OCR a scanned PDF on your device (English or Thai), read the recognised text, then hand it to your translator in one tap — the share sheet on a phone, Google Translate on the web. The text leaves the app only when you tap. You also get a searchable PDF. |
+| **Read a PDF aloud** | OCR a scan, then have the browser's built-in speech engine read it — play / pause / scrub by paragraph, choose a voice and speed, follow along with the highlighted text. Works offline, no audio is sent anywhere. |
 | **Merge PDFs** | Combine several PDFs into one, in an order you set. |
 | **Split PDF** | Pick pages from a thumbnail grid (tap to select, or All / None / Odd / Even / a range), then pull them out as one PDF or a `.zip` of single pages. |
 | **Organize pages** | Drag page thumbnails to reorder, rotate, or delete, then export a new PDF. |
@@ -92,7 +94,24 @@ expected, and the app tells you so instead of pretending.
   the grayscale conversion. Loaded lazily in a plain worker served from
   `public/` so its `.wasm` path stays correct under the Pages base path.
 - **[`pdf-lib`](https://www.npmjs.com/package/pdf-lib)** — merge, split, organize,
-  rotate, remove blank pages, images → PDF, page numbers, watermark.
+  rotate, remove blank pages, images → PDF, page numbers, watermark, and
+  stitching the OCR'd pages into a searchable PDF.
+- **[`tesseract.js`](https://www.npmjs.com/package/tesseract.js)** — v7, the
+  Tesseract 5 OCR engine compiled to WASM. Shared by **Translate** and **Read
+  aloud**: MuPDF rasterises each page, Tesseract recognises the text and adds an
+  invisible layer, and pdf-lib stitches the pages into a searchable PDF. The
+  worker script, the LSTM WASM core, and the English + Thai models
+  (`@tesseract.js-data/*`, ~1–3 MB gzipped each) are copied into
+  `public/vendor/tesseract/` by `scripts/sync-vendor.mjs` and pointed at
+  explicitly — tesseract.js would otherwise fetch all of it from a CDN. The
+  worker is loaded from its real URL (not a `blob:`) so the service worker can
+  cache it and its subresources for offline use.
+- **Translate** does the translation nowhere — it hands the recognised text to
+  the OS share sheet (`navigator.share`) or opens Google Translate on the web.
+  The text is only ever shared on an explicit tap.
+- **Read aloud** uses the browser's built-in `SpeechSynthesis` — no dependency,
+  no network, the device's own voices. Text is chunked into short pieces spoken
+  in sequence so the current paragraph can be highlighted and scrubbed.
 - **[`browser-image-compression`](https://www.npmjs.com/package/browser-image-compression)**
   — the image compressor. Run with `useWebWorker: false` on purpose: its worker
   mode fetches code from a CDN, which would break the privacy guarantee.
@@ -110,8 +129,9 @@ fetched from a CDN at runtime (open the network tab and check).
 - **Precache**: the app shell only — `index.html`, every JS/CSS chunk, the
   icons and the web manifest (~1 MB). The tens-of-MB WASM engines are **not**
   precached.
-- **Runtime cache** (`CacheFirst`): `*.wasm` and the `vendor/` + `workers/`
-  engine files cache on first use, then work offline.
+- **Runtime cache** (`CacheFirst`): `*.wasm`, the `vendor/` + `workers/` engine
+  files, and the Tesseract OCR core + language model cache on first use, then
+  work offline.
 - `navigateFallback` serves `index.html`, so hash routes resolve offline.
 - **Updates**: `registerType: 'prompt'` — a new deploy shows an
   "A new version is available / Reload" toast instead of swapping silently.

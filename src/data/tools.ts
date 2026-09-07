@@ -14,6 +14,8 @@ import {
   IconGrayscale,
   IconBlankPages,
   IconExtractImages,
+  IconTranslate,
+  IconReadAloud,
 } from '../components/icons';
 
 export interface Tool {
@@ -31,6 +33,20 @@ export const TOOLS: Tool[] = [
     title: 'Compress PDF',
     blurb: 'Shrink one or more PDFs for email or upload.',
     icon: IconCompress,
+  },
+  {
+    id: 'translate',
+    route: '/translate',
+    title: 'Translate a PDF',
+    blurb: 'Read the text off a scan, then send it to your translator in one tap.',
+    icon: IconTranslate,
+  },
+  {
+    id: 'read-aloud',
+    route: '/read-aloud',
+    title: 'Read a PDF aloud',
+    blurb: 'Turn a scanned PDF into speech — hands-free, works offline.',
+    icon: IconReadAloud,
   },
   {
     id: 'merge',

@@ -26,3 +26,45 @@ for (const [src, name] of files) {
   copyFileSync(src, dest);
   console.log(`vendor: ${name}${existsSync(dest) ? ' ok' : ' MISSING'}`);
 }
+
+// ── Tesseract.js (OCR) ────────────────────────────────────────────────────
+// tesseract.js loads its worker script, an Emscripten core, and the language
+// model over the network from a CDN by default. We self-host all three so no
+// user document (or anything else) ever leaves the device. The service worker
+// runtime-caches them on first use — they are never precached.
+const tessDir = join(outDir, 'tesseract');
+const tessdataDir = join(tessDir, 'tessdata');
+mkdirSync(tessdataDir, { recursive: true });
+
+const tesseractWorker = require.resolve('tesseract.js/dist/worker.min.js');
+const coreDir = dirname(require.resolve('tesseract.js-core/package.json'));
+
+// LSTM-only cores (OEM 1) — smaller than the ones bundling the legacy engine.
+// tesseract.js picks the best of these three at runtime by feature detection.
+// Each `.wasm.js` has its WebAssembly embedded as base64 (SINGLE_FILE build),
+// so the sibling `.wasm` is never fetched and isn't copied.
+const cores = [
+  'tesseract-core-lstm.wasm.js',
+  'tesseract-core-simd-lstm.wasm.js',
+  'tesseract-core-relaxedsimd-lstm.wasm.js',
+];
+
+// Language models — "best" integer LSTM (small + accurate). Each is fetched on
+// first use of a tool that needs it and then cached for offline use. Add a
+// language here + in OCR_LANGS in src/lib/ocr.ts to offer it.
+const langs = ['eng', 'tha'];
+
+const tessFiles = [
+  [tesseractWorker, join(tessDir, 'worker.min.js')],
+  ...cores.map((f) => [join(coreDir, f), join(tessDir, f)]),
+  ...langs.map((code) => [
+    require.resolve(`@tesseract.js-data/${code}/4.0.0_best_int/${code}.traineddata.gz`),
+    join(tessdataDir, `${code}.traineddata.gz`),
+  ]),
+];
+
+for (const [src, dest] of tessFiles) {
+  copyFileSync(src, dest);
+  const name = dest.slice(tessDir.length + 1);
+  console.log(`vendor: tesseract/${name}${existsSync(dest) ? ' ok' : ' MISSING'}`);
+}
