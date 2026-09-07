@@ -14,6 +14,7 @@ import {
   IconGrayscale,
   IconBlankPages,
   IconExtractImages,
+  IconOcr,
 } from '../components/icons';
 
 export interface Tool {
@@ -31,6 +32,13 @@ export const TOOLS: Tool[] = [
     title: 'Compress PDF',
     blurb: 'Shrink one or more PDFs for email or upload.',
     icon: IconCompress,
+  },
+  {
+    id: 'ocr',
+    route: '/ocr',
+    title: 'OCR — make scans searchable',
+    blurb: 'Recognise text in a scanned PDF; add a searchable layer or export .txt.',
+    icon: IconOcr,
   },
   {
     id: 'merge',

@@ -10,6 +10,7 @@ const REPO = 'https://github.com/Natchaponsor/pdf-tools';
 const lazyViews: Record<string, ComponentType> = {
   '/settings': lazy(() => import('./views/Settings').then((m) => ({ default: m.Settings }))),
   '/compress': lazy(() => import('./views/CompressPdf').then((m) => ({ default: m.CompressPdf }))),
+  '/ocr': lazy(() => import('./views/Ocr').then((m) => ({ default: m.Ocr }))),
   '/merge': lazy(() => import('./views/MergePdf').then((m) => ({ default: m.MergePdf }))),
   '/split': lazy(() => import('./views/SplitPdf').then((m) => ({ default: m.SplitPdf }))),
   '/organize': lazy(() => import('./views/OrganizePages').then((m) => ({ default: m.OrganizePages }))),

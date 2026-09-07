@@ -1,10 +1,10 @@
 # Paperplane
 
-Private PDF tools that run **entirely in your browser** — compress, merge, split,
-organize, rotate, convert to and from images, add page numbers or watermarks,
-password-protect or unlock, grayscale, strip blank pages, pull out embedded
-images, and shrink image files. No account, no server, and your files never
-leave your device.
+Private PDF tools that run **entirely in your browser** — compress, OCR scans to
+searchable text, merge, split, organize, rotate, convert to and from images, add
+page numbers or watermarks, password-protect or unlock, grayscale, strip blank
+pages, pull out embedded images, and shrink image files. No account, no server,
+and your files never leave your device.
 
 > **Files are processed on your device and never uploaded.** There is no backend,
 > no analytics, and no external request that carries your file anywhere. You can
@@ -25,11 +25,12 @@ touches the network.
 
 ## Features
 
-### The tools (14)
+### The tools (15)
 
 | Tool | What it does |
 | --- | --- |
 | **Compress PDF** | Shrink one or several PDFs at once (shared 50 MB budget). Three quality levels, first-page preview and before/after size per file, download individually or as a `.zip`. |
+| **OCR — make scans searchable** | Recognise the text in a scanned PDF with Tesseract and add an invisible text layer, so it can be selected, copied, and searched — or export the recognised text as `.txt`. The engine and English model are self-hosted (~7 MB, cached after first use); nothing is uploaded. |
 | **Merge PDFs** | Combine several PDFs into one, in an order you set. |
 | **Split PDF** | Pick pages from a thumbnail grid (tap to select, or All / None / Odd / Even / a range), then pull them out as one PDF or a `.zip` of single pages. |
 | **Organize pages** | Drag page thumbnails to reorder, rotate, or delete, then export a new PDF. |
@@ -92,7 +93,16 @@ expected, and the app tells you so instead of pretending.
   the grayscale conversion. Loaded lazily in a plain worker served from
   `public/` so its `.wasm` path stays correct under the Pages base path.
 - **[`pdf-lib`](https://www.npmjs.com/package/pdf-lib)** — merge, split, organize,
-  rotate, remove blank pages, images → PDF, page numbers, watermark.
+  rotate, remove blank pages, images → PDF, page numbers, watermark, and
+  stitching the OCR'd pages back together.
+- **[`tesseract.js`](https://www.npmjs.com/package/tesseract.js)** — v7, the
+  Tesseract 5 OCR engine compiled to WASM. MuPDF rasterises each page, Tesseract
+  adds an invisible text layer and returns the plain text. The worker script, the LSTM WASM core, and the
+  English model (`@tesseract.js-data/eng`, ~3 MB gzipped) are copied into
+  `public/vendor/tesseract/` by `scripts/sync-vendor.mjs` and pointed at
+  explicitly — tesseract.js would otherwise fetch all three from a CDN. The
+  worker is loaded from its real URL (not a `blob:`) so the service worker can
+  cache it and its subresources for offline use.
 - **[`browser-image-compression`](https://www.npmjs.com/package/browser-image-compression)**
   — the image compressor. Run with `useWebWorker: false` on purpose: its worker
   mode fetches code from a CDN, which would break the privacy guarantee.
@@ -110,8 +120,9 @@ fetched from a CDN at runtime (open the network tab and check).
 - **Precache**: the app shell only — `index.html`, every JS/CSS chunk, the
   icons and the web manifest (~1 MB). The tens-of-MB WASM engines are **not**
   precached.
-- **Runtime cache** (`CacheFirst`): `*.wasm` and the `vendor/` + `workers/`
-  engine files cache on first use, then work offline.
+- **Runtime cache** (`CacheFirst`): `*.wasm`, the `vendor/` + `workers/` engine
+  files, and the Tesseract OCR core + language model cache on first use, then
+  work offline.
 - `navigateFallback` serves `index.html`, so hash routes resolve offline.
 - **Updates**: `registerType: 'prompt'` — a new deploy shows an
   "A new version is available / Reload" toast instead of swapping silently.

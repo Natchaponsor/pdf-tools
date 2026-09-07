@@ -40,6 +40,17 @@ export default defineConfig({
         navigateFallbackAllowlist: [/^\/pdf-tools\//],
         runtimeCaching: [
           {
+            // Tesseract.js OCR: worker, WebAssembly core, and language models
+            // (public/vendor/tesseract/*, ~7 MB on first use of the OCR tool).
+            urlPattern: ({ url }) => url.pathname.includes('/vendor/tesseract/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'paperplane-ocr',
+              expiration: { maxEntries: 12, maxAgeSeconds: 60 * 60 * 24 * 180 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
             // MuPDF's fingerprinted .wasm (Vite asset pipeline).
             urlPattern: ({ url }) => url.pathname.endsWith('.wasm'),
             handler: 'CacheFirst',
