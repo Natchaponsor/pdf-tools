@@ -12,6 +12,10 @@ leave your device.
 
 Live: **https://natchaponsor.github.io/pdf-tools/**
 
+<p align="center">
+  <img src="docs/screenshot-mobile.png" alt="Paperplane home screen on a phone: a two-column grid of PDF tool cards" width="300">
+</p>
+
 ## Why
 
 Most "compress a PDF" websites upload your document to a server you don't
@@ -75,8 +79,9 @@ expected, and the app tells you so instead of pretending.
   palette and rides the same `dark:` variant as Dark. Each theme is a set of
   Tailwind v4 custom-property overrides scoped to `<html data-theme>`, so one
   rule re-skins every utility.
-- **Layout**: a fixed 3-across tool grid, centred; the site footer is a
-  full-bleed band with the repo link and a feedback link.
+- **Layout**: a centred tool grid — two columns on phones, three from the `sm`
+  breakpoint up; the site footer is a full-bleed band with the repo link and a
+  feedback link.
 - **[`mupdf`](https://www.npmjs.com/package/mupdf)** — MuPDF.js WASM. One shared
   ES-module worker does the lossless compression tier, page counts and thumbnail
   rendering, first-page previews, AES-256 password protect/unlock, and image
