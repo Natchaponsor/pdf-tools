@@ -14,7 +14,8 @@ import {
   IconGrayscale,
   IconBlankPages,
   IconExtractImages,
-  IconOcr,
+  IconTranslate,
+  IconReadAloud,
 } from '../components/icons';
 
 export interface Tool {
@@ -34,11 +35,18 @@ export const TOOLS: Tool[] = [
     icon: IconCompress,
   },
   {
-    id: 'ocr',
-    route: '/ocr',
-    title: 'OCR — make scans searchable',
-    blurb: 'Recognise text in a scanned PDF; add a searchable layer or export .txt.',
-    icon: IconOcr,
+    id: 'translate',
+    route: '/translate',
+    title: 'Translate a PDF',
+    blurb: 'Read the text off a scan, then send it to your translator in one tap.',
+    icon: IconTranslate,
+  },
+  {
+    id: 'read-aloud',
+    route: '/read-aloud',
+    title: 'Read a PDF aloud',
+    blurb: 'Turn a scanned PDF into speech — hands-free, works offline.',
+    icon: IconReadAloud,
   },
   {
     id: 'merge',

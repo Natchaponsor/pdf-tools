@@ -49,14 +49,18 @@ const cores = [
   'tesseract-core-relaxedsimd-lstm.wasm.js',
 ];
 
+// Language models — "best" integer LSTM (small + accurate). Each is fetched on
+// first use of a tool that needs it and then cached for offline use. Add a
+// language here + in OCR_LANGS in src/lib/ocr.ts to offer it.
+const langs = ['eng', 'tha'];
+
 const tessFiles = [
   [tesseractWorker, join(tessDir, 'worker.min.js')],
   ...cores.map((f) => [join(coreDir, f), join(tessDir, f)]),
-  // English "best" integer LSTM model: ~3 MB gzipped, high accuracy.
-  [
-    require.resolve('@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz'),
-    join(tessdataDir, 'eng.traineddata.gz'),
-  ],
+  ...langs.map((code) => [
+    require.resolve(`@tesseract.js-data/${code}/4.0.0_best_int/${code}.traineddata.gz`),
+    join(tessdataDir, `${code}.traineddata.gz`),
+  ]),
 ];
 
 for (const [src, dest] of tessFiles) {

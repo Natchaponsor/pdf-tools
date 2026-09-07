@@ -18,8 +18,15 @@ import { bytesToBlob } from './download';
 
 const TESS = `${import.meta.env.BASE_URL}vendor/tesseract`;
 
-export const OCR_LANGS = [{ code: 'eng', label: 'English' }] as const;
+/** OCR languages. `bcp47` feeds the speech voice and the translator hand-off. */
+export const OCR_LANGS = [
+  { code: 'eng', label: 'English', bcp47: 'en' },
+  { code: 'tha', label: 'Thai', bcp47: 'th' },
+] as const;
 export type OcrLang = (typeof OCR_LANGS)[number]['code'];
+
+export const bcp47ForLang = (code: OcrLang): string =>
+  OCR_LANGS.find((l) => l.code === code)?.bcp47 ?? 'en';
 
 export const OCR_QUALITY = [
   { id: 'balanced', label: 'Faster (150 dpi)', dpi: 150 },
