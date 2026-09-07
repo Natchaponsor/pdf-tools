@@ -26,27 +26,21 @@ export interface Tool {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
-export const TOOLS: Tool[] = [
+export interface ToolSection {
+  id: string;
+  /** Heading shown above the section, or null for the unlabeled main grid. */
+  title: string | null;
+  description?: string;
+  tools: Tool[];
+}
+
+const MAIN_TOOLS: Tool[] = [
   {
     id: 'compress',
     route: '/compress',
     title: 'Compress PDF',
     blurb: 'Shrink one or more PDFs for email or upload.',
     icon: IconCompress,
-  },
-  {
-    id: 'translate',
-    route: '/translate',
-    title: 'Translate a PDF',
-    blurb: 'Read the text off a scan, then send it to your translator in one tap.',
-    icon: IconTranslate,
-  },
-  {
-    id: 'read-aloud',
-    route: '/read-aloud',
-    title: 'Read a PDF aloud',
-    blurb: 'Turn a scanned PDF into speech — hands-free, works offline.',
-    icon: IconReadAloud,
   },
   {
     id: 'merge',
@@ -140,6 +134,35 @@ export const TOOLS: Tool[] = [
     icon: IconExtractImages,
   },
 ];
+
+const SANDBOX_TOOLS: Tool[] = [
+  {
+    id: 'translate',
+    route: '/translate',
+    title: 'Translate a PDF',
+    blurb: 'Read the text off a scan, then hand it to your translator.',
+    icon: IconTranslate,
+  },
+  {
+    id: 'read-aloud',
+    route: '/read-aloud',
+    title: 'Read a PDF aloud',
+    blurb: 'Turn a scanned PDF into speech — hands-free, works offline.',
+    icon: IconReadAloud,
+  },
+];
+
+export const TOOL_SECTIONS: ToolSection[] = [
+  { id: 'main', title: null, tools: MAIN_TOOLS },
+  {
+    id: 'sandbox',
+    title: 'Sandbox',
+    description: 'Newer, experimental tools — both run text recognition on your device first.',
+    tools: SANDBOX_TOOLS,
+  },
+];
+
+export const TOOLS: Tool[] = TOOL_SECTIONS.flatMap((s) => s.tools);
 
 export const toolByRoute = (route: string): Tool | undefined =>
   TOOLS.find((t) => route === t.route || route.startsWith(t.route + '/'));
