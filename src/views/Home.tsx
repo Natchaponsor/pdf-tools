@@ -15,7 +15,7 @@ export function Home({ compact = false }: { compact?: boolean }) {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
         {TOOLS.map((tool) => (
           <button
             key={tool.id}
