@@ -16,6 +16,7 @@ import {
   IconExtractImages,
   IconTranslate,
   IconReadAloud,
+  IconScan,
 } from '../components/icons';
 
 export interface Tool {
@@ -136,6 +137,13 @@ const MAIN_TOOLS: Tool[] = [
 ];
 
 const SANDBOX_TOOLS: Tool[] = [
+  {
+    id: 'scan',
+    route: '/scan',
+    title: 'Scan documents',
+    blurb: 'Photograph pages, auto-straighten them, and export one PDF.',
+    icon: IconScan,
+  },
   {
     id: 'translate',
     route: '/translate',

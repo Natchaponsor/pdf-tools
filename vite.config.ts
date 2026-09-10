@@ -51,6 +51,16 @@ export default defineConfig({
             },
           },
           {
+            // OpenCV.js for the Scan tool (public/vendor/opencv/opencv.js, ~13 MB).
+            urlPattern: ({ url }) => url.pathname.includes('/vendor/opencv/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'paperplane-scanner',
+              expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 180 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+          {
             // MuPDF's fingerprinted .wasm (Vite asset pipeline).
             urlPattern: ({ url }) => url.pathname.endsWith('.wasm'),
             handler: 'CacheFirst',

@@ -121,6 +121,20 @@ export async function organizePages(file: File, ops: PageOp[]): Promise<Uint8Arr
   return out.save();
 }
 
+/** Assemble scanned page images (JPEG blobs) into a PDF, one image per page. */
+export async function scansToPdf(pages: Blob[]): Promise<Uint8Array> {
+  if (!pages.length) throw new Error('No pages to export.');
+  const out = await PDFDocument.create();
+  for (const blob of pages) {
+    const bytes = new Uint8Array(await blob.arrayBuffer());
+    const image =
+      blob.type === 'image/png' ? await out.embedPng(bytes) : await out.embedJpg(bytes);
+    const page = out.addPage([image.width, image.height]);
+    page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
+  }
+  return out.save();
+}
+
 export interface ImagesToPdfOptions {
   pageSize: 'fit' | 'a4' | 'letter';
   margin: number;
