@@ -8,7 +8,7 @@ export function errorMessage(err: unknown): string {
     return 'A processing engine could not load. Check your connection and reload the page.';
   }
   if (/damaged|repair|corrupt|not a PDF|invalid|trailer|xref|parse/i.test(message)) {
-    return 'This file could not be read — it may be damaged or not a real PDF.';
+    return 'This file could not be read. It may be damaged or not a real PDF.';
   }
   if (/out of memory|allocation|maximum call stack/i.test(message)) {
     return 'The file is too complex to process in the browser. Try a smaller file.';

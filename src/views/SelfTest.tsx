@@ -46,7 +46,7 @@ export function SelfTest() {
   async function useFixture(name: string) {
     const res = await fetch(`${import.meta.env.BASE_URL}${name}`);
     if (!res.ok) {
-      alert(`No fixture at /${name} — use the file picker instead.`);
+      alert(`No fixture at /${name}. Use the file picker instead.`);
       return;
     }
     const blob = await res.blob();

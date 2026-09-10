@@ -143,7 +143,7 @@ self.onmessage = async (event: MessageEvent<Job>) => {
       case 'unlock': {
         const doc = mupdf.Document.openDocument(new Uint8Array(job.file), 'application/pdf');
         if (!doc.needsPassword()) {
-          throw new Error("This PDF isn't password-protected — there's nothing to unlock.");
+          throw new Error("This PDF isn't password-protected, so there's nothing to unlock.");
         }
         if (!doc.authenticatePassword(job.password)) {
           throw new Error('That password is incorrect.');

@@ -102,15 +102,15 @@ export function OcrCapture({ actionLabel, langLabel = 'Document language', onRes
 
       <Notice tone="info">
         The first run downloads the OCR engine and the {OCR_LANGS.find((l) => l.code === lang)?.label}{' '}
-        model, then works offline. Recognition happens entirely on your device — expect roughly
-        2–10 seconds per page, more on a phone.
+        model, then works offline. Recognition happens entirely on your device, so expect roughly
+        2 to 10 seconds per page, more on a phone.
       </Notice>
 
       {busy ? (
         <div className="space-y-2">
           <ProgressBar ratio={progress.ratio} label={progress.note || 'Working…'} />
           <p className="text-xs text-ink-500 dark:text-white/50">
-            Keep this tab open — closing it stops the job.
+            Keep this tab open. Closing it stops the job.
           </p>
         </div>
       ) : (

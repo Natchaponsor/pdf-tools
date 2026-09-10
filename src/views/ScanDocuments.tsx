@@ -198,7 +198,7 @@ export function ScanDocuments() {
   return (
     <ToolShell
       title="Scan documents"
-      blurb="Photograph a page, straighten it automatically, then repeat. Reorder the pages and export one PDF — nothing is uploaded."
+      blurb="Photograph a page, straighten it automatically, then repeat. Reorder the pages and export one PDF. Nothing is uploaded."
     >
       <input
         ref={inputRef}
@@ -260,7 +260,7 @@ export function ScanDocuments() {
             <>
               <Notice tone="info">
                 Works best with the page flat, well lit, and fully in frame on a contrasting
-                surface. Everything — edge detection included — runs on your device; the first
+                surface. Everything, edge detection included, runs on your device. The first
                 scan downloads a ~13&nbsp;MB engine, then it works offline.
               </Notice>
               {busy ? (

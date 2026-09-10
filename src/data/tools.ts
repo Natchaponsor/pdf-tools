@@ -154,8 +154,8 @@ const SANDBOX_TOOLS: Tool[] = [
   {
     id: 'read-aloud',
     route: '/read-aloud',
-    title: 'Read a PDF aloud',
-    blurb: 'Turn a scanned PDF into speech — hands-free, works offline.',
+    title: 'Read PDF',
+    blurb: 'Turn a scanned PDF into speech. Hands-free, works offline.',
     icon: IconReadAloud,
   },
 ];
@@ -165,7 +165,7 @@ export const TOOL_SECTIONS: ToolSection[] = [
   {
     id: 'sandbox',
     title: 'Sandbox',
-    description: 'Newer, experimental tools — both run text recognition on your device first.',
+    description: 'Newer, experimental tools. Both run text recognition on your device first.',
     tools: SANDBOX_TOOLS,
   },
 ];

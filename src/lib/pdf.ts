@@ -23,7 +23,7 @@ async function load(file: File | ArrayBuffer): Promise<PDFDocument> {
     if (/encrypt/i.test(message)) {
       throw new Error('This PDF is password-protected. Remove the password first.');
     }
-    throw new Error('This PDF could not be read — it may be damaged.');
+    throw new Error('This PDF could not be read. It may be damaged.');
   }
 }
 
