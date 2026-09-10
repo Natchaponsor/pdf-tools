@@ -49,7 +49,7 @@ export function Translate() {
 
   return (
     <ToolShell
-      title="Translate a PDF"
+      title="Translate PDF"
       blurb="Pull the text out of a scanned PDF on your device, then send it to your translator of choice in one tap."
     >
       {!outcome ? (
