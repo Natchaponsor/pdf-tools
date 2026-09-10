@@ -125,7 +125,7 @@ export function useTts(): TtsState & TtsControls {
           setChunk(-1);
           setError(
             e.error === 'not-allowed'
-              ? 'Your device blocked speech playback. Tap Play again — it may need a direct tap.'
+              ? 'Your device blocked speech playback. Tap Play again; it may need a direct tap.'
               : "Speech playback failed. Your device may have no voice for this language, or the audio is busy.",
           );
         };

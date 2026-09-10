@@ -58,7 +58,7 @@ export function Grayscale() {
   return (
     <ToolShell
       title="Grayscale PDF"
-      blurb="Convert every colour page to black and white — for cheaper printing or a smaller file."
+      blurb="Convert every colour page to black and white, for cheaper printing or a smaller file."
     >
       {error && <Notice tone="error">{error}</Notice>}
 
@@ -88,7 +88,7 @@ export function Grayscale() {
 
           <Notice tone="info">
             Text and vector graphics stay crisp; image resolution is untouched. Colour information is
-            removed for good — keep the original if you might need it.
+            removed for good, so keep the original if you might need it.
           </Notice>
 
           {busy ? (

@@ -13,8 +13,8 @@ export function ReadAloud() {
 
   return (
     <ToolShell
-      title="Read a PDF aloud"
-      blurb="Recognise the text in a scanned PDF on your device, then have your browser read it to you — hands-free, works offline."
+      title="Read PDF"
+      blurb="Recognise the text in a scanned PDF on your device, then have your browser read it to you. Hands-free, works offline."
     >
       {!outcome ? (
         <OcrCapture actionLabel="Get the text" langLabel="Document language" onResult={setOutcome} />
@@ -65,7 +65,7 @@ function Player({ outcome, onReset }: { outcome: OcrOutcome; onReset: () => void
       <div className="space-y-4">
         <Notice tone="warn">
           This browser has no speech engine, so it can’t read the document aloud. The text was
-          still recognised — you can download the searchable PDF below.
+          still recognised, so you can download the searchable PDF below.
         </Notice>
         <TextBlock parts={parts} active={-1} />
         <Footer outcome={outcome} onReset={onReset} />
@@ -158,8 +158,8 @@ function Player({ outcome, onReset }: { outcome: OcrOutcome; onReset: () => void
 
         {matching.length === 0 && (
           <p className="text-xs text-ink-500 dark:text-white/50">
-            No voice for this language is installed on your device — it will read with the default
-            voice. You can add one in your system’s language or accessibility settings.
+            No voice for this language is installed on your device, so it will read with the
+            default voice. You can add one in your system’s language or accessibility settings.
           </p>
         )}
       </div>

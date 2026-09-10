@@ -92,7 +92,7 @@ export function ExtractImages() {
       {images && images.length === 0 && (
         <Notice tone="info">
           No embedded images found in this PDF. Pages that are pure text, or drawn as vector
-          graphics, have nothing to pull out — try <strong>PDF to image</strong> to render whole
+          graphics, have nothing to pull out. Try <strong>PDF to image</strong> to render whole
           pages instead.
           <button type="button" onClick={reset} className="mt-2 block font-medium underline">
             Try another file

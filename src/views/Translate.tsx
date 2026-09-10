@@ -103,8 +103,8 @@ export function Translate() {
 
           <p className="text-xs text-ink-500 dark:text-white/50">
             The translation happens in the app you pick. On a phone, “Translate” opens the share
-            sheet — choose Google Translate, Apple Translate, or any translator. The recognised
-            text is shared only when you tap it.
+            sheet, where you choose Google Translate, Apple Translate, or any translator. The
+            recognised text is shared only when you tap it.
           </p>
 
           <div className="rounded-2xl border border-paper-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
@@ -129,7 +129,7 @@ export function Translate() {
 
           <Notice tone="info">
             Only printed text is recognised, not handwriting. Pick the document’s language above
-            for the best results — Thai text needs the Thai model selected.
+            for the best results. Thai text needs the Thai model selected.
           </Notice>
         </div>
       )}

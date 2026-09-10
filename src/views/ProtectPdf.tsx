@@ -138,8 +138,8 @@ export function ProtectPdf() {
                   Also block editing and copying
                 </span>
                 <span className="block text-sm text-ink-500 dark:text-white/60">
-                  Printing stays allowed. Note: these restrictions are a courtesy — many PDF apps
-                  ignore them. The password is the real protection.
+                  Printing stays allowed. Note: these restrictions are a courtesy, and many PDF
+                  apps ignore them. The password is the real protection.
                 </span>
               </span>
             </label>
@@ -147,7 +147,7 @@ export function ProtectPdf() {
 
           {mode === 'protect' && (
             <Notice tone="info">
-              Keep this password somewhere safe — a protected PDF can&rsquo;t be opened or recovered
+              Keep this password somewhere safe. A protected PDF can&rsquo;t be opened or recovered
               without it, here or anywhere else.
             </Notice>
           )}

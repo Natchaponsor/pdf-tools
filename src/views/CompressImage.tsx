@@ -14,7 +14,7 @@ const isImage = (f: File) =>
   /^image\/(jpeg|png|webp)$/.test(f.type) || /\.(jpe?g|png|webp)$/i.test(f.name);
 
 const QUALITIES: { id: ImageQuality; label: string; blurb: string }[] = [
-  { id: 'high', label: 'High', blurb: 'Light touch — keeps most detail.' },
+  { id: 'high', label: 'High', blurb: 'Light touch, keeps most detail.' },
   { id: 'medium', label: 'Medium', blurb: 'Balanced size and quality.' },
   { id: 'low', label: 'Small', blurb: 'Smallest files, softer detail.' },
 ];
