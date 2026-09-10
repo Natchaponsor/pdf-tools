@@ -147,7 +147,7 @@ const SANDBOX_TOOLS: Tool[] = [
   {
     id: 'translate',
     route: '/translate',
-    title: 'Translate a PDF',
+    title: 'Translate PDF',
     blurb: 'Read the text off a scan, then hand it to your translator.',
     icon: IconTranslate,
   },
