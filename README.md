@@ -1,10 +1,11 @@
 # Paperplane
 
-Private PDF tools that run **entirely in your browser** — compress, translate a
-scan, have one read aloud, merge, split, organize, rotate, convert to and from
-images, add page numbers or watermarks, password-protect or unlock, grayscale,
-strip blank pages, pull out embedded images, and shrink image files. No account,
-no server, and your files never leave your device.
+Private PDF tools that run **entirely in your browser** — compress, scan pages
+with your camera, translate a scan, have one read aloud, merge, split, organize,
+rotate, convert to and from images, add page numbers or watermarks,
+password-protect or unlock, grayscale, strip blank pages, pull out embedded
+images, and shrink image files. No account, no server, and your files never
+leave your device.
 
 > **Files are processed on your device and never uploaded.** There is no backend,
 > no analytics, and no external request that carries your file anywhere. You can
@@ -25,13 +26,14 @@ touches the network.
 
 ## Features
 
-### The tools (16)
+### The tools (17)
 
 | Tool | What it does |
 | --- | --- |
 | **Compress PDF** | Shrink one or several PDFs at once (shared 50 MB budget). Three quality levels, first-page preview and before/after size per file, download individually or as a `.zip`. |
 | **Translate a PDF** | OCR a scanned PDF on your device (English or Thai), read the recognised text, then hand it to your translator in one tap — the share sheet on a phone, Google Translate on the web. The text leaves the app only when you tap. You also get a searchable PDF. |
 | **Read a PDF aloud** | OCR a scan, then have the browser's built-in speech engine read it — play / pause / scrub by paragraph, choose a voice and speed, follow along with the highlighted text. Works offline, no audio is sent anywhere. |
+| **Scan documents** | Photograph pages with your phone camera. OpenCV finds each page's edges and perspective-corrects it to a flat rectangle (colour / greyscale / B&W). After each page: rescan, scan the next, or stop. Then reorder the pages in a grid and export one PDF. All on-device. |
 | **Merge PDFs** | Combine several PDFs into one, in an order you set. |
 | **Split PDF** | Pick pages from a thumbnail grid (tap to select, or All / None / Odd / Even / a range), then pull them out as one PDF or a `.zip` of single pages. |
 | **Organize pages** | Drag page thumbnails to reorder, rotate, or delete, then export a new PDF. |
@@ -112,6 +114,14 @@ expected, and the app tells you so instead of pretending.
 - **Read aloud** uses the browser's built-in `SpeechSynthesis` — no dependency,
   no network, the device's own voices. Text is chunked into short pieces spoken
   in sequence so the current paragraph can be highlighted and scrubbed.
+- **[`@techstark/opencv-js`](https://www.npmjs.com/package/@techstark/opencv-js)**
+  — OpenCV compiled to WASM, powering **Scan documents**: Canny edges →
+  contours → largest 4-point polygon for auto edge detection, then
+  `getPerspectiveTransform` / `warpPerspective` to flatten the page. A single
+  ~13 MB self-contained file (WASM embedded), copied to
+  `public/vendor/opencv/opencv.js` by `sync-vendor.mjs`, `<script>`-loaded
+  lazily on first scan and runtime-cached. Camera access is a plain
+  `<input capture="environment">` — no `getUserMedia` viewfinder.
 - **[`browser-image-compression`](https://www.npmjs.com/package/browser-image-compression)**
   — the image compressor. Run with `useWebWorker: false` on purpose: its worker
   mode fetches code from a CDN, which would break the privacy guarantee.

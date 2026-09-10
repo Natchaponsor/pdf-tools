@@ -68,3 +68,13 @@ for (const [src, dest] of tessFiles) {
   const name = dest.slice(tessDir.length + 1);
   console.log(`vendor: tesseract/${name}${existsSync(dest) ? ' ok' : ' MISSING'}`);
 }
+
+// ── OpenCV.js (Scan documents — auto edge detection + perspective flatten) ──
+// A single self-contained JS file (~13 MB, WASM embedded). Loaded lazily by the
+// Scan tool via a <script> tag, runtime-cached, never precached.
+const cvDir = join(outDir, 'opencv');
+mkdirSync(cvDir, { recursive: true });
+const cvSrc = require.resolve('@techstark/opencv-js/dist/opencv.js');
+const cvDest = join(cvDir, 'opencv.js');
+copyFileSync(cvSrc, cvDest);
+console.log(`vendor: opencv/opencv.js${existsSync(cvDest) ? ' ok' : ' MISSING'}`);
