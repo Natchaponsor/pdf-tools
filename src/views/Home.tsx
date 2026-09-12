@@ -45,9 +45,9 @@ function ToolCard({ tool }: { tool: Tool }) {
     <button
       type="button"
       onClick={() => navigate(tool.route)}
-      className="tool-card flex flex-col gap-2.5 rounded-2xl border border-paper-200 bg-white p-4 text-left transition-colors hover:border-brand-300 hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 sm:p-5 dark:border-white/10 dark:bg-white/5 dark:hover:border-brand-500"
+      className="tool-card flex flex-col gap-2.5 rounded-2xl border border-paper-200 bg-white p-4 text-left transition-[transform,box-shadow,border-color] duration-150 hover:border-brand-300 hover:shadow-[0_8px_20px_-8px_rgba(37,99,235,0.25)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 sm:p-5 dark:border-white/10 dark:bg-white/5 dark:hover:border-brand-500"
     >
-      <span className="tool-card__icon grid h-11 w-11 place-items-center rounded-xl bg-brand-50 text-brand-700 sm:h-12 sm:w-12 dark:bg-brand-900/40 dark:text-brand-300">
+      <span className="tool-card__icon grid h-11 w-11 place-items-center rounded-lg bg-brand-50 text-brand-700 sm:h-12 sm:w-12 dark:bg-brand-900/40 dark:text-brand-300">
         <tool.icon className="h-6 w-6" />
       </span>
       <span className="tool-card__title text-[15px] font-bold leading-tight text-ink-900 dark:text-white">
