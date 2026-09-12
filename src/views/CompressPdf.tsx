@@ -203,7 +203,11 @@ export function CompressPdf() {
               </ul>
 
               <div className="flex items-center justify-between text-sm">
-                <span className={oversized ? 'font-medium text-red-600 dark:text-red-400' : 'text-ink-500 dark:text-white/60'}>
+                <span
+                  className={`font-mono tabular-nums ${
+                    oversized ? 'font-medium text-red-600 dark:text-red-400' : 'text-ink-500 dark:text-white/60'
+                  }`}
+                >
                   Total {formatBytes(totalBytes)} / {formatBytes(MAX_COMPRESS_BYTES)}
                 </span>
                 {!working && (
@@ -237,7 +241,7 @@ export function CompressPdf() {
               {COMPRESS_LEVELS.map((info) => (
                 <label
                   key={info.id}
-                  className={`flex cursor-pointer gap-3 rounded-xl border p-3 transition-colors ${
+                  className={`flex cursor-pointer gap-3 rounded-lg border p-3 transition-colors ${
                     level === info.id
                       ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/30'
                       : 'border-paper-200 bg-white hover:border-brand-300 dark:border-white/10 dark:bg-white/5'
@@ -269,7 +273,7 @@ export function CompressPdf() {
               type="button"
               onClick={run}
               disabled={oversized}
-              className="w-full rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white shadow-sm transition-colors hover:bg-brand-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-lg bg-brand-600 px-4 py-3 font-semibold text-white shadow-sm transition-[transform,background-color] duration-150 hover:bg-brand-700 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
             >
               {items.length === 1 ? 'Compress PDF' : `Compress ${items.length} PDFs`}
             </button>
@@ -327,7 +331,7 @@ function Results({
               {rows.length > 1 ? ' · ' : ''}
               {overallPct > 0 ? `${overallPct}% smaller` : 'Already tightly packed'}
             </p>
-            <p className="mt-1 text-sm text-ink-500 dark:text-white/60">
+            <p className="mt-1 font-mono text-sm tabular-nums text-ink-500 dark:text-white/60">
               {formatBytes(inTotal)} → {formatBytes(outTotal)} total
             </p>
           </div>
@@ -337,7 +341,7 @@ function Results({
             <button
               type="button"
               onClick={onDownloadAll}
-              className="rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
+              className="rounded-lg bg-brand-600 px-4 py-2.5 font-semibold text-white transition-transform active:scale-[0.99] hover:bg-brand-700"
             >
               Download all (.zip)
             </button>
@@ -370,7 +374,7 @@ function Results({
                 </>
               ) : (
                 <>
-                  <p className="text-sm text-ink-500 dark:text-white/60">
+                  <p className="font-mono text-sm tabular-nums text-ink-500 dark:text-white/60">
                     {formatBytes(r.inputBytes)} → {formatBytes(r.outputBytes ?? 0)} ·{' '}
                     {percentSmaller(r.inputBytes, r.outputBytes ?? r.inputBytes)}% smaller
                     {r.ms != null ? ` · ${formatDuration(r.ms)}` : ''}
@@ -390,7 +394,7 @@ function Results({
       <button
         type="button"
         onClick={onReset}
-        className="rounded-xl border border-paper-200 px-4 py-2.5 font-semibold text-ink-700 hover:bg-white dark:border-white/15 dark:text-white/80 dark:hover:bg-white/10"
+        className="rounded-lg border border-paper-200 px-4 py-2.5 font-semibold text-ink-700 transition-transform active:scale-[0.99] hover:bg-white dark:border-white/15 dark:text-white/80 dark:hover:bg-white/10"
       >
         Compress more
       </button>
