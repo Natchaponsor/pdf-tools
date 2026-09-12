@@ -21,7 +21,7 @@ export function ToolShell({ title, blurb, children }: Props) {
           <IconBack className="h-4 w-4" />
           All tools
         </button>
-        <h1 className="text-3xl font-bold tracking-tight text-ink-900 dark:text-white">{title}</h1>
+        <h1 className="text-4xl font-bold tracking-tight text-ink-900 dark:text-white">{title}</h1>
         <p className="mt-1.5 text-[15px] text-ink-500 dark:text-white/60">{blurb}</p>
         <p className="mt-2 text-xs text-ink-500 dark:text-white/50">{PRIVACY_LINE}</p>
       </div>

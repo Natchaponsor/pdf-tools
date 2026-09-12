@@ -156,7 +156,7 @@ export function CompressPdf() {
   return (
     <div className="space-y-6">
       <header className="space-y-1">
-        <h1 className="text-3xl font-bold tracking-tight text-ink-900 dark:text-white">Compress PDF</h1>
+        <h1 className="text-4xl font-bold tracking-tight text-ink-900 dark:text-white">Compress PDF</h1>
         <p className="text-[15px] text-ink-500 dark:text-white/60">
           Shrink one or several PDFs for email or upload. Combined size up to{' '}
           {formatBytes(MAX_COMPRESS_BYTES)}.

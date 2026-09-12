@@ -6,7 +6,7 @@ export function Home({ compact = false }: { compact?: boolean }) {
     <div className="space-y-8">
       {!compact && (
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-ink-900 dark:text-white">
+          <h1 className="text-4xl font-bold tracking-tight text-ink-900 dark:text-white">
             Private PDF tools
           </h1>
           <p className="text-base text-ink-500 dark:text-white/60">
@@ -15,28 +15,65 @@ export function Home({ compact = false }: { compact?: boolean }) {
         </div>
       )}
 
-      {TOOL_SECTIONS.map((section) => (
-        <section key={section.id} className="space-y-3">
-          {section.title && (
-            <div>
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-500 dark:text-white/50">
-                {section.title}
-              </h2>
-              {section.description && (
-                <p className="mt-1 text-[13px] text-ink-500 dark:text-white/50">
-                  {section.description}
-                </p>
-              )}
+      {TOOL_SECTIONS.map((section) => {
+        // The unlabeled main section leads with its headline tool (Compress,
+        // per README/PRODUCT.md) as a full-width feature, not one more card
+        // in an equal-weight grid — everything after it stays a plain grid.
+        const isMain = section.title === null;
+        const featured = isMain ? section.tools[0] : null;
+        const gridTools = isMain ? section.tools.slice(1) : section.tools;
+        return (
+          <section key={section.id} className="space-y-3">
+            {section.title && (
+              <div>
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-500 dark:text-white/50">
+                  {section.title}
+                </h2>
+                {section.description && (
+                  <p className="mt-1 text-[13px] text-ink-500 dark:text-white/50">
+                    {section.description}
+                  </p>
+                )}
+              </div>
+            )}
+            {featured && <FeaturedToolCard tool={featured} />}
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+              {gridTools.map((tool) => (
+                <ToolCard key={tool.id} tool={tool} />
+              ))}
             </div>
-          )}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-            {section.tools.map((tool) => (
-              <ToolCard key={tool.id} tool={tool} />
-            ))}
-          </div>
-        </section>
-      ))}
+          </section>
+        );
+      })}
     </div>
+  );
+}
+
+function FeaturedToolCard({ tool }: { tool: Tool }) {
+  return (
+    <button
+      type="button"
+      onClick={() => navigate(tool.route)}
+      className="flex w-full items-center gap-4 rounded-2xl bg-brand-700 p-5 text-left transition-[transform,background-color] duration-150 hover:bg-brand-800 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-300 sm:gap-5 sm:p-6 dark:bg-brand-800 dark:hover:bg-brand-900"
+    >
+      <span className="grid h-14 w-14 shrink-0 place-items-center rounded-lg bg-white/15 text-white sm:h-16 sm:w-16">
+        <tool.icon className="h-8 w-8" />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-xl font-bold text-white sm:text-2xl">{tool.title}</span>
+        <span className="mt-0.5 block text-sm text-brand-100">{tool.blurb}</span>
+      </span>
+      <svg
+        className="hidden h-6 w-6 shrink-0 text-white/70 sm:block"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        aria-hidden="true"
+      >
+        <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
   );
 }
 
