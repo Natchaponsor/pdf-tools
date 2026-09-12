@@ -40,7 +40,7 @@ export function SaveAs({ blob, defaultName, variant = 'button', label = 'Downloa
         <button
           type="button"
           onClick={save}
-          className="shrink-0 rounded-lg bg-brand-600 px-2.5 py-1.5 text-sm font-semibold text-white hover:bg-brand-700"
+          className="shrink-0 rounded-lg bg-brand-600 px-2.5 py-1.5 text-sm font-semibold text-white transition-transform active:scale-[0.97] hover:bg-brand-700"
         >
           Save
         </button>
@@ -50,19 +50,19 @@ export function SaveAs({ blob, defaultName, variant = 'button', label = 'Downloa
 
   return (
     <div className="flex flex-wrap items-stretch gap-2">
-      <span className="flex min-w-0 flex-1 items-center rounded-xl border border-paper-200 bg-white dark:border-white/15 dark:bg-white/10">
+      <span className="flex min-w-0 flex-1 items-center rounded-lg border border-paper-200 bg-white dark:border-white/15 dark:bg-white/10">
         <input
           aria-label="File name"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="min-w-0 flex-1 rounded-l-xl bg-transparent px-3 py-2.5 text-sm outline-none"
+          className="min-w-0 flex-1 rounded-l-lg bg-transparent px-3 py-2.5 text-sm outline-none"
         />
         <span className="pr-3 text-sm text-ink-500 dark:text-white/50">{ext}</span>
       </span>
       <button
         type="button"
         onClick={save}
-        className="shrink-0 rounded-xl bg-brand-600 px-4 py-2.5 font-semibold text-white hover:bg-brand-700"
+        className="shrink-0 rounded-lg bg-brand-600 px-4 py-2.5 font-semibold text-white transition-transform active:scale-[0.97] hover:bg-brand-700"
       >
         {label}
       </button>

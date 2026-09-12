@@ -29,17 +29,25 @@ export function FileDrop({ accept, multiple = false, hint, onFiles }: Props) {
       }}
       onDragLeave={() => setOver(false)}
       onDrop={handleDrop}
-      className={`flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-colors ${
+      className={`flex w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-14 text-center transition-[transform,background-color,border-color] duration-150 active:scale-[0.99] ${
         over
           ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/30'
           : 'border-paper-200 bg-white hover:border-brand-300 dark:border-white/15 dark:bg-white/5'
       }`}
     >
-      <svg className="h-9 w-9 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-        <path d="M12 16V4m0 0L7 9m5-5 5 5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" strokeLinecap="round" />
-      </svg>
-      <span className="font-semibold text-ink-900 dark:text-white">
+      <span
+        className={`grid h-14 w-14 place-items-center rounded-lg transition-colors ${
+          over
+            ? 'bg-brand-100 text-brand-700 dark:bg-brand-800/50 dark:text-brand-200'
+            : 'bg-brand-50 text-brand-600 dark:bg-brand-900/40 dark:text-brand-300'
+        }`}
+      >
+        <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+          <path d="M12 16V4m0 0L7 9m5-5 5 5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" strokeLinecap="round" />
+        </svg>
+      </span>
+      <span className="text-[15px] font-semibold text-ink-900 dark:text-white">
         Choose a file or drag it here
       </span>
       <span className="text-sm text-ink-500 dark:text-white/60">{hint}</span>
