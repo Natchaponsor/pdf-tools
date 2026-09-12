@@ -42,8 +42,11 @@
 }
 
 /* ─── Seasonal themes ──────────────────────────────────────────────────────
-   Each overrides the Tailwind theme custom properties (re-skinning every
-   utility that references them) and defines five feature-tile colours. */
+   Each overrides the Tailwind theme custom properties, re-skinning every
+   utility that references them (buttons, borders, chips, text). Fall also
+   defines five rotating feature-card tile colours; Spring, Summer, and
+   Winter use one shared card treatment instead — see "Seasonal feature
+   cards" further down. */
 
 /* Palettes from the "Colors of the Seasons" reference (CodeofColors.com). */
 
@@ -70,11 +73,8 @@
   --color-ink-700: #5c4f46;
   --color-ink-900: #4a3f38;
 
-  --t1-bg: #f3a8bc; --t1-fg: #8a2947; --t1-chip: rgb(0 0 0 / 0.06); /* #F3A8BC */
-  --t2-bg: #f5ad94; --t2-fg: #9c3f1f; --t2-chip: rgb(0 0 0 / 0.06); /* #F5AD94 */
-  --t3-bg: #fff1a6; --t3-fg: #806a0d; --t3-chip: rgb(0 0 0 / 0.06); /* #FFF1A6 */
-  --t4-bg: #b4f9a5; --t4-fg: #256821; --t4-chip: rgb(0 0 0 / 0.06); /* #B4F9A5 */
-  --t5-bg: #9ee7f5; --t5-fg: #146374; --t5-chip: rgb(0 0 0 / 0.06); /* #9EE7F5 */
+  /* Feature-card surface: see the shared rule below "Seasonal feature cards". */
+  --card-bg: #fff9fb;
 }
 
 [data-theme='summer'] {
@@ -100,11 +100,7 @@
   --color-ink-700: #3a4a4f;
   --color-ink-900: #26383f;
 
-  --t1-bg: #236e96; --t1-fg: #eaf4fa; --t1-chip: rgb(255 255 255 / 0.16); /* #236E96 */
-  --t2-bg: #15b2d3; --t2-fg: #073c49; --t2-chip: rgb(0 0 0 / 0.08); /* #15B2D3 */
-  --t3-bg: #ffd700; --t3-fg: #665400; --t3-chip: rgb(0 0 0 / 0.09); /* #FFD700 */
-  --t4-bg: #f3872f; --t4-fg: #5e2f0a; --t4-chip: rgb(0 0 0 / 0.08); /* #F3872F */
-  --t5-bg: #ff598f; --t5-fg: #6b1233; --t5-chip: rgb(0 0 0 / 0.08); /* #FF598F */
+  --card-bg: #fcfeff;
 }
 
 [data-theme='fall'] {
@@ -160,49 +156,80 @@
   --color-ink-700: #cfe0e9;
   --color-ink-900: #eef4f7;
 
-  --t1-bg: #84a5b8; --t1-fg: #1c333d; --t1-chip: rgb(0 0 0 / 0.07); /* #84A5B8 */
-  --t2-bg: #b3daf1; --t2-fg: #184863; --t2-chip: rgb(0 0 0 / 0.05); /* #B3DAF1 */
-  --t3-bg: #cbcbcb; --t3-fg: #333333; --t3-chip: rgb(0 0 0 / 0.05); /* #CBCBCB */
-  --t4-bg: #707571; --t4-fg: #eef1ef; --t4-chip: rgb(255 255 255 / 0.14); /* #707571 */
-  --t5-bg: #42687c; --t5-fg: #e6eef2; --t5-chip: rgb(255 255 255 / 0.14); /* #42687C */
+  /* No --card-bg override: Winter is a night palette on the shared `dark:`
+     variant, so its cards use the same translucent elevation as Dark
+     (`dark:bg-white/5` etc., set on .tool-card in Home.tsx) over its own
+     dusk-blue background — one consistent treatment, no new tokens needed. */
 }
 
-/* Feature tiles: solid colour blocks with the title + icon knocked out. */
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card {
+/* Fall keeps its original five-colour tile treatment — solid blocks with the
+   title + icon knocked out, cycling by card position. Spring, Summer, and
+   Winter were redesigned off this pattern (see "Seasonal feature cards"
+   below): one shared card colour per theme instead of five rotating ones. */
+[data-theme='fall'] .tool-card {
   border-color: transparent;
   background: var(--t-bg);
   color: var(--t-fg);
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:hover {
+[data-theme='fall'] .tool-card:hover {
   border-color: transparent;
   filter: brightness(0.95);
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 1) {
-  --t-bg: var(--t1-bg); --t-fg: var(--t1-fg); --t-chip: var(--t1-chip);
+[data-theme='fall'] .tool-card:nth-child(5n + 1) {
+  --t-bg: #603c14; --t-fg: #f3e8da; --t-chip: rgb(255 255 255 / 0.13); /* #603C14 */
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 2) {
-  --t-bg: var(--t2-bg); --t-fg: var(--t2-fg); --t-chip: var(--t2-chip);
+[data-theme='fall'] .tool-card:nth-child(5n + 2) {
+  --t-bg: #9c2706; --t-fg: #fce7de; --t-chip: rgb(255 255 255 / 0.14); /* #9C2706 */
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 3) {
-  --t-bg: var(--t3-bg); --t-fg: var(--t3-fg); --t-chip: var(--t3-chip);
+[data-theme='fall'] .tool-card:nth-child(5n + 3) {
+  --t-bg: #d45b12; --t-fg: #fdefe3; --t-chip: rgb(255 255 255 / 0.16); /* #D45B12 */
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 4) {
-  --t-bg: var(--t4-bg); --t-fg: var(--t4-fg); --t-chip: var(--t4-chip);
+[data-theme='fall'] .tool-card:nth-child(5n + 4) {
+  --t-bg: #f3bc2e; --t-fg: #684608; --t-chip: rgb(0 0 0 / 0.09); /* #F3BC2E */
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card:nth-child(5n + 5) {
-  --t-bg: var(--t5-bg); --t-fg: var(--t5-fg); --t-chip: var(--t5-chip);
+[data-theme='fall'] .tool-card:nth-child(5n + 5) {
+  --t-bg: #5f5426; --t-fg: #f1eee0; --t-chip: rgb(255 255 255 / 0.13); /* #5F5426 */
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card__title {
+[data-theme='fall'] .tool-card__title {
   color: var(--t-fg);
   font-size: 1.0625rem;
   line-height: 1.15;
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card__blurb {
+[data-theme='fall'] .tool-card__blurb {
   display: none;
 }
-:is([data-theme='spring'], [data-theme='summer'], [data-theme='fall'], [data-theme='winter']) .tool-card__icon {
+[data-theme='fall'] .tool-card__icon {
   color: var(--t-fg);
   background: var(--t-chip);
+}
+
+/* ─── Seasonal feature cards (Spring / Summer / Winter) ────────────────────
+   Redesigned so every card in a theme shares one base surface and one accent,
+   the same pattern Light and Dark already use — instead of five rotating
+   tile colours. Base = --card-bg (a whisper of the theme's hue over white,
+   distinct from the tinted page background so cards still read as "raised");
+   Winter has none and inherits Dark's translucent elevation, since it rides
+   the same `dark:` variant. Accent = the theme's own brand-600/700 ramp,
+   already used everywhere else (buttons, links, the active nav state) —
+   reused here for the icon chip and hover border so the accent, not the
+   card, carries the seasonal colour. Typeface is unchanged: the system font
+   stack stays the same across every theme for scanability and because
+   swapping faces would mean either a CDN font request or a new self-hosted
+   asset for a personalisation feature — not worth spending either budget on. */
+[data-theme='spring'] .tool-card,
+[data-theme='summer'] .tool-card {
+  background: var(--card-bg);
+}
+/* ink-500 (the default `.tool-card__blurb` colour) falls under 4.5:1 on
+   Spring's near-white card; ink-700 clears it with room to spare. */
+[data-theme='spring'] .tool-card__blurb {
+  color: var(--color-ink-700);
+}
+/* Winter's card wash is lighter than Dark's near-black one, so the default
+   `dark:text-white/60` blurb drops under 4.5:1 here; its own ink-700 token
+   (already tuned for this background) clears it. */
+[data-theme='winter'] .tool-card__blurb {
+  color: var(--color-ink-700);
 }
 
 html {
