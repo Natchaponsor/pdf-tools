@@ -16,12 +16,12 @@ export function Home({ compact = false }: { compact?: boolean }) {
       )}
 
       {TOOL_SECTIONS.map((section) => {
-        // The unlabeled main section leads with its headline tool (Compress,
-        // per README/PRODUCT.md) as a full-width feature, not one more card
-        // in an equal-weight grid — everything after it stays a plain grid.
+        // The unlabeled main section leads with its headline tools (marked
+        // `featured` in tools.ts) as full-width features, not equal-weight
+        // cards in the grid — everything else stays a plain grid.
         const isMain = section.title === null;
-        const featured = isMain ? section.tools[0] : null;
-        const gridTools = isMain ? section.tools.slice(1) : section.tools;
+        const featured = isMain ? section.tools.filter((t) => t.featured) : [];
+        const gridTools = isMain ? section.tools.filter((t) => !t.featured) : section.tools;
         return (
           <section key={section.id} className="space-y-3">
             {section.title && (
@@ -36,7 +36,13 @@ export function Home({ compact = false }: { compact?: boolean }) {
                 )}
               </div>
             )}
-            {featured && <FeaturedToolCard tool={featured} />}
+            {featured.length > 0 && (
+              <div className="space-y-3">
+                {featured.map((tool) => (
+                  <FeaturedToolCard key={tool.id} tool={tool} />
+                ))}
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
               {gridTools.map((tool) => (
                 <ToolCard key={tool.id} tool={tool} />

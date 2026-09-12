@@ -230,6 +230,44 @@ export function IconLoader(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function IconTrash(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+      <path d="M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" />
+      <path d="M10 11v6M14 11v6" />
+    </svg>
+  );
+}
+
+/** A plain return-arrow — deliberately distinct from IconRotate's page motif. */
+export function IconUndo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M7 8H4V5" />
+      <path d="M4 8a8 8 0 1 1-2 6" />
+    </svg>
+  );
+}
+
+export function IconZoomIn(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="M10.5 8v5M8 10.5h5" />
+      <path d="m20 20-4.3-4.3" />
+    </svg>
+  );
+}
+
+export function IconClose(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  );
+}
+
 /** GitHub mark — a filled glyph, so it doesn't use the line-icon base(). */
 export function IconGitHub(props: SVGProps<SVGSVGElement>) {
   return (

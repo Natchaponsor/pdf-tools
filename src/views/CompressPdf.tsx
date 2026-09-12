@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { FileDrop } from '../components/FileDrop';
-import { ProgressBar } from '../components/ProgressBar';
 import { Notice } from '../components/Notice';
 import { MAX_COMPRESS_BYTES, PRIVACY_LINE } from '../lib/constants';
 import { formatBytes, formatDuration, percentSmaller } from '../lib/format';
@@ -13,7 +12,8 @@ import {
 import { renderFirstPage } from '../lib/pdfDoc';
 import { downloadBlob } from '../lib/download';
 import { SaveAs } from '../components/SaveAs';
-import { IconLoader } from '../components/icons';
+import { WorkingCard } from '../components/WorkingCard';
+import { FilePickerButton } from '../components/FilePickerButton';
 import { takeHandoff } from '../lib/handoff';
 
 interface Item {
@@ -285,22 +285,12 @@ export function CompressPdf() {
           )}
 
           {phase.kind === 'working' && (
-            <div className="animate-enter flex items-start gap-4 rounded-2xl border border-paper-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
-              <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-900/40 dark:text-brand-300">
-                <IconLoader className="h-5 w-5 animate-spin" />
-              </span>
-              <div className="min-w-0 flex-1 space-y-3">
-                {phase.total > 1 && (
-                  <p className="text-sm font-medium text-ink-700 dark:text-white/80">
-                    File {phase.done + 1} of {phase.total}: {phase.current}
-                  </p>
-                )}
-                <ProgressBar ratio={phase.progress.ratio} label={phase.progress.note} />
-                <p className="text-xs text-ink-500 dark:text-white/50">
-                  Large scans can take a minute each. Everything runs in this tab.
-                </p>
-              </div>
-            </div>
+            <WorkingCard
+              ratio={phase.progress.ratio}
+              label={phase.progress.note}
+              title={phase.total > 1 ? `File ${phase.done + 1} of ${phase.total}: ${phase.current}` : undefined}
+              note="Large scans can take a minute each. Everything runs in this tab."
+            />
           )}
         </>
       )}
@@ -409,33 +399,6 @@ function Results({
         Compress more
       </button>
     </div>
-  );
-}
-
-function FilePickerButton({ onFiles }: { onFiles: (files: File[]) => void }) {
-  const ref = useRef<HTMLInputElement>(null);
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => ref.current?.click()}
-        className="font-medium text-brand-700 hover:underline dark:text-brand-300"
-      >
-        Add files
-      </button>
-      <input
-        ref={ref}
-        type="file"
-        accept="application/pdf,.pdf"
-        multiple
-        className="hidden"
-        onChange={(e) => {
-          const files = Array.from(e.target.files ?? []);
-          if (files.length) onFiles(files);
-          e.target.value = '';
-        }}
-      />
-    </>
   );
 }
 

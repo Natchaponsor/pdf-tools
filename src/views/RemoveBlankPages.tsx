@@ -5,6 +5,8 @@ import { FileDrop } from '../components/FileDrop';
 import { Notice } from '../components/Notice';
 import { ProgressBar } from '../components/ProgressBar';
 import { DownloadCard } from '../components/DownloadCard';
+import { PageTileOverlay, tileBorderClass } from '../components/PageTileOverlay';
+import { PageZoomModal } from '../components/PageZoomModal';
 import { FileRow } from './AddPageNumbers';
 import { usePageThumbnails } from '../lib/usePageThumbnails';
 import { useBlankDetection } from '../lib/useBlankDetection';
@@ -22,6 +24,7 @@ export function RemoveBlankPages() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ blob: Blob; bytes: number } | null>(null);
+  const [zoomIndex, setZoomIndex] = useState<number | null>(null);
   const outUrl = useRef<string | null>(null);
 
   const { pages, pageCount, loading, error: loadError } = usePageThumbnails(file);
@@ -126,39 +129,20 @@ export function RemoveBlankPages() {
                   const remove = willRemove(page.index);
                   const isBlank = blank[page.index];
                   return (
-                    <li key={page.index}>
-                      <button
-                        type="button"
-                        onClick={() => toggle(page.index)}
-                        aria-pressed={remove}
-                        aria-label={`Page ${page.index + 1}${remove ? ', marked for removal' : ''}`}
-                        className={`relative block w-full overflow-hidden rounded-lg border-2 transition-colors ${
-                          remove
-                            ? 'border-red-400 ring-2 ring-red-400/30'
-                            : 'border-paper-200 hover:border-brand-300 dark:border-white/15'
-                        }`}
-                      >
-                        <span
-                          className={`block aspect-3/4 bg-white transition-opacity dark:bg-white/5 ${
-                            remove ? 'opacity-45' : ''
-                          }`}
-                        >
-                          {page.url ? (
-                            <img src={page.url} alt="" className="h-full w-full object-contain" />
-                          ) : (
-                            <span className="grid h-full place-items-center text-xs text-ink-500">…</span>
-                          )}
-                        </span>
-                        <span className="absolute left-1 top-1 grid h-5 min-w-5 place-items-center rounded-full bg-black/60 px-1 text-[10px] font-semibold text-white">
-                          {page.index + 1}
-                        </span>
-                        {isBlank && (
-                          <span className="absolute right-1 top-1 rounded bg-amber-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
+                    <PageTileOverlay
+                      key={page.index}
+                      position={page.index + 1}
+                      onZoom={() => setZoomIndex(page.index)}
+                      bottomLeft={
+                        isBlank && (
+                          <span className="rounded bg-amber-500 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
                             Blank
                           </span>
-                        )}
+                        )
+                      }
+                      bottomRight={
                         <span
-                          className={`absolute bottom-1 right-1 grid h-6 w-6 place-items-center rounded-full text-xs font-bold ${
+                          className={`grid h-6 w-6 place-items-center rounded-full text-xs font-bold ${
                             remove
                               ? 'bg-red-500 text-white'
                               : 'bg-white/85 text-ink-500 dark:bg-black/40 dark:text-white/70'
@@ -166,11 +150,32 @@ export function RemoveBlankPages() {
                         >
                           {remove ? '✕' : '✓'}
                         </span>
+                      }
+                    >
+                      <button
+                        type="button"
+                        onClick={() => toggle(page.index)}
+                        onDoubleClick={() => setZoomIndex(page.index)}
+                        aria-pressed={remove}
+                        aria-label={`Page ${page.index + 1}${remove ? ', marked for removal' : ''}`}
+                        className={`relative block aspect-3/4 w-full overflow-hidden rounded-lg border-2 bg-white transition-[colors,opacity] dark:bg-white/5 ${tileBorderClass(
+                          remove ? 'danger' : 'neutral',
+                        )} ${remove ? 'opacity-45' : ''}`}
+                      >
+                        {page.url ? (
+                          <img src={page.url} alt="" className="h-full w-full object-contain" />
+                        ) : (
+                          <span className="grid h-full place-items-center text-xs text-ink-500">…</span>
+                        )}
                       </button>
-                    </li>
+                    </PageTileOverlay>
                   );
                 })}
               </ul>
+
+              {zoomIndex != null && (
+                <PageZoomModal file={file} pageIndex={zoomIndex} onClose={() => setZoomIndex(null)} />
+              )}
 
               <p className="text-xs text-ink-500 dark:text-white/50">
                 Tap a page to change whether it&rsquo;s removed. Everything shown here is a suggestion

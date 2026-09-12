@@ -66,3 +66,53 @@ export async function renderFirstPage(
     height: res.height as number,
   };
 }
+
+/** Render one page of a standalone file at higher resolution, for a zoomed preview. */
+export async function renderPageHiRes(
+  file: File,
+  page: number,
+  opts?: { dpi?: number; format?: RasterFormat; quality?: number },
+): Promise<RenderedPage> {
+  const doc = await openDoc(file);
+  try {
+    return await renderPage(doc.docId, page, {
+      dpi: opts?.dpi ?? 300,
+      format: opts?.format ?? 'jpeg',
+      quality: opts?.quality ?? 90,
+    });
+  } finally {
+    doc.close();
+  }
+}
+
+export interface ExportedImage {
+  name: string;
+  blob: Blob;
+}
+
+/** Render every page of a PDF blob to images — used to offer JPG/PNG at export time. */
+export async function convertPdfToImages(
+  blob: Blob,
+  format: RasterFormat,
+  baseName: string,
+  opts?: { dpi?: number; quality?: number },
+): Promise<ExportedImage[]> {
+  const buffer = await blob.arrayBuffer();
+  const doc = await openDoc(buffer);
+  try {
+    const ext = format === 'png' ? 'png' : 'jpg';
+    const pad = String(doc.pageCount).length;
+    const images: ExportedImage[] = [];
+    for (let i = 0; i < doc.pageCount; i++) {
+      const { blob: pageBlob } = await renderPage(doc.docId, i, {
+        dpi: opts?.dpi ?? 150,
+        format,
+        quality: opts?.quality,
+      });
+      images.push({ name: `${baseName}-p${String(i + 1).padStart(pad, '0')}.${ext}`, blob: pageBlob });
+    }
+    return images;
+  } finally {
+    doc.close();
+  }
+}

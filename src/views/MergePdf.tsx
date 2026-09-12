@@ -3,7 +3,8 @@ import { ToolShell } from '../components/ToolShell';
 import { FileDrop } from '../components/FileDrop';
 import { Notice } from '../components/Notice';
 import { DownloadCard } from '../components/DownloadCard';
-import { ProgressBar } from '../components/ProgressBar';
+import { WorkingCard } from '../components/WorkingCard';
+import { FilePickerButton } from '../components/FilePickerButton';
 import { mergePdfs } from '../lib/pdf';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
@@ -94,72 +95,90 @@ export function MergePdf() {
         />
       ) : (
         <>
-          <FileDrop
-            accept="application/pdf,.pdf"
-            multiple
-            hint="Two or more PDFs"
-            onFiles={add}
-          />
+          {items.length === 0 ? (
+            <FileDrop
+              accept="application/pdf,.pdf"
+              multiple
+              hint="Two or more PDFs"
+              onFiles={add}
+            />
+          ) : (
+            <div className="animate-enter space-y-3">
+              <ol className="divide-y divide-paper-200 overflow-hidden rounded-2xl border border-paper-200 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-white/5">
+                {items.map((it, i) => (
+                  <li key={it.key} className="flex items-center gap-3 p-3">
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-paper-100 text-xs font-semibold text-ink-500 dark:bg-white/10">
+                      {i + 1}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-medium text-ink-900 dark:text-white">
+                        {it.file.name}
+                      </p>
+                      <p className="text-sm text-ink-500 dark:text-white/60">
+                        {formatBytes(it.file.size)}
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => move(i, -1)}
+                        disabled={i === 0 || busy}
+                        aria-label="Move up"
+                        className="rounded-md px-2 py-1 text-ink-500 hover:bg-paper-100 disabled:opacity-30 dark:hover:bg-white/10"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => move(i, 1)}
+                        disabled={i === items.length - 1 || busy}
+                        aria-label="Move down"
+                        className="rounded-md px-2 py-1 text-ink-500 hover:bg-paper-100 disabled:opacity-30 dark:hover:bg-white/10"
+                      >
+                        ↓
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => remove(it.key)}
+                        disabled={busy}
+                        aria-label={`Remove ${it.file.name}`}
+                        className="rounded-md px-2 py-1 text-sm text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ol>
 
-          {items.length > 0 && (
-            <ol className="space-y-2">
-              {items.map((it, i) => (
-                <li
-                  key={it.key}
-                  className="flex items-center gap-3 rounded-xl border border-paper-200 bg-white p-3 dark:border-white/10 dark:bg-white/5"
-                >
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-paper-100 text-xs font-semibold text-ink-500 dark:bg-white/10">
-                    {i + 1}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-ink-900 dark:text-white">
-                      {it.file.name}
-                    </p>
-                    <p className="text-sm text-ink-500 dark:text-white/60">
-                      {formatBytes(it.file.size)}
-                    </p>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-1">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-ink-500 dark:text-white/60">
+                  {items.length} file{items.length === 1 ? '' : 's'} ·{' '}
+                  {formatBytes(items.reduce((sum, it) => sum + it.file.size, 0))}
+                </span>
+                {!busy && (
+                  <div className="flex gap-3">
+                    <FilePickerButton onFiles={add} />
                     <button
                       type="button"
-                      onClick={() => move(i, -1)}
-                      disabled={i === 0 || busy}
-                      aria-label="Move up"
-                      className="rounded-md px-2 py-1 text-ink-500 hover:bg-paper-100 disabled:opacity-30 dark:hover:bg-white/10"
+                      onClick={reset}
+                      className="font-medium text-ink-500 hover:text-ink-900 dark:hover:text-white"
                     >
-                      ↑
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => move(i, 1)}
-                      disabled={i === items.length - 1 || busy}
-                      aria-label="Move down"
-                      className="rounded-md px-2 py-1 text-ink-500 hover:bg-paper-100 disabled:opacity-30 dark:hover:bg-white/10"
-                    >
-                      ↓
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => remove(it.key)}
-                      disabled={busy}
-                      aria-label={`Remove ${it.file.name}`}
-                      className="rounded-md px-2 py-1 text-sm text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
-                    >
-                      ✕
+                      Clear all
                     </button>
                   </div>
-                </li>
-              ))}
-            </ol>
+                )}
+              </div>
+            </div>
           )}
 
-          {busy && <ProgressBar ratio={null} label="Merging…" />}
+          {busy && <WorkingCard ratio={null} label="Merging…" />}
 
           {items.length >= 2 && !busy && (
             <button
               type="button"
               onClick={run}
-              className="w-full rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white hover:bg-brand-700"
+              className="w-full rounded-lg bg-brand-600 px-4 py-3 font-semibold text-white shadow-sm transition-[transform,background-color] duration-150 hover:bg-brand-700 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
             >
               Merge {items.length} PDFs
             </button>

@@ -8,6 +8,8 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
+  type DragOverEvent,
+  type DragStartEvent,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -22,6 +24,9 @@ import { FileDrop } from '../components/FileDrop';
 import { Notice } from '../components/Notice';
 import { ProgressBar } from '../components/ProgressBar';
 import { DownloadCard } from '../components/DownloadCard';
+import { WorkingCard } from '../components/WorkingCard';
+import { PageTileOverlay, tileBorderClass } from '../components/PageTileOverlay';
+import { PageZoomModal } from '../components/PageZoomModal';
 import { FileRow } from './AddPageNumbers';
 import { openDoc, renderPage } from '../lib/pdfDoc';
 import { organizePages, type RotationAngle, type PageOp } from '../lib/pdf';
@@ -29,6 +34,7 @@ import { bytesToBlob } from '../lib/download';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
 import { takeHandoff } from '../lib/handoff';
+import { IconRotate, IconTrash, IconUndo } from '../components/icons';
 
 interface PageCard {
   id: string;
@@ -45,6 +51,9 @@ export function OrganizePages() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ blob: Blob; bytes: number } | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [overId, setOverId] = useState<string | null>(null);
+  const [zoomIndex, setZoomIndex] = useState<number | null>(null);
   const urls = useRef<string[]>([]);
   const outUrl = useRef<string | null>(null);
 
@@ -100,8 +109,18 @@ export function OrganizePages() {
     }
   }
 
+  function onDragStart(event: DragStartEvent) {
+    setActiveId(String(event.active.id));
+  }
+
+  function onDragOver(event: DragOverEvent) {
+    setOverId(event.over ? String(event.over.id) : null);
+  }
+
   function onDragEnd(event: DragEndEvent) {
     const { active, over } = event;
+    setActiveId(null);
+    setOverId(null);
     if (!over || active.id === over.id) return;
     setCards((prev) => {
       const from = prev.findIndex((c) => c.id === active.id);
@@ -109,6 +128,11 @@ export function OrganizePages() {
       return arrayMove(prev, from, to);
     });
     setResult(null);
+  }
+
+  function onDragCancel() {
+    setActiveId(null);
+    setOverId(null);
   }
 
   const update = (id: string, patch: Partial<PageCard>) => {
@@ -149,6 +173,9 @@ export function OrganizePages() {
   const dirty =
     cards.some((c, i) => c.deleted || c.rotate !== 0 || c.sourceIndex !== i);
 
+  const activeIndex = activeId ? cards.findIndex((c) => c.id === activeId) : -1;
+  const overIndex = overId ? cards.findIndex((c) => c.id === overId) : -1;
+
   return (
     <ToolShell
       title="Organize pages"
@@ -173,7 +200,10 @@ export function OrganizePages() {
               <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
+                onDragStart={onDragStart}
+                onDragOver={onDragOver}
                 onDragEnd={onDragEnd}
+                onDragCancel={onDragCancel}
               >
                 <SortableContext items={cards.map((c) => c.id)} strategy={rectSortingStrategy}>
                   <ul className="grid grid-cols-3 gap-3 sm:grid-cols-4">
@@ -182,17 +212,34 @@ export function OrganizePages() {
                         key={card.id}
                         card={card}
                         position={i + 1}
+                        dropEdge={
+                          activeId && overId === card.id && card.id !== activeId
+                            ? activeIndex < overIndex
+                              ? 'right'
+                              : 'left'
+                            : null
+                        }
                         onRotate={() =>
                           update(card.id, {
                             rotate: (((card.rotate + 90) % 360) as RotationAngle),
                           })
                         }
                         onToggleDelete={() => update(card.id, { deleted: !card.deleted })}
+                        onZoom={() => setZoomIndex(card.sourceIndex)}
                       />
                     ))}
                   </ul>
                 </SortableContext>
               </DndContext>
+
+              {zoomIndex != null && (
+                <PageZoomModal
+                  file={file}
+                  pageIndex={zoomIndex}
+                  rotationDeg={cards.find((c) => c.sourceIndex === zoomIndex)?.rotate ?? 0}
+                  onClose={() => setZoomIndex(null)}
+                />
+              )}
 
               {result ? (
                 <DownloadCard
@@ -205,13 +252,13 @@ export function OrganizePages() {
                   chainFrom="organize"
                 />
               ) : busy ? (
-                <ProgressBar ratio={null} label="Building PDF…" />
+                <WorkingCard ratio={null} label="Building PDF…" />
               ) : (
                 <button
                   type="button"
                   onClick={run}
                   disabled={kept.length === 0 || !dirty}
-                  className="w-full rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white hover:bg-brand-700 disabled:opacity-50"
+                  className="w-full rounded-lg bg-brand-600 px-4 py-3 font-semibold text-white shadow-sm transition-[transform,background-color] duration-150 hover:bg-brand-700 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
                 >
                   {dirty ? 'Export new PDF' : 'Make a change to export'}
                 </button>
@@ -227,13 +274,17 @@ export function OrganizePages() {
 function PageTile({
   card,
   position,
+  dropEdge,
   onRotate,
   onToggleDelete,
+  onZoom,
 }: {
   card: PageCard;
   position: number;
+  dropEdge: 'left' | 'right' | null;
   onRotate: () => void;
   onToggleDelete: () => void;
+  onZoom: () => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card.id,
@@ -246,14 +297,16 @@ function PageTile({
   const spin = card.rotate % 360;
 
   return (
-    <li ref={setNodeRef} style={style} className="relative">
+    <PageTileOverlay position={position} onZoom={onZoom} liRef={setNodeRef} liStyle={style}>
       <div
         {...attributes}
         {...listeners}
-        className={`aspect-3/4 cursor-grab touch-none overflow-hidden rounded-lg border bg-white dark:bg-white/5 ${
-          card.deleted
-            ? 'border-red-300 opacity-40'
-            : 'border-paper-200 dark:border-white/15'
+        onDoubleClick={(e) => {
+          e.stopPropagation();
+          onZoom();
+        }}
+        className={`relative aspect-3/4 cursor-grab touch-none overflow-hidden rounded-lg border bg-white transition-colors dark:bg-white/5 ${
+          card.deleted ? `${tileBorderClass('danger')} opacity-40` : tileBorderClass('neutral')
         }`}
       >
         {card.thumbUrl ? (
@@ -267,27 +320,31 @@ function PageTile({
           <div className="grid h-full place-items-center text-xs text-ink-500">…</div>
         )}
       </div>
-      <span className="absolute left-1 top-1 grid h-5 min-w-5 place-items-center rounded-full bg-black/60 px-1 text-[10px] font-semibold text-white">
-        {position}
-      </span>
+      {dropEdge && (
+        <span
+          className={`pointer-events-none absolute top-0 z-10 h-full w-1 rounded-full bg-brand-500 ${
+            dropEdge === 'left' ? '-left-2' : '-right-2'
+          }`}
+        />
+      )}
       <div className="mt-1 flex justify-center gap-1">
         <button
           type="button"
           onClick={onRotate}
           aria-label={`Rotate page ${position}`}
-          className="rounded-md px-2 py-0.5 text-xs text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
+          className="rounded-md p-1 text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
         >
-          ⟳
+          <IconRotate className="h-4 w-4" />
         </button>
         <button
           type="button"
           onClick={onToggleDelete}
           aria-label={card.deleted ? `Restore page ${position}` : `Delete page ${position}`}
-          className="rounded-md px-2 py-0.5 text-xs text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
+          className="rounded-md p-1 text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
         >
-          {card.deleted ? '↺' : '🗑'}
+          {card.deleted ? <IconUndo className="h-4 w-4" /> : <IconTrash className="h-4 w-4" />}
         </button>
       </div>
-    </li>
+    </PageTileOverlay>
   );
 }

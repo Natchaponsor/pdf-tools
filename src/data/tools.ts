@@ -25,6 +25,8 @@ export interface Tool {
   title: string;
   blurb: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
+  /** Rendered as a full-width hero banner on the home screen, not a grid card. */
+  featured?: boolean;
 }
 
 export interface ToolSection {
@@ -42,6 +44,7 @@ const MAIN_TOOLS: Tool[] = [
     title: 'Compress PDF',
     blurb: 'Shrink one or more PDFs for email or upload.',
     icon: IconCompress,
+    featured: true,
   },
   {
     id: 'merge',
@@ -49,6 +52,7 @@ const MAIN_TOOLS: Tool[] = [
     title: 'Merge PDFs',
     blurb: 'Combine several PDFs into one, in your order.',
     icon: IconMerge,
+    featured: true,
   },
   {
     id: 'split',
@@ -63,6 +67,7 @@ const MAIN_TOOLS: Tool[] = [
     title: 'Organize pages',
     blurb: 'Reorder, rotate, or delete pages, then export.',
     icon: IconOrganize,
+    featured: true,
   },
   {
     id: 'rotate',
@@ -176,22 +181,22 @@ export const toolByRoute = (route: string): Tool | undefined =>
   TOOLS.find((t) => route === t.route || route.startsWith(t.route + '/'));
 
 /**
- * A couple of natural next steps per tool, for the "Continue with…" row on a
- * result card. Deliberately short (2 max) and one-directional — this is a
+ * A few natural next steps per tool, for the "Continue with…" row on a
+ * result card. Deliberately short (3 max) and one-directional — this is a
  * shortcut into a related tool, not a workflow graph to maintain in full.
  * Left off entirely where the next likely step isn't a PDF tool at all, or
  * where the result usually stands on its own (e.g. straight after Protect).
  */
 const CHAIN_SUGGESTIONS: Record<string, string[]> = {
-  merge: ['compress', 'protect'],
-  split: ['merge', 'compress'],
-  organize: ['compress', 'protect'],
-  rotate: ['organize', 'compress'],
-  'images-to-pdf': ['compress', 'page-numbers'],
-  'page-numbers': ['watermark', 'protect'],
-  watermark: ['page-numbers', 'protect'],
+  merge: ['page-numbers', 'compress', 'protect'],
+  split: ['merge', 'page-numbers', 'compress'],
+  organize: ['page-numbers', 'compress', 'protect'],
+  rotate: ['organize', 'page-numbers', 'compress'],
+  'images-to-pdf': ['page-numbers', 'watermark', 'compress'],
+  'page-numbers': ['watermark', 'compress', 'protect'],
+  watermark: ['page-numbers', 'compress', 'protect'],
   grayscale: ['compress'],
-  'remove-blank-pages': ['compress', 'organize'],
+  'remove-blank-pages': ['organize', 'page-numbers', 'compress'],
   unlock: ['organize', 'compress'],
 };
 

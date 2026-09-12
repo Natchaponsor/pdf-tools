@@ -4,6 +4,8 @@ import { FileDrop } from '../components/FileDrop';
 import { Notice } from '../components/Notice';
 import { ProgressBar } from '../components/ProgressBar';
 import { DownloadCard } from '../components/DownloadCard';
+import { PageTileOverlay, tileBorderClass } from '../components/PageTileOverlay';
+import { PageZoomModal } from '../components/PageZoomModal';
 import { FileRow } from './AddPageNumbers';
 import { extractPages, parsePageRanges, splitToSinglePages } from '../lib/pdf';
 import { usePageThumbnails } from '../lib/usePageThumbnails';
@@ -28,6 +30,7 @@ export function SplitPdf() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
+  const [zoomIndex, setZoomIndex] = useState<number | null>(null);
   const outUrl = useRef<string | null>(null);
 
   const { pages, pageCount, loading, error: loadError } = usePageThumbnails(file);
@@ -179,46 +182,48 @@ export function SplitPdf() {
                 {pages.map((page) => {
                   const isSelected = selected.has(page.index);
                   return (
-                    <li key={page.index}>
-                      <button
-                        type="button"
-                        onClick={() => toggle(page.index)}
-                        aria-pressed={isSelected}
-                        aria-label={`Page ${page.index + 1}${isSelected ? ', selected' : ''}`}
-                        className={`relative block w-full overflow-hidden rounded-lg border-2 transition-colors ${
-                          isSelected
-                            ? 'border-brand-500 ring-2 ring-brand-500/30'
-                            : 'border-paper-200 hover:border-brand-300 dark:border-white/15'
-                        }`}
-                      >
-                        <span className="block aspect-3/4 bg-white dark:bg-white/5">
-                          {page.url ? (
-                            <img
-                              src={page.url}
-                              alt=""
-                              className={`h-full w-full object-contain ${isSelected ? '' : 'opacity-90'}`}
-                            />
-                          ) : (
-                            <span className="grid h-full place-items-center text-xs text-ink-500">…</span>
-                          )}
-                        </span>
-                        <span className="absolute left-1 top-1 grid h-5 min-w-5 place-items-center rounded-full bg-black/60 px-1 text-[10px] font-semibold text-white">
-                          {page.index + 1}
-                        </span>
+                    <PageTileOverlay
+                      key={page.index}
+                      position={page.index + 1}
+                      onZoom={() => setZoomIndex(page.index)}
+                      bottomRight={
                         <span
-                          className={`absolute right-1 top-1 grid h-5 w-5 place-items-center rounded-full text-[11px] font-bold ${
-                            isSelected
-                              ? 'bg-brand-500 text-white'
-                              : 'bg-white/80 text-ink-500 dark:bg-black/40'
+                          className={`grid h-6 w-6 place-items-center rounded-full text-[11px] font-bold ${
+                            isSelected ? 'bg-brand-500 text-white' : 'bg-white/80 text-ink-500 dark:bg-black/40'
                           }`}
                         >
                           {isSelected ? '✓' : '+'}
                         </span>
+                      }
+                    >
+                      <button
+                        type="button"
+                        onClick={() => toggle(page.index)}
+                        onDoubleClick={() => setZoomIndex(page.index)}
+                        aria-pressed={isSelected}
+                        aria-label={`Page ${page.index + 1}${isSelected ? ', selected' : ''}`}
+                        className={`relative block aspect-3/4 w-full overflow-hidden rounded-lg border-2 transition-colors ${tileBorderClass(
+                          isSelected ? 'selected' : 'neutral',
+                        )}`}
+                      >
+                        {page.url ? (
+                          <img
+                            src={page.url}
+                            alt=""
+                            className={`h-full w-full object-contain ${isSelected ? '' : 'opacity-90'}`}
+                          />
+                        ) : (
+                          <span className="grid h-full place-items-center text-xs text-ink-500">…</span>
+                        )}
                       </button>
-                    </li>
+                    </PageTileOverlay>
                   );
                 })}
               </ul>
+
+              {zoomIndex != null && (
+                <PageZoomModal file={file} pageIndex={zoomIndex} onClose={() => setZoomIndex(null)} />
+              )}
 
               {loading && pages.length > 0 && (
                 <p className="text-xs text-ink-500 dark:text-white/50">
