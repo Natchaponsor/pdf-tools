@@ -8,6 +8,7 @@ import { mergePdfs } from '../lib/pdf';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
 import { bytesToBlob } from '../lib/download';
+import { takeHandoff } from '../lib/handoff';
 
 interface Item {
   file: File;
@@ -19,7 +20,10 @@ const isPdf = (f: File) =>
   f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
 
 export function MergePdf() {
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<Item[]>(() => {
+    const handoff = takeHandoff();
+    return handoff ? [{ file: handoff, key: keyFor(handoff) }] : [];
+  });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ blob: Blob; bytes: number } | null>(null);
@@ -86,6 +90,7 @@ export function MergePdf() {
           filename="merged.pdf"
           blob={result.blob}
           onReset={reset}
+          chainFrom="merge"
         />
       ) : (
         <>

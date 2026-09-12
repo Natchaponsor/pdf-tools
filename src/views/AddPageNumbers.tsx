@@ -5,10 +5,12 @@ import { Notice } from '../components/Notice';
 import { ProgressBar } from '../components/ProgressBar';
 import { bytesToBlob } from '../lib/download';
 import { SaveAs } from '../components/SaveAs';
+import { ChainSuggestions } from '../components/ChainSuggestions';
 import { addPageNumbers, type Corner, type PageNumberOptions } from '../lib/pdf';
 import { renderFirstPage } from '../lib/pdfDoc';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
+import { takeHandoff } from '../lib/handoff';
 
 const CORNERS: Corner[] = [
   'top-left',
@@ -20,7 +22,7 @@ const CORNERS: Corner[] = [
 ];
 
 export function AddPageNumbers() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(() => takeHandoff());
   const [opts, setOpts] = useState<PageNumberOptions>({
     position: 'bottom-center',
     fontSize: 11,
@@ -159,6 +161,7 @@ export function AddPageNumbers() {
           filename={(file?.name.replace(/\.pdf$/i, '') ?? 'document') + '-numbered.pdf'}
           blob={result.blob}
           onReset={reset}
+          chainFrom="page-numbers"
         />
       )}
     </ToolShell>
@@ -190,6 +193,7 @@ export function ResultWithPreview({
   filename,
   blob,
   onReset,
+  chainFrom,
 }: {
   headline: string;
   detail: string;
@@ -197,6 +201,7 @@ export function ResultWithPreview({
   filename: string;
   blob: Blob;
   onReset: () => void;
+  chainFrom?: string;
 }) {
   return (
     <div className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
@@ -214,6 +219,7 @@ export function ResultWithPreview({
         </div>
       </div>
       <SaveAs blob={blob} defaultName={filename} />
+      <ChainSuggestions from={chainFrom} blob={blob} filename={filename} />
       <button
         type="button"
         onClick={onReset}

@@ -14,6 +14,7 @@ import { renderFirstPage } from '../lib/pdfDoc';
 import { downloadBlob } from '../lib/download';
 import { SaveAs } from '../components/SaveAs';
 import { IconLoader } from '../components/icons';
+import { takeHandoff } from '../lib/handoff';
 
 interface Item {
   file: File;
@@ -42,7 +43,10 @@ const isPdf = (f: File) =>
 const outName = (name: string) => name.replace(/\.pdf$/i, '') + '-compressed.pdf';
 
 export function CompressPdf() {
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<Item[]>(() => {
+    const handoff = takeHandoff();
+    return handoff ? [{ file: handoff, key: keyFor(handoff) }] : [];
+  });
   const [level, setLevel] = useState<CompressLevel>('balanced');
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' });
   const [notice, setNotice] = useState<string | null>(null);

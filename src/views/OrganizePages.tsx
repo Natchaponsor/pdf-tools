@@ -21,13 +21,14 @@ import { ToolShell } from '../components/ToolShell';
 import { FileDrop } from '../components/FileDrop';
 import { Notice } from '../components/Notice';
 import { ProgressBar } from '../components/ProgressBar';
+import { DownloadCard } from '../components/DownloadCard';
 import { FileRow } from './AddPageNumbers';
 import { openDoc, renderPage } from '../lib/pdfDoc';
 import { organizePages, type RotationAngle, type PageOp } from '../lib/pdf';
 import { bytesToBlob } from '../lib/download';
-import { SaveAs } from '../components/SaveAs';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
+import { takeHandoff } from '../lib/handoff';
 
 interface PageCard {
   id: string;
@@ -60,6 +61,12 @@ export function OrganizePages() {
     },
     [],
   );
+
+  // Runs once on mount to pick up a "Continue with…" handoff, if any.
+  useEffect(() => {
+    const handoff = takeHandoff();
+    if (handoff) pick([handoff]);
+  }, []);
 
   async function pick(files: File[]) {
     const next = files[0];
@@ -188,22 +195,15 @@ export function OrganizePages() {
               </DndContext>
 
               {result ? (
-                <div className="space-y-3 rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
-                  <p className="text-lg font-bold text-brand-800 dark:text-brand-200">
-                    New PDF ready · {kept.length} pages · {formatBytes(result.bytes)}
-                  </p>
-                  <SaveAs
-                    blob={result.blob}
-                    defaultName={file.name.replace(/\.pdf$/i, '') + '-organized.pdf'}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setResult(null)}
-                    className="text-sm font-semibold text-brand-700 hover:underline dark:text-brand-300"
-                  >
-                    Keep editing
-                  </button>
-                </div>
+                <DownloadCard
+                  headline="New PDF ready"
+                  detail={`${kept.length} pages · ${formatBytes(result.bytes)}`}
+                  filename={file.name.replace(/\.pdf$/i, '') + '-organized.pdf'}
+                  blob={result.blob}
+                  onReset={() => setResult(null)}
+                  resetLabel="Keep editing"
+                  chainFrom="organize"
+                />
               ) : busy ? (
                 <ProgressBar ratio={null} label="Building PDF…" />
               ) : (

@@ -10,11 +10,12 @@ import { organizePages, type PageOp, type RotationAngle } from '../lib/pdf';
 import { bytesToBlob } from '../lib/download';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
+import { takeHandoff } from '../lib/handoff';
 
 const norm = (deg: number): RotationAngle => ((((deg % 360) + 360) % 360) as RotationAngle);
 
 export function RotatePdf() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(() => takeHandoff());
   const [rotations, setRotations] = useState<Record<number, RotationAngle>>({});
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -101,6 +102,7 @@ export function RotatePdf() {
           filename={`${base}-rotated.pdf`}
           blob={result.blob}
           onReset={reset}
+          chainFrom="rotate"
         />
       )}
 

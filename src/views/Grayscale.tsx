@@ -8,6 +8,7 @@ import { FileRow } from './AddPageNumbers';
 import { runGhostscript, type GsProgress } from '../lib/ghostscript';
 import { formatBytes, percentSmaller } from '../lib/format';
 import { errorMessage } from '../lib/errors';
+import { takeHandoff } from '../lib/handoff';
 
 const GRAYSCALE_ARGS = [
   '-sColorConversionStrategy=Gray',
@@ -18,7 +19,7 @@ const GRAYSCALE_ARGS = [
 ];
 
 export function Grayscale() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(() => takeHandoff());
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState<GsProgress>({ ratio: null, note: '' });
   const [error, setError] = useState<string | null>(null);
@@ -79,6 +80,7 @@ export function Grayscale() {
           filename={`${base}-gray.pdf`}
           blob={result.blob}
           onReset={reset}
+          chainFrom="grayscale"
         />
       )}
 

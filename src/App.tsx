@@ -91,9 +91,9 @@ export function App() {
         </header>
 
         <main className="flex-1">
-          <ViewErrorBoundary resetKey={route}>
+          <ViewErrorBoundary resetKey={base}>
             <Suspense fallback={<ViewSkeleton />}>
-              <div key={route} className="animate-enter">
+              <div key={base} className="animate-enter">
                 <View route={route} />
               </div>
             </Suspense>

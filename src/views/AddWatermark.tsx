@@ -9,9 +9,10 @@ import { renderFirstPage } from '../lib/pdfDoc';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
 import { bytesToBlob } from '../lib/download';
+import { takeHandoff } from '../lib/handoff';
 
 export function AddWatermark() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(() => takeHandoff());
   const [opts, setOpts] = useState<WatermarkOptions>({
     text: 'CONFIDENTIAL',
     opacity: 0.2,
@@ -148,6 +149,7 @@ export function AddWatermark() {
           filename={(file?.name.replace(/\.pdf$/i, '') ?? 'document') + '-watermarked.pdf'}
           blob={result.blob}
           onReset={reset}
+          chainFrom="watermark"
         />
       )}
     </ToolShell>

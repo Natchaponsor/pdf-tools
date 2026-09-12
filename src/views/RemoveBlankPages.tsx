@@ -12,11 +12,12 @@ import { extractPages } from '../lib/pdf';
 import { bytesToBlob } from '../lib/download';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
+import { takeHandoff } from '../lib/handoff';
 
 const NO_PAGES: PageThumb[] = [];
 
 export function RemoveBlankPages() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(() => takeHandoff());
   const [overrides, setOverrides] = useState<Record<number, boolean>>({});
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,6 +95,7 @@ export function RemoveBlankPages() {
           filename={`${base}-no-blanks.pdf`}
           blob={result.blob}
           onReset={reset}
+          chainFrom="remove-blank-pages"
         />
       )}
 

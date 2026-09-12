@@ -105,6 +105,7 @@ export function ImagesToPdf() {
           filename="images.pdf"
           blob={result.blob}
           onReset={reset}
+          chainFrom="images-to-pdf"
         />
       ) : (
         <>

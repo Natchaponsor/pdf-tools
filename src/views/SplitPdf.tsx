@@ -4,7 +4,6 @@ import { FileDrop } from '../components/FileDrop';
 import { Notice } from '../components/Notice';
 import { ProgressBar } from '../components/ProgressBar';
 import { DownloadCard } from '../components/DownloadCard';
-import { SaveAs } from '../components/SaveAs';
 import { FileRow } from './AddPageNumbers';
 import { extractPages, parsePageRanges, splitToSinglePages } from '../lib/pdf';
 import { usePageThumbnails } from '../lib/usePageThumbnails';
@@ -12,6 +11,7 @@ import { zipFiles } from '../lib/zip';
 import { bytesToBlob } from '../lib/download';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
+import { takeHandoff } from '../lib/handoff';
 
 type OutputMode = 'combined' | 'separate';
 
@@ -20,7 +20,7 @@ type Result =
   | { kind: 'zip'; blob: Blob; count: number };
 
 export function SplitPdf() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(() => takeHandoff());
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [outputMode, setOutputMode] = useState<OutputMode>('combined');
   const [rangeText, setRangeText] = useState('');
@@ -123,23 +123,17 @@ export function SplitPdf() {
           filename={`${base}-extract.pdf`}
           blob={result.blob}
           onReset={reset}
+          chainFrom="split"
         />
       )}
 
       {file && result?.kind === 'zip' && (
-        <div className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
-          <p className="text-xl font-bold text-brand-800 dark:text-brand-200">
-            {result.count} single-page PDFs
-          </p>
-          <SaveAs blob={result.blob} defaultName={`${base}-pages.zip`} />
-          <button
-            type="button"
-            onClick={reset}
-            className="text-sm font-semibold text-brand-700 hover:underline dark:text-brand-300"
-          >
-            Start over
-          </button>
-        </div>
+        <DownloadCard
+          headline={`${result.count} single-page PDFs`}
+          filename={`${base}-pages.zip`}
+          blob={result.blob}
+          onReset={reset}
+        />
       )}
 
       {file && !result && (

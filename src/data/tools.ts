@@ -174,3 +174,28 @@ export const TOOLS: Tool[] = TOOL_SECTIONS.flatMap((s) => s.tools);
 
 export const toolByRoute = (route: string): Tool | undefined =>
   TOOLS.find((t) => route === t.route || route.startsWith(t.route + '/'));
+
+/**
+ * A couple of natural next steps per tool, for the "Continue with…" row on a
+ * result card. Deliberately short (2 max) and one-directional — this is a
+ * shortcut into a related tool, not a workflow graph to maintain in full.
+ * Left off entirely where the next likely step isn't a PDF tool at all, or
+ * where the result usually stands on its own (e.g. straight after Protect).
+ */
+const CHAIN_SUGGESTIONS: Record<string, string[]> = {
+  merge: ['compress', 'protect'],
+  split: ['merge', 'compress'],
+  organize: ['compress', 'protect'],
+  rotate: ['organize', 'compress'],
+  'images-to-pdf': ['compress', 'page-numbers'],
+  'page-numbers': ['watermark', 'protect'],
+  watermark: ['page-numbers', 'protect'],
+  grayscale: ['compress'],
+  'remove-blank-pages': ['compress', 'organize'],
+  unlock: ['organize', 'compress'],
+};
+
+export function getChainTargets(fromId: string): Tool[] {
+  const ids = CHAIN_SUGGESTIONS[fromId] ?? [];
+  return ids.map((id) => TOOLS.find((t) => t.id === id)).filter((t): t is Tool => !!t);
+}

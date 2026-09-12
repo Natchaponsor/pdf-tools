@@ -8,11 +8,12 @@ import { FileRow } from './AddPageNumbers';
 import { protectPdf, unlockPdf, PERMISSIONS } from '../lib/secure';
 import { formatBytes } from '../lib/format';
 import { errorMessage } from '../lib/errors';
+import { takeHandoff } from '../lib/handoff';
 
 type Mode = 'protect' | 'unlock';
 
 export function ProtectPdf() {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(() => takeHandoff());
   const [mode, setMode] = useState<Mode>('protect');
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
@@ -77,6 +78,7 @@ export function ProtectPdf() {
           filename={`${base}${mode === 'protect' ? '-protected' : '-unlocked'}.pdf`}
           blob={result.blob}
           onReset={reset}
+          chainFrom={mode === 'unlock' ? 'unlock' : undefined}
         />
       )}
 

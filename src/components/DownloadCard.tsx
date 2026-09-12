@@ -1,4 +1,5 @@
 import { SaveAs } from './SaveAs';
+import { ChainSuggestions } from './ChainSuggestions';
 
 interface Props {
   headline: string;
@@ -7,6 +8,8 @@ interface Props {
   blob: Blob;
   onReset: () => void;
   resetLabel?: string;
+  /** Tool id this result came from — enables "Continue with…" shortcuts. */
+  chainFrom?: string;
 }
 
 export function DownloadCard({
@@ -16,6 +19,7 @@ export function DownloadCard({
   blob,
   onReset,
   resetLabel = 'Start over',
+  chainFrom,
 }: Props) {
   return (
     <div className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
@@ -24,6 +28,7 @@ export function DownloadCard({
         {detail && <p className="mt-1 text-sm text-ink-500 dark:text-white/60">{detail}</p>}
       </div>
       <SaveAs blob={blob} defaultName={filename} />
+      <ChainSuggestions from={chainFrom} blob={blob} filename={filename} />
       <button
         type="button"
         onClick={onReset}
