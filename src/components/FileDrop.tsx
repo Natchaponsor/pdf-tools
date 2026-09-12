@@ -29,14 +29,22 @@ export function FileDrop({ accept, multiple = false, hint, onFiles }: Props) {
       }}
       onDragLeave={() => setOver(false)}
       onDrop={handleDrop}
-      className={`flex w-full flex-col items-center justify-center gap-4 rounded-2xl border px-6 py-16 text-center shadow-sm transition-[transform,background-color,border-color,box-shadow] duration-150 active:scale-[0.99] ${
+      className={`group flex w-full flex-col items-center justify-center gap-4 rounded-2xl border px-6 py-16 text-center shadow-sm transition-[transform,background-color,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.99] ${
         over
-          ? 'border-brand-500 bg-brand-50 shadow-[0_12px_28px_-12px_rgba(37,99,235,0.35)] dark:bg-brand-900/30'
-          : 'border-paper-200 bg-white hover:border-brand-300 hover:shadow-[0_12px_28px_-14px_rgba(37,99,235,0.25)] dark:border-white/15 dark:bg-white/5'
+          ? 'scale-[1.01] border-brand-500 bg-brand-50 shadow-[0_16px_32px_-12px_rgba(37,99,235,0.4)] dark:bg-brand-900/30'
+          : 'border-paper-200 bg-white hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-[0_16px_32px_-16px_rgba(37,99,235,0.3)] dark:border-white/15 dark:bg-white/5'
       }`}
     >
-      <span className="grid h-16 w-16 place-items-center rounded-lg bg-brand-600 text-white">
-        <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <span
+        className={`grid h-16 w-16 place-items-center rounded-lg bg-brand-600 text-white transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 ${over ? 'scale-110' : ''}`}
+      >
+        <svg
+          className={`h-8 w-8 transition-transform duration-300 ${over ? '-translate-y-0.5' : ''}`}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        >
           <path d="M12 16V4m0 0L7 9m5-5 5 5" strokeLinecap="round" strokeLinejoin="round" />
           <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" strokeLinecap="round" />
         </svg>

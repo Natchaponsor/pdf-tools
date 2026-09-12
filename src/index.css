@@ -257,3 +257,47 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ─── Motion primitives ─────────────────────────────────────────────────────
+   Shared across the app: a page-enter fade for route changes, and a shimmer
+   sweep for skeleton placeholders shown while a lazy view chunk loads. */
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-enter {
+  animation: enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+.skeleton {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-paper-100) 40%,
+    var(--color-paper-50) 50%,
+    var(--color-paper-100) 60%
+  );
+  background-size: 250% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+[data-theme='dark'] .skeleton,
+[data-theme='winter'] .skeleton {
+  background-image: linear-gradient(100deg, rgb(255 255 255 / 0.06) 40%, rgb(255 255 255 / 0.12) 50%, rgb(255 255 255 / 0.06) 60%);
+}

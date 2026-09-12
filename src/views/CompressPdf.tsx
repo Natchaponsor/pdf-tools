@@ -13,6 +13,7 @@ import {
 import { renderFirstPage } from '../lib/pdfDoc';
 import { downloadBlob } from '../lib/download';
 import { SaveAs } from '../components/SaveAs';
+import { IconLoader } from '../components/icons';
 
 interface Item {
   file: File;
@@ -176,7 +177,7 @@ export function CompressPdf() {
               onFiles={addFiles}
             />
           ) : (
-            <div className="space-y-3">
+            <div className="animate-enter space-y-3">
               <ul className="divide-y divide-paper-200 overflow-hidden rounded-2xl border border-paper-200 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-white/5">
                 {items.map((it) => (
                   <li key={it.key} className="flex items-center justify-between gap-3 p-3">
@@ -241,10 +242,10 @@ export function CompressPdf() {
               {COMPRESS_LEVELS.map((info) => (
                 <label
                   key={info.id}
-                  className={`flex cursor-pointer gap-3 rounded-lg border p-3 transition-colors ${
+                  className={`flex cursor-pointer gap-3 rounded-lg border p-3 transition-[transform,border-color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                     level === info.id
-                      ? 'border-brand-500 bg-brand-50 dark:bg-brand-900/30'
-                      : 'border-paper-200 bg-white hover:border-brand-300 dark:border-white/10 dark:bg-white/5'
+                      ? 'border-brand-500 bg-brand-50 shadow-[0_4px_16px_-6px_rgba(37,99,235,0.35)] dark:bg-brand-900/30'
+                      : 'border-paper-200 bg-white hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-[0_4px_16px_-8px_rgba(37,99,235,0.2)] dark:border-white/10 dark:bg-white/5'
                   }`}
                 >
                   <input
@@ -280,16 +281,21 @@ export function CompressPdf() {
           )}
 
           {phase.kind === 'working' && (
-            <div className="space-y-3 rounded-2xl border border-paper-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
-              {phase.total > 1 && (
-                <p className="text-sm font-medium text-ink-700 dark:text-white/80">
-                  File {phase.done + 1} of {phase.total}: {phase.current}
+            <div className="animate-enter flex items-start gap-4 rounded-2xl border border-paper-200 bg-white p-4 dark:border-white/10 dark:bg-white/5">
+              <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600 dark:bg-brand-900/40 dark:text-brand-300">
+                <IconLoader className="h-5 w-5 animate-spin" />
+              </span>
+              <div className="min-w-0 flex-1 space-y-3">
+                {phase.total > 1 && (
+                  <p className="text-sm font-medium text-ink-700 dark:text-white/80">
+                    File {phase.done + 1} of {phase.total}: {phase.current}
+                  </p>
+                )}
+                <ProgressBar ratio={phase.progress.ratio} label={phase.progress.note} />
+                <p className="text-xs text-ink-500 dark:text-white/50">
+                  Large scans can take a minute each. Everything runs in this tab.
                 </p>
-              )}
-              <ProgressBar ratio={phase.progress.ratio} label={phase.progress.note} />
-              <p className="text-xs text-ink-500 dark:text-white/50">
-                Large scans can take a minute each. Everything runs in this tab.
-              </p>
+              </div>
             </div>
           )}
         </>
@@ -322,7 +328,7 @@ function Results({
   const single = ok.length === 1 ? ok[0] : null;
 
   return (
-    <div className="space-y-4">
+    <div className="animate-enter space-y-4">
       {ok.length > 0 && (
         <div className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
           <div>

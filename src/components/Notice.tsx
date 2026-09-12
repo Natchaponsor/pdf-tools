@@ -13,5 +13,5 @@ const TONES: Record<Props['tone'], string> = {
 };
 
 export function Notice({ tone, children }: Props) {
-  return <div className={`rounded-2xl border p-4 text-sm ${TONES[tone]}`}>{children}</div>;
+  return <div className={`animate-enter rounded-2xl border p-4 text-sm ${TONES[tone]}`}>{children}</div>;
 }

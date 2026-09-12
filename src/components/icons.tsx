@@ -221,6 +221,15 @@ export function IconReadAloud(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/** A partial ring for spinners — pair with `animate-spin`. */
+export function IconLoader(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base(props)}>
+      <path d="M12 3a9 9 0 1 0 9 9" />
+    </svg>
+  );
+}
+
 /** GitHub mark — a filled glyph, so it doesn't use the line-icon base(). */
 export function IconGitHub(props: SVGProps<SVGSVGElement>) {
   return (

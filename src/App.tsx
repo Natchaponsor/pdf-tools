@@ -3,6 +3,7 @@ import { navigate, useHashRoute } from './lib/useHashRoute';
 import { IconGitHub } from './components/icons';
 import { PwaPrompt } from './components/PwaPrompt';
 import { ViewErrorBoundary } from './components/ViewErrorBoundary';
+import { ViewSkeleton } from './components/ViewSkeleton';
 import { Home } from './views/Home';
 
 const REPO = 'https://github.com/Natchaponsor/pdf-tools';
@@ -69,10 +70,10 @@ export function App() {
           <button
             type="button"
             onClick={() => navigate('/')}
-            className="flex items-center gap-2.5 text-lg font-bold text-ink-900 dark:text-white"
+            className="group flex items-center gap-2.5 text-lg font-bold text-ink-900 dark:text-white"
             aria-label="Paperplane home"
           >
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-white">
+            <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-white transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6 group-hover:scale-105">
               <svg viewBox="0 0 24 24" className="h-[22px] w-[22px]" fill="currentColor">
                 <path d="M21 3 3 10.5l7 2.5 2 7 3-5.5 4 3z" />
               </svg>
@@ -91,8 +92,10 @@ export function App() {
 
         <main className="flex-1">
           <ViewErrorBoundary resetKey={route}>
-            <Suspense fallback={<p className="py-10 text-center text-sm text-ink-500">Loading…</p>}>
-              <View route={route} />
+            <Suspense fallback={<ViewSkeleton />}>
+              <div key={route} className="animate-enter">
+                <View route={route} />
+              </div>
             </Suspense>
           </ViewErrorBoundary>
         </main>
