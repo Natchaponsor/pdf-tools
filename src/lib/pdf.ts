@@ -1,5 +1,5 @@
 /*
- * Structural PDF edits with pdf-lib. These run on the main thread — merge,
+ * Structural PDF edits with pdf-lib. These run on the main thread: merge,
  * split, and text stamping are fast even for large documents, and the heavy
  * work (compression, rendering) already lives in workers.
  */

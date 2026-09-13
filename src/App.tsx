@@ -115,7 +115,7 @@ function SiteFooter() {
               <Pal className="h-7 w-7 text-brand" />
               <span className="text-[17px] font-extrabold tracking-tight text-ink">PaperPal</span>
             </div>
-            <p className="mt-3 max-w-xs text-[14px] leading-relaxed text-ink-dim">
+            <p className="mt-3 max-w-sm text-pretty text-[14px] leading-relaxed text-ink-dim">
               Every tool runs on your device. Nothing is uploaded, because there is
               nowhere to upload it to.
             </p>

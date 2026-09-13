@@ -124,7 +124,7 @@ export function CompressPdf() {
           const preview = await renderFirstPage(outcome.blob);
           thumbUrl = track(URL.createObjectURL(preview.blob));
         } catch {
-          // Preview is a nicety — a failure here shouldn't lose the result.
+          // Preview is a nicety, so a failure here shouldn't lose the result.
         }
         rows.push({
           name: outName(file.name),
