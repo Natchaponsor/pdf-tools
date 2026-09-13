@@ -64,15 +64,15 @@ export function App() {
 
   return (
     <div className="flex min-h-dvh flex-col bg-page">
-      <header className="sticky top-0 z-30 bg-page/90 backdrop-blur-sm">
-        <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+      <header className="sticky top-0 z-30 border-b border-line bg-page/90 backdrop-blur-sm">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
           <button
             type="button"
             onClick={() => navigate('/')}
             className="group flex items-center gap-2.5"
             aria-label="PaperPal home"
           >
-            <Pal className="h-8 w-8 text-brand transition-transform duration-300 ease-[cubic-bezier(0.22,1.2,0.36,1)] group-hover:-rotate-6" />
+            <Pal className="h-8 w-8 text-brand transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6" />
             <span className="text-[19px] font-extrabold tracking-tight text-ink">PaperPal</span>
           </button>
           <nav className="flex items-center gap-1">
@@ -86,17 +86,17 @@ export function App() {
         </div>
       </header>
 
-      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 pb-16 pt-4 sm:px-6">
-        <main className="flex-1">
-          <ViewErrorBoundary resetKey={base}>
-            <Suspense fallback={<ViewSkeleton />}>
-              <div key={base} className="animate-enter">
-                <View route={route} />
-              </div>
-            </Suspense>
-          </ViewErrorBoundary>
-        </main>
-      </div>
+      {/* Sections own their own width and ground, so the hero and the band can
+          run full bleed. */}
+      <main className="flex-1">
+        <ViewErrorBoundary resetKey={base}>
+          <Suspense fallback={<ViewSkeleton />}>
+            <div key={base} className="animate-enter">
+              <View route={route} />
+            </div>
+          </Suspense>
+        </ViewErrorBoundary>
+      </main>
 
       <SiteFooter />
       <PwaPrompt />
@@ -105,9 +105,10 @@ export function App() {
 }
 
 function SiteFooter() {
+  // White, so the grey band reads as the tool area and nothing else.
   return (
-    <footer className="mt-auto bg-recess">
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+    <footer className="mt-auto border-t border-line bg-page">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
             <div className="flex items-center gap-2.5">

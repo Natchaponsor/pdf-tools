@@ -52,7 +52,7 @@ export function parsePageRanges(spec: string, pageCount: number): number[] {
     const start = Number(m[1]);
     const end = m[2] ? Number(m[2]) : start;
     if (start < 1 || end > pageCount || start > end) {
-      throw new Error(`"${part}" is outside 1–${pageCount}.`);
+      throw new Error(`"${part}" is outside 1 to ${pageCount}.`);
     }
     for (let p = start; p <= end; p++) indices.push(p - 1);
   }

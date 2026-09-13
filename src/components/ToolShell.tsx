@@ -11,7 +11,7 @@ interface Props {
 
 export function ToolShell({ title, blurb, children }: Props) {
   return (
-    <div className="space-y-6">
+    <div className="mx-auto w-full max-w-3xl space-y-6 px-4 py-10 sm:px-6">
       <ToolHeader title={title} blurb={blurb} />
       {children}
     </div>

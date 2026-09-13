@@ -214,7 +214,7 @@ export function ScanDocuments() {
 
       {error && <Notice tone="error">{error}</Notice>}
 
-      {/* 1 — adjust the corners of the photo just taken */}
+      {/* 1. adjust the corners of the photo just taken */}
       {draft ? (
         <div className="space-y-4">
           <p className="text-sm font-semibold text-ink-700 dark:text-white/80">

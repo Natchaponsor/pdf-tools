@@ -53,7 +53,7 @@ export function FileDrop({ accept, multiple = false, hint, onFiles, label }: Pro
             something is actually being handed over. */}
         <Pal
           state={over ? 'alert' : 'resting'}
-          className="h-14 w-14 text-brand transition-transform duration-300 ease-[cubic-bezier(0.22,1.2,0.36,1)] group-hover:-translate-y-1 sm:h-16 sm:w-16"
+          className="h-14 w-14 text-brand transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 sm:h-16 sm:w-16"
         />
         <span className="block">
           <span className="block text-[21px] font-extrabold leading-tight tracking-tight text-ink sm:text-[25px]">

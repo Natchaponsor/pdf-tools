@@ -9,8 +9,9 @@ import { Pal } from '../components/Pal';
 import { IconClose } from '../components/icons';
 
 export function Home({ compact = false }: { compact?: boolean }) {
-  // A file handed over before a verb is chosen — the order people actually
-  // think in ("this PDF is too big" comes before "I want the compress tool").
+  // A file handed over before a verb is chosen, which is the order people
+  // actually think in: "this PDF is too big" comes before "I want the
+  // compress tool".
   const [staged, setStaged] = useState<File | null>(null);
 
   const kind: 'pdf' | 'image' | null = staged
@@ -20,70 +21,81 @@ export function Home({ compact = false }: { compact?: boolean }) {
     : null;
 
   return (
-    <div className="space-y-12">
+    <>
       {!compact && (
-        <section className="pt-4">
-          <div className="flex items-start justify-between gap-6">
-            <div className="max-w-lg">
-              <h1 className="text-[38px] font-extrabold leading-[1.05] tracking-tight text-ink sm:text-[52px]">
-                PDF chores,
-                <br />
-                done on your device.
+        <section className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
+          {/* Title and hand-off side by side, on the same baseline: the thing
+              you came to do is never below the fold, and the sentence
+              explaining it is never separated from the box it explains. */}
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+            <div>
+              <h1 className="text-[38px] font-extrabold leading-[1.06] tracking-tight text-ink sm:text-[48px]">
+                PDF chores, done on your device.
               </h1>
-              <p className="mt-4 text-[16px] leading-relaxed text-ink-dim sm:text-[17px]">
-                Seventeen tools that never upload your file — because there is no
+              <p className="mt-5 max-w-md text-[16.5px] leading-relaxed text-ink-dim sm:text-[17px]">
+                Seventeen tools that never upload your file, because there is no
                 server to upload it to. Open your network tab and check.
               </p>
             </div>
-            <Pal
-              state={staged ? 'alert' : 'resting'}
-              className="hidden h-32 w-32 shrink-0 text-brand sm:block lg:h-36 lg:w-36"
-            />
-          </div>
 
-          <div className="mt-8">
-            {staged ? (
-              <StagedCard
-                file={staged}
-                kind={kind}
-                onClear={() => {
-                  takeHandoff();
-                  setStaged(null);
-                }}
-              />
-            ) : (
-              <FileDrop
-                accept="application/pdf,.pdf,image/*"
-                hint="PDF, JPG, PNG or WebP, up to 50 MB. Hand it over first, then pick a tool."
-                onFiles={(files) => files[0] && setStaged(files[0])}
-              />
-            )}
-            <p className="mt-3 text-center text-[13px] text-ink-dim">{PRIVACY_LINE}</p>
+            <div>
+              {staged ? (
+                <StagedCard
+                  file={staged}
+                  kind={kind}
+                  onClear={() => {
+                    takeHandoff();
+                    setStaged(null);
+                  }}
+                />
+              ) : (
+                <FileDrop
+                  accept="application/pdf,.pdf,image/*"
+                  hint="PDF, JPG, PNG or WebP, up to 50 MB"
+                  onFiles={(files) => files[0] && setStaged(files[0])}
+                />
+              )}
+              <p className="mt-3 text-center text-[13px] text-ink-dim">{PRIVACY_LINE}</p>
+            </div>
           </div>
         </section>
       )}
 
-      <div className="space-y-10">
-        {compact && (
-          <h1 className="text-[34px] font-extrabold tracking-tight text-ink">All tools</h1>
-        )}
-        {TOOL_SECTIONS.map((section) => (
-          <section key={section.id}>
-            <div className="flex items-baseline gap-3">
-              <h2 className="text-[15px] font-extrabold tracking-tight text-ink">
-                {section.title}
+      <section className={compact ? '' : 'border-t border-line bg-band'}>
+        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+          {compact ? (
+            <h1 className="text-[34px] font-extrabold tracking-tight text-ink">All tools</h1>
+          ) : (
+            <div className="text-center">
+              <h2 className="text-[27px] font-extrabold tracking-tight text-ink sm:text-[31px]">
+                All tools in one place
               </h2>
-              <span className="text-[13px] text-ink-dim">{section.description}</span>
+              <p className="mt-2 text-[15px] text-ink-dim">
+                No installs, no sign-up, works on any device.
+              </p>
             </div>
-            <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
-              {section.tools.map((tool) => (
-                <ToolCard key={tool.id} tool={tool} kind={kind} staged={staged} />
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
-    </div>
+          )}
+
+          <div className="mt-9 space-y-9">
+            {TOOL_SECTIONS.map((section) => (
+              <div key={section.id}>
+                <div className="flex items-baseline gap-3">
+                  <h3 className="text-[15px] font-extrabold tracking-tight text-ink">
+                    {section.title}
+                  </h3>
+                  <span className="text-[13px] text-ink-dim">{section.description}</span>
+                </div>
+                <ul className="mt-3 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+                  {section.tools.map((tool) => (
+                    <ToolCard key={tool.id} tool={tool} kind={kind} staged={staged} />
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -127,7 +139,7 @@ function ToolCard({
   staged: File | null;
 }) {
   // With a file handed over, a tool that cannot open it is dimmed rather than
-  // hidden — you can still see it exists, and reach it by taking the file back.
+  // hidden. You can still see it exists, and reach it by taking the file back.
   const unavailable = kind != null && tool.accepts !== kind;
 
   return (
@@ -139,14 +151,14 @@ function ToolCard({
           if (staged) setHandoff(staged);
           navigate(tool.route);
         }}
-        className={`group flex h-full w-full items-start gap-3.5 rounded-[20px] border border-line bg-page p-3.5 text-left transition-[transform,border-color,background-color] duration-200 ease-[cubic-bezier(0.22,1.2,0.36,1)] ${
+        className={`group flex h-full w-full items-start gap-3.5 rounded-[20px] border border-line bg-page p-3.5 text-left transition-[transform,border-color,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           unavailable
             ? 'cursor-not-allowed opacity-45'
-            : 'hover:-translate-y-0.5 hover:border-fold hover:bg-recess'
+            : 'hover:-translate-y-0.5 hover:border-fold hover:shadow-[0_10px_28px_-14px_rgba(15,20,32,0.28)]'
         }`}
       >
         {/* The icon chip is the mark's own silhouette, repeated seventeen times. */}
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-chip text-brand transition-transform duration-200 ease-[cubic-bezier(0.22,1.2,0.36,1)] group-hover:-rotate-6">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-chip text-brand transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6">
           <tool.icon className="h-5 w-5" />
         </span>
         <span className="min-w-0 flex-1">
@@ -156,7 +168,7 @@ function ToolCard({
             </span>
             {tool.sandbox && (
               <span className="rounded-full bg-sunk px-2 py-0.5 text-[11px] font-bold text-ink-dim">
-                Rough
+                Beta
               </span>
             )}
           </span>

@@ -161,7 +161,7 @@ export function CompressPdf() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto w-full max-w-3xl space-y-6 px-4 py-10 sm:px-6">
       <ToolHeader
         title="Compress PDF"
         blurb={`Shrink one or several PDFs for email or upload. Combined size up to ${formatBytes(
@@ -251,7 +251,7 @@ export function CompressPdf() {
                   return (
                     <label
                       key={info.id}
-                      className={`cursor-pointer rounded-[20px] border-2 p-4 transition-[transform,border-color,background-color] duration-200 ease-[cubic-bezier(0.22,1.2,0.36,1)] ${
+                      className={`cursor-pointer rounded-[20px] border-2 p-4 transition-[transform,border-color,background-color] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                         on
                           ? 'border-brand bg-chip'
                           : 'border-line bg-page hover:-translate-y-0.5 hover:border-fold'
@@ -298,7 +298,7 @@ export function CompressPdf() {
                   ? `File ${phase.done + 1} of ${phase.total}: ${phase.current}`
                   : undefined
               }
-              note="Large scans can take a minute each. Everything runs in this tab — leaving the page stops the job."
+              note="Large scans can take a minute each. Everything runs in this tab, so leaving the page stops the job."
             />
           )}
         </>
