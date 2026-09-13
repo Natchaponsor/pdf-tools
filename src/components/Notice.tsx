@@ -1,17 +1,27 @@
 import type { ReactNode } from 'react';
+import { Pal } from './Pal';
 
 interface Props {
   tone: 'warn' | 'error' | 'info';
   children: ReactNode;
 }
 
-const TONES: Record<Props['tone'], string> = {
-  error:
-    'border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200',
-  warn: 'border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200',
-  info: 'border-brand-200 bg-brand-50 text-brand-800 dark:border-brand-800 dark:bg-brand-900/30 dark:text-brand-200',
-};
-
+/**
+ * The pal delivers bad news itself rather than a coloured alert box doing it.
+ * Nothing shouts: the copy carries the problem and the recovery, and the face
+ * carries the tone.
+ */
 export function Notice({ tone, children }: Props) {
-  return <div className={`animate-enter rounded-2xl border p-4 text-sm ${TONES[tone]}`}>{children}</div>;
+  return (
+    <div
+      className="animate-enter flex items-start gap-3.5 rounded-[20px] bg-recess p-4"
+      role={tone === 'error' ? 'alert' : undefined}
+    >
+      <Pal
+        state={tone === 'info' ? 'resting' : 'stuck'}
+        className={`h-9 w-9 shrink-0 ${tone === 'info' ? 'text-brand' : 'text-danger'}`}
+      />
+      <div className="pt-0.5 text-[14.5px] leading-relaxed text-ink">{children}</div>
+    </div>
+  );
 }

@@ -1,58 +1,70 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { DragEvent } from 'react';
+import { takeHandoffMatching } from '../lib/handoff';
+import { Pal } from './Pal';
 
 interface Props {
   accept: string;
   multiple?: boolean;
   hint: string;
   onFiles: (files: File[]) => void;
+  label?: string;
 }
 
-export function FileDrop({ accept, multiple = false, hint, onFiles }: Props) {
+export function FileDrop({ accept, multiple = false, hint, onFiles, label }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
 
-  function handleDrop(event: DragEvent) {
-    event.preventDefault();
-    setOver(false);
-    const files = Array.from(event.dataTransfer.files);
+  // A file handed over from the home screen (or by "Continue with…") is picked
+  // up here, so every tool inherits it without knowing where it came from.
+  const deliver = useRef(onFiles);
+  deliver.current = onFiles;
+  useEffect(() => {
+    const handed = takeHandoffMatching(accept);
+    if (handed) deliver.current([handed]);
+  }, [accept]);
+
+  function take(files: File[]) {
     if (files.length) onFiles(multiple ? files : files.slice(0, 1));
   }
 
   return (
-    <button
-      type="button"
-      onClick={() => inputRef.current?.click()}
-      onDragOver={(e) => {
-        e.preventDefault();
-        setOver(true);
-      }}
-      onDragLeave={() => setOver(false)}
-      onDrop={handleDrop}
-      className={`group flex w-full flex-col items-center justify-center gap-4 rounded-2xl border px-6 py-16 text-center shadow-sm transition-[transform,background-color,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.99] ${
-        over
-          ? 'scale-[1.01] border-brand-500 bg-brand-50 shadow-[0_16px_32px_-12px_rgba(37,99,235,0.4)] dark:bg-brand-900/30'
-          : 'border-paper-200 bg-white hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-[0_16px_32px_-16px_rgba(37,99,235,0.3)] dark:border-white/15 dark:bg-white/5'
-      }`}
-    >
-      <span
-        className={`grid h-16 w-16 place-items-center rounded-lg bg-brand-600 text-white transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 ${over ? 'scale-110' : ''}`}
+    <>
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setOver(true);
+        }}
+        onDragLeave={() => setOver(false)}
+        onDrop={(e: DragEvent) => {
+          e.preventDefault();
+          setOver(false);
+          take(Array.from(e.dataTransfer.files));
+        }}
+        className={`group flex w-full flex-col items-center gap-4 rounded-[20px] border-2 border-dashed px-6 py-10 text-center transition-colors duration-200 sm:py-12 ${
+          over
+            ? 'border-brand bg-chip'
+            : 'border-line bg-recess hover:border-fold'
+        }`}
       >
-        <svg
-          className={`h-8 w-8 transition-transform duration-300 ${over ? '-translate-y-0.5' : ''}`}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-        >
-          <path d="M12 16V4m0 0L7 9m5-5 5 5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" strokeLinecap="round" />
-        </svg>
-      </span>
-      <span className="text-lg font-bold text-ink-900 dark:text-white">
-        Choose a file or drag it here
-      </span>
-      <span className="text-sm text-ink-500 dark:text-white/60">{hint}</span>
+        {/* The pal answers the file, not the cursor: it lifts its brows when
+            something is actually being handed over. */}
+        <Pal
+          state={over ? 'alert' : 'resting'}
+          className="h-14 w-14 text-brand transition-transform duration-300 ease-[cubic-bezier(0.22,1.2,0.36,1)] group-hover:-translate-y-1 sm:h-16 sm:w-16"
+        />
+        <span className="block">
+          <span className="block text-[21px] font-extrabold leading-tight tracking-tight text-ink sm:text-[25px]">
+            {label ?? 'Drop a PDF here'}
+          </span>
+          <span className="mt-1.5 block text-[14px] text-ink-dim">{hint}</span>
+        </span>
+        <span className="inline-block rounded-full bg-brand px-6 py-3 text-[15px] font-bold text-white transition-colors group-hover:bg-brand-deep">
+          Choose a file
+        </span>
+      </button>
       <input
         ref={inputRef}
         type="file"
@@ -60,11 +72,10 @@ export function FileDrop({ accept, multiple = false, hint, onFiles }: Props) {
         multiple={multiple}
         className="hidden"
         onChange={(e) => {
-          const files = Array.from(e.target.files ?? []);
-          if (files.length) onFiles(multiple ? files : files.slice(0, 1));
+          take(Array.from(e.target.files ?? []));
           e.target.value = '';
         }}
       />
-    </button>
+    </>
   );
 }

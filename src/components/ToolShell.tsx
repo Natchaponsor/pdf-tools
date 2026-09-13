@@ -12,20 +12,28 @@ interface Props {
 export function ToolShell({ title, blurb, children }: Props) {
   return (
     <div className="space-y-6">
-      <div>
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          className="mb-3 -ml-1 flex items-center gap-1 text-sm font-medium text-ink-500 hover:text-ink-900 dark:text-white/60 dark:hover:text-white"
-        >
-          <IconBack className="h-4 w-4" />
-          All tools
-        </button>
-        <h1 className="text-4xl font-bold tracking-tight text-ink-900 dark:text-white">{title}</h1>
-        <p className="mt-1.5 text-[15px] text-ink-500 dark:text-white/60">{blurb}</p>
-        <p className="mt-2 text-xs text-ink-500 dark:text-white/50">{PRIVACY_LINE}</p>
-      </div>
+      <ToolHeader title={title} blurb={blurb} />
       {children}
     </div>
+  );
+}
+
+export function ToolHeader({ title, blurb }: { title: string; blurb: string }) {
+  return (
+    <header className="pt-2">
+      <button
+        type="button"
+        onClick={() => navigate('/')}
+        className="-ml-2 inline-flex items-center gap-1 rounded-full px-2 py-1 text-[14px] font-bold text-ink-dim transition-colors hover:text-ink"
+      >
+        <IconBack className="h-4 w-4" />
+        All tools
+      </button>
+      <h1 className="mt-3 text-[34px] font-extrabold leading-[1.05] tracking-tight text-ink sm:text-[42px]">
+        {title}
+      </h1>
+      <p className="mt-3 max-w-xl text-[16px] leading-relaxed text-ink-dim">{blurb}</p>
+      <p className="mt-2 text-[13px] text-ink-dim">{PRIVACY_LINE}</p>
+    </header>
   );
 }

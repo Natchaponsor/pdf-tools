@@ -19,13 +19,19 @@ import {
   IconScan,
 } from '../components/icons';
 
+/** What a tool can be handed off the bench. `none` = it makes its own input. */
+export type Accepts = 'pdf' | 'image' | 'none';
+
 export interface Tool {
   id: string;
   route: string;
   title: string;
   blurb: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
-  /** Rendered as a full-width hero banner on the home screen, not a grid card. */
+  accepts: Accepts;
+  /** Newer and rougher than the rest; marked as such on the bench. */
+  sandbox?: boolean;
+  /** Rendered first within its group. */
   featured?: boolean;
 }
 
@@ -40,6 +46,7 @@ export interface ToolSection {
 const MAIN_TOOLS: Tool[] = [
   {
     id: 'compress',
+    accepts: 'pdf',
     route: '/compress',
     title: 'Compress PDF',
     blurb: 'Shrink one or more PDFs for email or upload.',
@@ -48,6 +55,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'merge',
+    accepts: 'pdf',
     route: '/merge',
     title: 'Merge PDFs',
     blurb: 'Combine several PDFs into one, in your order.',
@@ -56,6 +64,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'split',
+    accepts: 'pdf',
     route: '/split',
     title: 'Split PDF',
     blurb: 'Pull out a page range or burst into single pages.',
@@ -63,6 +72,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'organize',
+    accepts: 'pdf',
     route: '/organize',
     title: 'Organize pages',
     blurb: 'Reorder, rotate, or delete pages, then export.',
@@ -71,6 +81,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'rotate',
+    accepts: 'pdf',
     route: '/rotate',
     title: 'Rotate PDF',
     blurb: 'Turn pages the right way up, one at a time or all at once.',
@@ -78,6 +89,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'pdf-to-image',
+    accepts: 'pdf',
     route: '/pdf-to-image',
     title: 'PDF to image',
     blurb: 'Save pages as PNG or JPG, one file or a zip.',
@@ -85,6 +97,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'images-to-pdf',
+    accepts: 'image',
     route: '/images-to-pdf',
     title: 'Images to PDF',
     blurb: 'Turn JPG and PNG images into one PDF.',
@@ -92,6 +105,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'compress-image',
+    accepts: 'image',
     route: '/compress-image',
     title: 'Compress image',
     blurb: 'Shrink JPG, PNG, or WebP files.',
@@ -99,6 +113,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'page-numbers',
+    accepts: 'pdf',
     route: '/page-numbers',
     title: 'Add page numbers',
     blurb: 'Stamp page numbers with position and style options.',
@@ -106,6 +121,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'watermark',
+    accepts: 'pdf',
     route: '/watermark',
     title: 'Add watermark',
     blurb: 'Overlay text with adjustable opacity and position.',
@@ -113,6 +129,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'protect',
+    accepts: 'pdf',
     route: '/protect',
     title: 'Protect PDF',
     blurb: 'Add a password, or remove one you know.',
@@ -120,6 +137,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'grayscale',
+    accepts: 'pdf',
     route: '/grayscale',
     title: 'Grayscale PDF',
     blurb: 'Convert colour pages to black and white.',
@@ -127,6 +145,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'remove-blank-pages',
+    accepts: 'pdf',
     route: '/remove-blank-pages',
     title: 'Remove blank pages',
     blurb: 'Finds empty pages, then removes the ones you confirm.',
@@ -134,6 +153,7 @@ const MAIN_TOOLS: Tool[] = [
   },
   {
     id: 'extract-images',
+    accepts: 'pdf',
     route: '/extract-images',
     title: 'Extract images',
     blurb: 'Pull every embedded photo out of a PDF.',
@@ -144,6 +164,8 @@ const MAIN_TOOLS: Tool[] = [
 const SANDBOX_TOOLS: Tool[] = [
   {
     id: 'scan',
+    sandbox: true,
+    accepts: 'none',
     route: '/scan',
     title: 'Scan documents',
     blurb: 'Photograph pages, auto-straighten them, and export one PDF.',
@@ -151,6 +173,8 @@ const SANDBOX_TOOLS: Tool[] = [
   },
   {
     id: 'translate',
+    sandbox: true,
+    accepts: 'pdf',
     route: '/translate',
     title: 'Translate PDF',
     blurb: 'Read the text off a scan, then hand it to your translator.',
@@ -158,6 +182,8 @@ const SANDBOX_TOOLS: Tool[] = [
   },
   {
     id: 'read-aloud',
+    sandbox: true,
+    accepts: 'pdf',
     route: '/read-aloud',
     title: 'Read PDF',
     blurb: 'Turn a scanned PDF into speech. Hands-free, works offline.',
@@ -165,17 +191,58 @@ const SANDBOX_TOOLS: Tool[] = [
   },
 ];
 
+const ALL_TOOLS: Tool[] = [...MAIN_TOOLS, ...SANDBOX_TOOLS];
+
+function byId(ids: string[]): Tool[] {
+  return ids.map((id) => {
+    const tool = ALL_TOOLS.find((t) => t.id === id);
+    if (!tool) throw new Error(`tools.ts: no tool with id "${id}"`);
+    return tool;
+  });
+}
+
+/**
+ * Grouped by the verb you arrived wanting, not by how the tools were built.
+ * Someone whose file is too big for an email is looking for SIZE; someone with
+ * a photographed stack of pages is looking for ORDER. The old split (a flat
+ * grid plus a "Sandbox" section) grouped by our confidence in the code, which
+ * is our problem, not theirs — the rough ones now carry a mark on their own
+ * row instead of being exiled to a section at the bottom.
+ */
 export const TOOL_SECTIONS: ToolSection[] = [
-  { id: 'main', title: null, tools: MAIN_TOOLS },
   {
-    id: 'sandbox',
-    title: 'Sandbox',
-    description: 'Newer, experimental tools. Both run text recognition on your device first.',
-    tools: SANDBOX_TOOLS,
+    id: 'size',
+    title: 'Size',
+    description: 'Too big to send',
+    tools: byId(['compress', 'compress-image', 'grayscale']),
+  },
+  {
+    id: 'order',
+    title: 'Order',
+    description: 'Wrong pages, wrong way round',
+    tools: byId(['merge', 'split', 'organize', 'rotate', 'remove-blank-pages']),
+  },
+  {
+    id: 'convert',
+    title: 'Convert',
+    description: 'In or out of a PDF',
+    tools: byId(['scan', 'pdf-to-image', 'images-to-pdf', 'extract-images']),
+  },
+  {
+    id: 'mark',
+    title: 'Mark & protect',
+    description: 'Stamp it, or lock it',
+    tools: byId(['page-numbers', 'watermark', 'protect']),
+  },
+  {
+    id: 'read',
+    title: 'Read',
+    description: 'Get the words off a scan',
+    tools: byId(['translate', 'read-aloud']),
   },
 ];
 
-export const TOOLS: Tool[] = TOOL_SECTIONS.flatMap((s) => s.tools);
+export const TOOLS: Tool[] = ALL_TOOLS;
 
 export const toolByRoute = (route: string): Tool | undefined =>
   TOOLS.find((t) => route === t.route || route.startsWith(t.route + '/'));

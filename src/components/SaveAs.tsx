@@ -64,27 +64,27 @@ export function SaveAs({ blob, defaultName, variant = 'button', label = 'Downloa
       value={format}
       onChange={(e) => setFormat(e.target.value as ExportFormat)}
       disabled={busy}
-      className="cursor-pointer bg-transparent pr-2 text-sm text-ink-500 outline-none disabled:cursor-default dark:text-white/50"
+      className="cursor-pointer bg-transparent pr-2 text-[13px] text-ink-dim outline-none disabled:cursor-default"
     >
       <option value="pdf">.pdf</option>
       <option value="jpg">.jpg</option>
       <option value="png">.png</option>
     </select>
   ) : (
-    <span className="pr-2 text-ink-500 dark:text-white/50">{ext}</span>
+    <span className="pr-2 text-[13px] text-ink-dim">{ext}</span>
   );
 
   if (variant === 'inline') {
     return (
       <span className="flex min-w-0 flex-col gap-1">
         <span className="flex min-w-0 items-center gap-1.5">
-          <span className="flex min-w-0 items-center rounded-lg border border-paper-200 bg-white text-sm dark:border-white/15 dark:bg-white/10">
+          <span className="flex min-w-0 items-center rounded-full border-2 border-line bg-page text-[13px] focus-within:border-brand">
             <input
               aria-label="File name"
               value={value}
               onChange={(e) => setValue(e.target.value)}
               disabled={busy}
-              className="min-w-0 flex-1 rounded-l-lg bg-transparent px-2 py-1 outline-none"
+              className="min-w-0 flex-1 rounded-l-full bg-transparent px-3 py-1.5 font-bold text-ink outline-none"
             />
             {extControl}
           </span>
@@ -92,12 +92,12 @@ export function SaveAs({ blob, defaultName, variant = 'button', label = 'Downloa
             type="button"
             onClick={save}
             disabled={busy}
-            className="shrink-0 rounded-lg bg-brand-600 px-2.5 py-1.5 text-sm font-semibold text-white transition-transform active:scale-[0.97] hover:bg-brand-700 disabled:opacity-60"
+            className="shrink-0 rounded-full bg-brand px-4 py-2 text-[13px] font-bold text-white transition-colors hover:bg-brand-deep disabled:opacity-40"
           >
             {busy ? <IconLoader className="h-4 w-4 animate-spin" /> : 'Save'}
           </button>
         </span>
-        {convertError && <span className="text-xs text-red-600 dark:text-red-400">{convertError}</span>}
+        {convertError && <span className="text-[12px] text-danger">{convertError}</span>}
       </span>
     );
   }
@@ -105,13 +105,13 @@ export function SaveAs({ blob, defaultName, variant = 'button', label = 'Downloa
   return (
     <div className="space-y-1.5">
       <div className="flex flex-wrap items-stretch gap-2">
-        <span className="flex min-w-0 flex-1 items-center rounded-lg border border-paper-200 bg-white dark:border-white/15 dark:bg-white/10">
+        <span className="flex min-w-0 flex-1 items-center rounded-full border-2 border-line bg-page focus-within:border-brand">
           <input
             aria-label="File name"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             disabled={busy}
-            className="min-w-0 flex-1 rounded-l-lg bg-transparent px-3 py-2.5 text-sm outline-none"
+            className="min-w-0 flex-1 rounded-l-full bg-transparent px-5 py-3 text-[15px] font-bold text-ink outline-none"
           />
           {extControl}
         </span>
@@ -119,13 +119,13 @@ export function SaveAs({ blob, defaultName, variant = 'button', label = 'Downloa
           type="button"
           onClick={save}
           disabled={busy}
-          className="flex shrink-0 items-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 font-semibold text-white transition-transform active:scale-[0.97] hover:bg-brand-700 disabled:opacity-60"
+          className="flex shrink-0 items-center gap-2 rounded-full bg-brand px-6 py-3 text-[15px] font-bold text-white transition-colors hover:bg-brand-deep disabled:opacity-40"
         >
           {busy && <IconLoader className="h-4 w-4 animate-spin" />}
           {busy ? 'Converting…' : label}
         </button>
       </div>
-      {convertError && <p className="text-sm text-red-600 dark:text-red-400">{convertError}</p>}
+      {convertError && <p className="text-[13px] text-danger">{convertError}</p>}
     </div>
   );
 }

@@ -14,7 +14,7 @@ export function FilePickerButton({ onFiles, accept = 'application/pdf,.pdf', lab
       <button
         type="button"
         onClick={() => ref.current?.click()}
-        className="font-medium text-brand-700 hover:underline dark:text-brand-300"
+        className="text-[13.5px] font-bold text-brand transition-colors hover:text-brand-deep"
       >
         {label}
       </button>

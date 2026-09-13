@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { FileDrop } from '../components/FileDrop';
 import { Notice } from '../components/Notice';
-import { MAX_COMPRESS_BYTES, PRIVACY_LINE } from '../lib/constants';
+import { MAX_COMPRESS_BYTES } from '../lib/constants';
 import { formatBytes, formatDuration, percentSmaller } from '../lib/format';
 import {
   COMPRESS_LEVELS,
@@ -14,6 +14,8 @@ import { downloadBlob } from '../lib/download';
 import { SaveAs } from '../components/SaveAs';
 import { WorkingCard } from '../components/WorkingCard';
 import { FilePickerButton } from '../components/FilePickerButton';
+import { ToolHeader } from '../components/ToolShell';
+import { Pal } from '../components/Pal';
 import { takeHandoff } from '../lib/handoff';
 
 interface Item {
@@ -160,14 +162,12 @@ export function CompressPdf() {
 
   return (
     <div className="space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-4xl font-bold tracking-tight text-ink-900 dark:text-white">Compress PDF</h1>
-        <p className="text-[15px] text-ink-500 dark:text-white/60">
-          Shrink one or several PDFs for email or upload. Combined size up to{' '}
-          {formatBytes(MAX_COMPRESS_BYTES)}.
-        </p>
-        <p className="pt-1 text-xs text-ink-500 dark:text-white/50">{PRIVACY_LINE}</p>
-      </header>
+      <ToolHeader
+        title="Compress PDF"
+        blurb={`Shrink one or several PDFs for email or upload. Combined size up to ${formatBytes(
+          MAX_COMPRESS_BYTES,
+        )}.`}
+      />
 
       {notice && <Notice tone="warn">{notice}</Notice>}
 
@@ -177,28 +177,39 @@ export function CompressPdf() {
             <FileDrop
               accept="application/pdf,.pdf"
               multiple
+              label="Drop PDFs here"
               hint={`PDFs totalling up to ${formatBytes(MAX_COMPRESS_BYTES)}`}
               onFiles={addFiles}
             />
           ) : (
-            <div className="animate-enter space-y-3">
-              <ul className="divide-y divide-paper-200 overflow-hidden rounded-2xl border border-paper-200 bg-white dark:divide-white/10 dark:border-white/10 dark:bg-white/5">
+            <div className="animate-enter rounded-[20px] bg-recess p-4 sm:p-5">
+              <div className="flex items-baseline justify-between gap-3 pb-3">
+                <p className="text-[14px] font-bold text-ink">
+                  {items.length} {items.length === 1 ? 'file' : 'files'} ready
+                </p>
+                <p className={`num text-[13px] ${oversized ? 'font-bold text-danger' : 'text-ink-dim'}`}>
+                  {formatBytes(totalBytes)} / {formatBytes(MAX_COMPRESS_BYTES)}
+                </p>
+              </div>
+
+              <ul className="space-y-2">
                 {items.map((it) => (
-                  <li key={it.key} className="flex items-center justify-between gap-3 p-3">
+                  <li
+                    key={it.key}
+                    className="flex items-center justify-between gap-3 rounded-[14px] bg-page p-3"
+                  >
                     <div className="min-w-0">
-                      <p className="truncate font-medium text-ink-900 dark:text-white">
+                      <p className="truncate text-[15.5px] font-bold leading-tight text-ink">
                         {it.file.name}
                       </p>
-                      <p className="text-sm text-ink-500 dark:text-white/60">
-                        {formatBytes(it.file.size)}
-                      </p>
+                      <p className="num mt-0.5 text-[12.5px] text-ink-dim">{formatBytes(it.file.size)}</p>
                     </div>
                     {!working && (
                       <button
                         type="button"
                         onClick={() => removeItem(it.key)}
                         aria-label={`Remove ${it.file.name}`}
-                        className="shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-medium text-ink-500 hover:bg-paper-100 hover:text-ink-900 dark:hover:bg-white/10 dark:hover:text-white"
+                        className="shrink-0 rounded-full px-3 py-1.5 text-[13px] font-bold text-ink-dim transition-colors hover:bg-sunk hover:text-danger"
                       >
                         Remove
                       </button>
@@ -207,27 +218,18 @@ export function CompressPdf() {
                 ))}
               </ul>
 
-              <div className="flex items-center justify-between text-sm">
-                <span
-                  className={`font-mono tabular-nums ${
-                    oversized ? 'font-medium text-red-600 dark:text-red-400' : 'text-ink-500 dark:text-white/60'
-                  }`}
-                >
-                  Total {formatBytes(totalBytes)} / {formatBytes(MAX_COMPRESS_BYTES)}
-                </span>
-                {!working && (
-                  <div className="flex gap-3">
-                    <FilePickerButton onFiles={addFiles} />
-                    <button
-                      type="button"
-                      onClick={resetAll}
-                      className="font-medium text-ink-500 hover:text-ink-900 dark:hover:text-white"
-                    >
-                      Clear all
-                    </button>
-                  </div>
-                )}
-              </div>
+              {!working && (
+                <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <FilePickerButton onFiles={addFiles} />
+                  <button
+                    type="button"
+                    onClick={resetAll}
+                    className="text-[13.5px] font-bold text-ink-dim transition-colors hover:text-ink"
+                  >
+                    Clear all
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
@@ -239,37 +241,40 @@ export function CompressPdf() {
           )}
 
           {items.length > 0 && !working && (
-            <fieldset className="space-y-3">
-              <legend className="mb-1 text-sm font-semibold text-ink-700 dark:text-white/80">
-                Quality level
+            <fieldset>
+              <legend className="text-[15px] font-extrabold tracking-tight text-ink">
+                How small do you need it?
               </legend>
-              {COMPRESS_LEVELS.map((info) => (
-                <label
-                  key={info.id}
-                  className={`flex cursor-pointer gap-3 rounded-lg border p-3 transition-[transform,border-color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    level === info.id
-                      ? 'border-brand-500 bg-brand-50 shadow-[0_4px_16px_-6px_rgba(37,99,235,0.35)] dark:bg-brand-900/30'
-                      : 'border-paper-200 bg-white hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-[0_4px_16px_-8px_rgba(37,99,235,0.2)] dark:border-white/10 dark:bg-white/5'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="level"
-                    value={info.id}
-                    checked={level === info.id}
-                    onChange={() => setLevel(info.id)}
-                    className="mt-1 accent-brand-600"
-                  />
-                  <span>
-                    <span className="block font-medium text-ink-900 dark:text-white">
-                      {info.label}
-                    </span>
-                    <span className="block text-sm text-ink-500 dark:text-white/60">
-                      {info.blurb}
-                    </span>
-                  </span>
-                </label>
-              ))}
+              <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
+                {COMPRESS_LEVELS.map((info) => {
+                  const on = level === info.id;
+                  return (
+                    <label
+                      key={info.id}
+                      className={`cursor-pointer rounded-[20px] border-2 p-4 transition-[transform,border-color,background-color] duration-200 ease-[cubic-bezier(0.22,1.2,0.36,1)] ${
+                        on
+                          ? 'border-brand bg-chip'
+                          : 'border-line bg-page hover:-translate-y-0.5 hover:border-fold'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="level"
+                        value={info.id}
+                        checked={on}
+                        onChange={() => setLevel(info.id)}
+                        className="sr-only"
+                      />
+                      <span className="block text-[16px] font-extrabold tracking-tight text-ink">
+                        {info.label}
+                      </span>
+                      <span className="mt-1 block text-[13px] leading-snug text-ink-dim">
+                        {info.blurb}
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
             </fieldset>
           )}
 
@@ -278,7 +283,7 @@ export function CompressPdf() {
               type="button"
               onClick={run}
               disabled={oversized}
-              className="w-full rounded-lg bg-brand-600 px-4 py-3 font-semibold text-white shadow-sm transition-[transform,background-color] duration-150 hover:bg-brand-700 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
+              className="w-full rounded-full bg-brand px-6 py-4 text-[16px] font-bold text-white transition-colors duration-200 hover:bg-brand-deep disabled:cursor-not-allowed disabled:opacity-40"
             >
               {items.length === 1 ? 'Compress PDF' : `Compress ${items.length} PDFs`}
             </button>
@@ -288,15 +293,23 @@ export function CompressPdf() {
             <WorkingCard
               ratio={phase.progress.ratio}
               label={phase.progress.note}
-              title={phase.total > 1 ? `File ${phase.done + 1} of ${phase.total}: ${phase.current}` : undefined}
-              note="Large scans can take a minute each. Everything runs in this tab."
+              title={
+                phase.total > 1
+                  ? `File ${phase.done + 1} of ${phase.total}: ${phase.current}`
+                  : undefined
+              }
+              note="Large scans can take a minute each. Everything runs in this tab — leaving the page stops the job."
             />
           )}
         </>
       )}
 
       {phase.kind === 'results' && (
-        <Results rows={phase.rows} onReset={resetAll} onDownloadAll={() => downloadAll(phase.rows)} />
+        <Results
+          rows={phase.rows}
+          onReset={resetAll}
+          onDownloadAll={() => downloadAll(phase.rows)}
+        />
       )}
     </div>
   );
@@ -322,40 +335,41 @@ function Results({
   const single = ok.length === 1 ? ok[0] : null;
 
   return (
-    <div className="animate-enter space-y-4">
+    <div className="animate-enter space-y-7">
       {ok.length > 0 && (
-        <div className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-5 dark:border-brand-800 dark:bg-brand-900/30">
-          <div>
-            <p className="text-xl font-bold text-brand-800 dark:text-brand-200">
-              {rows.length > 1 ? `${ok.length} of ${rows.length} PDFs compressed` : null}
-              {rows.length > 1 ? ' · ' : ''}
-              {overallPct > 0 ? `${overallPct}% smaller` : 'Already tightly packed'}
-            </p>
-            <p className="mt-1 font-mono text-sm tabular-nums text-ink-500 dark:text-white/60">
-              {formatBytes(inTotal)} → {formatBytes(outTotal)} total
-            </p>
+        <div className="flex flex-wrap items-start gap-4 rounded-[20px] bg-recess p-5 sm:p-6">
+          <Pal state="done" className="h-12 w-12 shrink-0 text-brand" />
+          <div className="min-w-0 flex-1">
+          <p className="text-[26px] font-extrabold leading-tight tracking-tight text-ink sm:text-[32px]">
+            {rows.length > 1 ? `${ok.length} of ${rows.length} compressed · ` : ''}
+            {overallPct > 0 ? `${overallPct}% smaller` : 'Already tightly packed'}
+          </p>
+          <p className="num mt-1.5 text-[14px] text-ink-dim">
+            {formatBytes(inTotal)} → {formatBytes(outTotal)} total
+          </p>
+          <div className="mt-4">
+            {single ? (
+              <SaveAs blob={single.blob!} defaultName={single.name} />
+            ) : (
+              <button
+                type="button"
+                onClick={onDownloadAll}
+                className="rounded-full bg-brand px-5 py-3 text-[15px] font-bold text-white transition-colors hover:bg-brand-deep"
+              >
+                Download all (.zip)
+              </button>
+            )}
           </div>
-          {single ? (
-            <SaveAs blob={single.blob!} defaultName={single.name} />
-          ) : (
-            <button
-              type="button"
-              onClick={onDownloadAll}
-              className="rounded-lg bg-brand-600 px-4 py-2.5 font-semibold text-white transition-transform active:scale-[0.99] hover:bg-brand-700"
-            >
-              Download all (.zip)
-            </button>
-          )}
+          </div>
         </div>
       )}
 
-      <ul className="space-y-3">
+      {/* Each file keeps its own row and its own outcome. Nothing here is a
+          toast that disappears before you have read it. */}
+      <ul className="space-y-2.5">
         {rows.map((r, i) => (
-          <li
-            key={i}
-            className="flex gap-3 rounded-2xl border border-paper-200 bg-white p-3 dark:border-white/10 dark:bg-white/5"
-          >
-            <div className="grid h-24 w-[72px] shrink-0 place-items-center overflow-hidden rounded-lg border border-paper-200 bg-paper-50 dark:border-white/10 dark:bg-white/10">
+          <li key={i} className="flex gap-4 rounded-[20px] border border-line p-3.5">
+            <div className="grid h-[96px] w-[70px] shrink-0 place-items-center overflow-hidden rounded-[12px] bg-sunk">
               {r.thumbUrl ? (
                 <img
                   src={r.thumbUrl}
@@ -363,24 +377,24 @@ function Results({
                   className="h-full w-full object-contain"
                 />
               ) : (
-                <span className="text-[10px] text-ink-500">no preview</span>
+                <span className="text-[11px] text-ink-dim">no preview</span>
               )}
             </div>
             <div className="min-w-0 flex-1">
+              <p className="truncate text-[16px] font-extrabold leading-tight tracking-tight text-ink">
+                {r.name}
+              </p>
               {r.error ? (
-                <>
-                  <p className="truncate font-medium text-ink-900 dark:text-white">{r.name}</p>
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">{r.error}</p>
-                </>
+                <p className="mt-1.5 text-[13px] leading-relaxed text-danger">{r.error}</p>
               ) : (
                 <>
-                  <p className="font-mono text-sm tabular-nums text-ink-500 dark:text-white/60">
+                  <p className="num mt-1 text-[12.5px] text-ink-dim">
                     {formatBytes(r.inputBytes)} → {formatBytes(r.outputBytes ?? 0)} ·{' '}
                     {percentSmaller(r.inputBytes, r.outputBytes ?? r.inputBytes)}% smaller
                     {r.ms != null ? ` · ${formatDuration(r.ms)}` : ''}
                   </p>
                   {r.blob && !single && (
-                    <div className="mt-2">
+                    <div className="mt-2.5">
                       <SaveAs variant="inline" blob={r.blob} defaultName={r.name} />
                     </div>
                   )}
@@ -394,7 +408,7 @@ function Results({
       <button
         type="button"
         onClick={onReset}
-        className="rounded-lg border border-paper-200 px-4 py-2.5 font-semibold text-ink-700 transition-transform active:scale-[0.99] hover:bg-white dark:border-white/15 dark:text-white/80 dark:hover:bg-white/10"
+        className="rounded-full border-2 border-line px-5 py-3 text-[15px] font-bold text-ink transition-colors hover:border-fold"
       >
         Compress more
       </button>

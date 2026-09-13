@@ -1,240 +1,138 @@
 @import 'tailwindcss';
 
-/* `dark:` utilities apply for the Dark theme and the Winter theme (a night palette). */
+/* Self-hosted, same-origin. A tool that promises no third-party request for
+   your files must not make one for its own lettering. Nunito is here because
+   the wordmark is a pinned brand commitment and the headings should look like
+   it — the same rounded geometric skeleton and soft terminals — rather than
+   merely sitting near it. */
+@import '@fontsource/nunito/latin-400.css';
+@import '@fontsource/nunito/latin-600.css';
+@import '@fontsource/nunito/latin-700.css';
+@import '@fontsource/nunito/latin-800.css';
+
 @custom-variant dark (&:where(
   [data-theme='dark'], [data-theme='dark'] *,
   [data-theme='winter'], [data-theme='winter'] *
 ));
 
+/* ─── The Pal ───────────────────────────────────────────────────────────────
+   The logo is not a badge in the corner, it is the product's manner. Every
+   container on this surface is built from the mark's own geometry: uniform
+   stroke, round joins, generous radii, two tones of blue and nothing else.
+
+   White is where you read. The pale blue recess is where work happens — it is
+   the only ground that changes, and it always means "something of yours is
+   here". Saturated blue is reserved for actions and the mark. */
 @theme {
-  /* Cool neutral surface — soft cool white / light grey. */
-  --color-paper-50: #fbfcfe;
-  --color-paper-100: #eef1f6;
-  --color-paper-200: #dde3ec;
+  --color-page: #ffffff;
+  --color-recess: #f4f8ff;
+  --color-sunk: #edf3fd;
+  --color-line: #e3eaf6;
 
-  /* Blue accent ramp (the default brand colour). */
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #d9e6ff;
-  --color-brand-200: #b9d1ff;
-  --color-brand-300: #8bb4fb;
-  --color-brand-400: #5b90f5;
-  --color-brand-500: #3b74ec;
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4fc4;
-  --color-brand-800: #1c419b;
-  --color-brand-900: #1c3a7c;
+  --color-ink: #0f1420;
+  --color-ink-dim: #5b6576;
 
-  --color-ink-500: #64748b;
-  --color-ink-700: #334155;
-  --color-ink-900: #131a26;
+  --color-brand: #2563eb;
+  --color-brand-deep: #1b4ed1;
+  --color-fold: #b9d1ff;
+  --color-chip: #e9f1ff;
+  --color-danger: #cf4436;
 
-  /* Deliberate system-font stack, not a placeholder: 'Inter' was declared but
-     never self-hosted, so every user was already rendering in their OS font.
-     A tool that promises zero network requests for your files shouldn't add
-     one for its own UI — the native font is free, instant, and already looks
-     right on every platform. */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-sans:
+    'Nunito', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* ── Migration shim ──────────────────────────────────────────────────────
+     redesign_v2 rebuilds the shell, home, and Compress PDF. The other 14 tool
+     views still use the pre-redesign token names, so those names point at
+     this world's values and render correctly until the sweep. */
+  --color-paper-50: var(--color-page);
+  --color-paper-100: var(--color-sunk);
+  --color-paper-200: var(--color-line);
+  --color-ink-500: var(--color-ink-dim);
+  --color-ink-700: var(--color-ink-dim);
+  --color-ink-900: var(--color-ink);
+  --color-brand-50: var(--color-chip);
+  --color-brand-100: var(--color-recess);
+  --color-brand-200: var(--color-fold);
+  --color-brand-300: var(--color-fold);
+  --color-brand-500: var(--color-brand);
+  --color-brand-600: var(--color-brand);
+  --color-brand-700: var(--color-brand-deep);
+  --color-brand-800: var(--color-brand-deep);
+  --color-brand-900: var(--color-brand-deep);
 }
 
 :root {
-  --bg: #f4f6fa;
-  --fg: #131a26;
+  /* The mark's corner language, applied to everything that holds something. */
+  --r-surface: 20px;
+  --r-control: 14px;
+  color-scheme: light;
 }
 
 [data-theme='dark'] {
-  --bg: #0d1017;
-  --fg: #e5e9f0;
+  --color-page: #0d1220;
+  --color-recess: #151d2f;
+  --color-sunk: #111827;
+  --color-line: #232d42;
+  --color-ink: #eaeff7;
+  --color-ink-dim: #97a3b8;
+  --color-brand: #5b90f5;
+  --color-brand-deep: #3b74ec;
+  --color-chip: #1b2743;
 }
 
-/* ─── Seasonal themes ──────────────────────────────────────────────────────
-   Each overrides the Tailwind theme custom properties, re-skinning every
-   utility that references them (buttons, borders, chips, text). Fall also
-   defines five rotating feature-card tile colours; Spring, Summer, and
-   Winter use one shared card treatment instead — see "Seasonal feature
-   cards" further down. */
-
-/* Palettes from the "Colors of the Seasons" reference (CodeofColors.com). */
-
+/* Seasonal themes: six values each, and the whole surface re-derives. No
+   component anywhere carries a per-theme rule. */
 [data-theme='spring'] {
-  --bg: #fff8f0;
-  --fg: #4a3f38;
-
-  --color-paper-50: #fffdfa;
-  --color-paper-100: #f8ede8;
-  --color-paper-200: #eddcd5;
-
-  --color-brand-50: #fdeef2;
-  --color-brand-100: #fbdae3;
-  --color-brand-200: #f6b9ca;
-  --color-brand-300: #f090ac;
-  --color-brand-400: #e5688b;
-  --color-brand-500: #d94b74;
-  --color-brand-600: #c93e67;
-  --color-brand-700: #a83354;
-  --color-brand-800: #872c46;
-  --color-brand-900: #6f273c;
-
-  --color-ink-500: #8a7d74;
-  --color-ink-700: #5c4f46;
-  --color-ink-900: #4a3f38;
-
-  /* Feature-card surface: see the shared rule below "Seasonal feature cards". */
-  --card-bg: #fff9fb;
+  --color-page: #fffafc;
+  --color-recess: #fdeef3;
+  --color-sunk: #f9e4ec;
+  --color-line: #f2d7e0;
+  --color-ink: #3d2b33;
+  --color-ink-dim: #82626e;
+  --color-brand: #c93e67;
+  --color-brand-deep: #a83354;
+  --color-fold: #f6b9ca;
+  --color-chip: #fce7ee;
 }
 
 [data-theme='summer'] {
-  --bg: #fffcf3;
-  --fg: #26383f;
-
-  --color-paper-50: #ffffff;
-  --color-paper-100: #eef2f3;
-  --color-paper-200: #dbe4e6;
-
-  --color-brand-50: #ebf3f8;
-  --color-brand-100: #cfe3ef;
-  --color-brand-200: #a4cadf;
-  --color-brand-300: #6ea9c6;
-  --color-brand-400: #3f87ab;
-  --color-brand-500: #236e96;
-  --color-brand-600: #1e5f81;
-  --color-brand-700: #1a4f6b;
-  --color-brand-800: #183f56;
-  --color-brand-900: #163648;
-
-  --color-ink-500: #5f7278;
-  --color-ink-700: #3a4a4f;
-  --color-ink-900: #26383f;
-
-  --card-bg: #fcfeff;
+  --color-page: #fffdf7;
+  --color-recess: #edf6fa;
+  --color-sunk: #e3eff5;
+  --color-line: #d5e6ee;
+  --color-ink: #16323d;
+  --color-ink-dim: #5f7c88;
+  --color-brand: #1e5f81;
+  --color-brand-deep: #163648;
+  --color-fold: #a4cadf;
+  --color-chip: #e6f2f8;
 }
 
 [data-theme='fall'] {
-  --bg: #f9f3e6;
-  --fg: #3a2c18;
-
-  --color-paper-50: #fdf9f0;
-  --color-paper-100: #f1e6d1;
-  --color-paper-200: #e0cba8;
-
-  --color-brand-50: #fbf0e7;
-  --color-brand-100: #f5ddc8;
-  --color-brand-200: #eab992;
-  --color-brand-300: #df8f5a;
-  --color-brand-400: #db7333;
-  --color-brand-500: #d45b12;
-  --color-brand-600: #b94c10;
-  --color-brand-700: #973d10;
-  --color-brand-800: #7a3212;
-  --color-brand-900: #632a12;
-
-  --color-ink-500: #8a7454;
-  --color-ink-700: #57452f;
-  --color-ink-900: #3a2c18;
-
-  --t1-bg: #603c14; --t1-fg: #f3e8da; --t1-chip: rgb(255 255 255 / 0.13); /* #603C14 */
-  --t2-bg: #9c2706; --t2-fg: #fce7de; --t2-chip: rgb(255 255 255 / 0.14); /* #9C2706 */
-  --t3-bg: #d45b12; --t3-fg: #fdefe3; --t3-chip: rgb(255 255 255 / 0.16); /* #D45B12 */
-  --t4-bg: #f3bc2e; --t4-fg: #684608; --t4-chip: rgb(0 0 0 / 0.09); /* #F3BC2E */
-  --t5-bg: #5f5426; --t5-fg: #f1eee0; --t5-chip: rgb(255 255 255 / 0.13); /* #5F5426 */
+  --color-page: #fffcf5;
+  --color-recess: #faf0e0;
+  --color-sunk: #f4e6d1;
+  --color-line: #ead9bd;
+  --color-ink: #3a2c18;
+  --color-ink-dim: #7d6849;
+  --color-brand: #b94c10;
+  --color-brand-deep: #973d10;
+  --color-fold: #eab992;
+  --color-chip: #fbeddd;
 }
 
 [data-theme='winter'] {
-  --bg: #37576a;
-  --fg: #eef4f7;
-
-  --color-paper-50: #2f4a5b;
-  --color-paper-100: #385768;
-  --color-paper-200: #4c6b7e;
-
-  --color-brand-50: #eef4f8;
-  --color-brand-100: #d6e6f0;
-  --color-brand-200: #b2d1e4;
-  --color-brand-300: #8bb8d5;
-  --color-brand-400: #6a9fc4;
-  --color-brand-500: #568cb4;
-  --color-brand-600: #4a7ca3;
-  --color-brand-700: #3f6a8b;
-  --color-brand-800: #375a75;
-  --color-brand-900: #314d63;
-
-  --color-ink-500: #a9c0cd;
-  --color-ink-700: #cfe0e9;
-  --color-ink-900: #eef4f7;
-
-  /* No --card-bg override: Winter is a night palette on the shared `dark:`
-     variant, so its cards use the same translucent elevation as Dark
-     (`dark:bg-white/5` etc., set on .tool-card in Home.tsx) over its own
-     dusk-blue background — one consistent treatment, no new tokens needed. */
-}
-
-/* Fall keeps its original five-colour tile treatment — solid blocks with the
-   title + icon knocked out, cycling by card position. Spring, Summer, and
-   Winter were redesigned off this pattern (see "Seasonal feature cards"
-   below): one shared card colour per theme instead of five rotating ones. */
-[data-theme='fall'] .tool-card {
-  border-color: transparent;
-  background: var(--t-bg);
-  color: var(--t-fg);
-}
-[data-theme='fall'] .tool-card:hover {
-  border-color: transparent;
-  filter: brightness(0.95);
-}
-[data-theme='fall'] .tool-card:nth-child(5n + 1) {
-  --t-bg: #603c14; --t-fg: #f3e8da; --t-chip: rgb(255 255 255 / 0.13); /* #603C14 */
-}
-[data-theme='fall'] .tool-card:nth-child(5n + 2) {
-  --t-bg: #9c2706; --t-fg: #fce7de; --t-chip: rgb(255 255 255 / 0.14); /* #9C2706 */
-}
-[data-theme='fall'] .tool-card:nth-child(5n + 3) {
-  --t-bg: #d45b12; --t-fg: #fdefe3; --t-chip: rgb(255 255 255 / 0.16); /* #D45B12 */
-}
-[data-theme='fall'] .tool-card:nth-child(5n + 4) {
-  --t-bg: #f3bc2e; --t-fg: #684608; --t-chip: rgb(0 0 0 / 0.09); /* #F3BC2E */
-}
-[data-theme='fall'] .tool-card:nth-child(5n + 5) {
-  --t-bg: #5f5426; --t-fg: #f1eee0; --t-chip: rgb(255 255 255 / 0.13); /* #5F5426 */
-}
-[data-theme='fall'] .tool-card__title {
-  color: var(--t-fg);
-  font-size: 1.0625rem;
-  line-height: 1.15;
-}
-[data-theme='fall'] .tool-card__blurb {
-  display: none;
-}
-[data-theme='fall'] .tool-card__icon {
-  color: var(--t-fg);
-  background: var(--t-chip);
-}
-
-/* ─── Seasonal feature cards (Spring / Summer / Winter) ────────────────────
-   Redesigned so every card in a theme shares one base surface and one accent,
-   the same pattern Light and Dark already use — instead of five rotating
-   tile colours. Base = --card-bg (a whisper of the theme's hue over white,
-   distinct from the tinted page background so cards still read as "raised");
-   Winter has none and inherits Dark's translucent elevation, since it rides
-   the same `dark:` variant. Accent = the theme's own brand-600/700 ramp,
-   already used everywhere else (buttons, links, the active nav state) —
-   reused here for the icon chip and hover border so the accent, not the
-   card, carries the seasonal colour. Typeface is unchanged: the system font
-   stack stays the same across every theme for scanability and because
-   swapping faces would mean either a CDN font request or a new self-hosted
-   asset for a personalisation feature — not worth spending either budget on. */
-[data-theme='spring'] .tool-card,
-[data-theme='summer'] .tool-card {
-  background: var(--card-bg);
-}
-/* ink-500 (the default `.tool-card__blurb` colour) falls under 4.5:1 on
-   Spring's near-white card; ink-700 clears it with room to spare. */
-[data-theme='spring'] .tool-card__blurb {
-  color: var(--color-ink-700);
-}
-/* Winter's card wash is lighter than Dark's near-black one, so the default
-   `dark:text-white/60` blurb drops under 4.5:1 here; its own ink-700 token
-   (already tuned for this background) clears it. */
-[data-theme='winter'] .tool-card__blurb {
-  color: var(--color-ink-700);
+  --color-page: #1e3242;
+  --color-recess: #26404f;
+  --color-sunk: #1a2c3a;
+  --color-line: #35505f;
+  --color-ink: #eef4f7;
+  --color-ink-dim: #a9c0cd;
+  --color-brand: #8bb8d5;
+  --color-brand-deep: #6a9fc4;
+  --color-fold: #b2d1e4;
+  --color-chip: #2c4959;
 }
 
 html {
@@ -243,38 +141,82 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--fg);
+  background: var(--color-page);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
+/* Browser surfaces the design still owns. */
+::selection {
+  background: var(--color-fold);
+  color: var(--color-ink);
+}
+:where(input, textarea) {
+  caret-color: var(--color-brand);
+}
+:where(:focus-visible) {
+  outline: 2.5px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+* {
+  scrollbar-color: var(--color-line) transparent;
+  scrollbar-width: thin;
 }
 
-/* ─── Motion primitives ─────────────────────────────────────────────────────
-   Shared across the app: a page-enter fade for route changes, and a shimmer
-   sweep for skeleton placeholders shown while a lazy view chunk loads. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 
-@keyframes enter {
+/* Sizes, counts and measurements never re-flow as their digits change. */
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* ─── Motion ────────────────────────────────────────────────────────────────
+   Soft and short. Scale and translate only, 200–320ms, on an ease that
+   overshoots a little so things feel handled rather than switched. Every
+   state has a static rendering under reduced motion. */
+
+@keyframes pal-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 .animate-enter {
-  animation: enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: pal-in 0.32s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+}
+
+/* The pal's working state: a slow, small nod. It runs only while a real job
+   is running, never as ambient decoration. */
+@keyframes pal-work {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-2.5deg);
+  }
+}
+
+.pal-working {
+  animation: pal-work 1.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 @keyframes shimmer {
@@ -289,15 +231,20 @@ body {
 .skeleton {
   background-image: linear-gradient(
     100deg,
-    var(--color-paper-100) 40%,
-    var(--color-paper-50) 50%,
-    var(--color-paper-100) 60%
+    var(--color-sunk) 40%,
+    var(--color-page) 50%,
+    var(--color-sunk) 60%
   );
   background-size: 250% 100%;
   animation: shimmer 1.6s ease-in-out infinite;
 }
 
-[data-theme='dark'] .skeleton,
-[data-theme='winter'] .skeleton {
-  background-image: linear-gradient(100deg, rgb(255 255 255 / 0.06) 40%, rgb(255 255 255 / 0.12) 50%, rgb(255 255 255 / 0.06) 60%);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
