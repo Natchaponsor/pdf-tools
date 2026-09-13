@@ -43,17 +43,18 @@ export function FileDrop({ accept, multiple = false, hint, onFiles, label }: Pro
           setOver(false);
           take(Array.from(e.dataTransfer.files));
         }}
-        className={`group flex w-full flex-col items-center gap-4 rounded-[20px] border-2 border-dashed px-6 py-10 text-center transition-colors duration-200 sm:py-12 ${
-          over
-            ? 'border-brand bg-chip'
-            : 'border-line bg-recess hover:border-fold'
+        className={`group relative flex w-full flex-col items-center gap-4 rounded-[20px] px-6 py-10 text-center transition-colors duration-200 sm:py-12 ${
+          over ? 'bg-chip' : 'bg-recess'
         }`}
       >
-        {/* The pal answers the file, not the cursor: it lifts its brows when
-            something is actually being handed over. */}
+        <DashedEdge active={over} />
+        {/* It lifts its brows when something is actually being handed over.
+            Rocking gently while it waits, still while you are actually
+            pointing at it: the idle motion is what draws the eye, and once the
+            eye is here it has done its job and should get out of the way. */}
         <Pal
           state={over ? 'alert' : 'resting'}
-          className="h-14 w-14 text-brand transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 sm:h-16 sm:w-16"
+          className="animate-tilt h-14 w-14 text-brand transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:animate-none group-hover:-translate-y-1 sm:h-16 sm:w-16"
         />
         <span className="block">
           <span className="block text-[21px] font-extrabold leading-tight tracking-tight text-ink sm:text-[25px]">
@@ -77,5 +78,39 @@ export function FileDrop({ accept, multiple = false, hint, onFiles, label }: Pro
         }}
       />
     </>
+  );
+}
+
+/**
+ * The travelling dashed edge.
+ *
+ * Drawn as an SVG rather than a CSS dashed border, because `border-style:
+ * dashed` has no offset to animate. The svg is inset by half the stroke width
+ * and allowed to overflow, so the stroke sits centred on the box edge exactly
+ * where the old border did.
+ */
+function DashedEdge({ active }: { active: boolean }) {
+  return (
+    <svg
+      aria-hidden
+      className={`pointer-events-none absolute inset-0 h-full w-full transition-colors duration-200 ${
+        active ? 'text-brand' : 'text-line group-hover:text-fold'
+      }`}
+    >
+      {/* Inset by half the stroke so the dashes sit inside the box rather than
+          straddling its edge. width and height are set in CSS because SVG
+          attributes cannot take calc(). */}
+      <rect
+        x="1.5"
+        y="1.5"
+        rx="18.5"
+        style={{ width: 'calc(100% - 3px)', height: 'calc(100% - 3px)' }}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeDasharray="13 9"
+        className="group-hover:animate-march"
+      />
+    </svg>
   );
 }

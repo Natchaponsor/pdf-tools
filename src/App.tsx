@@ -2,6 +2,8 @@ import { lazy, Suspense, type ComponentType, type ReactNode } from 'react';
 import { navigate, useHashRoute } from './lib/useHashRoute';
 import { IconGitHub } from './components/icons';
 import { Pal } from './components/Pal';
+import { SettingsPanel } from './components/SettingsPanel';
+import { useMediaQuery } from './lib/useMediaQuery';
 import { PwaPrompt } from './components/PwaPrompt';
 import { ViewErrorBoundary } from './components/ViewErrorBoundary';
 import { ViewSkeleton } from './components/ViewSkeleton';
@@ -62,6 +64,13 @@ export function App() {
   const route = useHashRoute();
   const base = '/' + (route.split('/')[1] ?? '');
 
+  // Settings is one route with two presentations. Wide enough to show the page
+  // beside it, it opens as a drawer over the tool set so a theme change can be
+  // judged against the thing it changes. Narrow, it takes the whole screen,
+  // because there is nothing useful left to see behind a panel on a phone.
+  const wide = useMediaQuery('(min-width: 1024px)');
+  const asPanel = base === '/settings' && wide;
+
   return (
     <div className="flex min-h-dvh flex-col bg-page">
       <header className="sticky top-0 z-30 border-b border-line bg-page/90 backdrop-blur-sm">
@@ -92,13 +101,14 @@ export function App() {
         <ViewErrorBoundary resetKey={base}>
           <Suspense fallback={<ViewSkeleton />}>
             <div key={base} className="animate-enter">
-              <View route={route} />
+              <View route={asPanel ? '/' : route} />
             </div>
           </Suspense>
         </ViewErrorBoundary>
       </main>
 
       <SiteFooter />
+      <SettingsPanel open={asPanel} onClose={() => navigate('/')} />
       <PwaPrompt />
     </div>
   );

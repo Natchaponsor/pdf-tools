@@ -45,6 +45,11 @@
   --color-chip: #e9f1ff;
   --color-danger: #cf4436;
 
+  /* Idle rocking on the hand-off mark, and the travelling dashes around the
+     box it sits in. Both stop or hand over on hover. */
+  --animate-tilt: tilt 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  --animate-march: march 0.9s linear infinite;
+
   --font-sans:
     'Nunito', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
@@ -213,6 +218,24 @@ body {
 
 .animate-enter {
   animation: pal-in 0.32s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+@keyframes tilt {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+/* One dash period is 13 on plus 9 off, so travelling exactly 22 loops
+   seamlessly. */
+@keyframes march {
+  to {
+    stroke-dashoffset: -22;
+  }
 }
 
 /* The pal's working state: a slow, small nod. It runs only while a real job

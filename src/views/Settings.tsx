@@ -13,15 +13,28 @@ const OPTIONS: { id: ThemePref; label: string }[] = [
   { id: 'winter', label: 'Winter' },
 ];
 
+/** The standalone page, used on narrow screens where there is no room beside it. */
 export function Settings() {
-  const [theme, setTheme] = useState<ThemePref>(getThemePref);
-  const install = usePwaInstall();
-
   return (
     <div className="mx-auto w-full max-w-3xl space-y-9 px-4 py-10 sm:px-6">
       <h1 className="text-[34px] font-extrabold leading-tight tracking-tight text-ink sm:text-[40px]">
         Settings
       </h1>
+      <SettingsBody />
+    </div>
+  );
+}
+
+/**
+ * Everything under the heading. Shared by the page and by the drawer, so a
+ * theme changed in one is the same control as in the other.
+ */
+export function SettingsBody() {
+  const [theme, setTheme] = useState<ThemePref>(getThemePref);
+  const install = usePwaInstall();
+
+  return (
+    <div className="space-y-9">
 
       {install.kind !== 'unsupported' && (
         <section className="space-y-2">

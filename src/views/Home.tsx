@@ -7,7 +7,7 @@ import { formatBytes } from '../lib/format';
 import { FileDrop } from '../components/FileDrop';
 import { Pal } from '../components/Pal';
 import { IconClose } from '../components/icons';
-import { useHeroSnap } from '../lib/useHeroSnap';
+import { useHeroPart } from '../lib/useHeroPart';
 
 export function Home({ compact = false }: { compact?: boolean }) {
   // A file handed over before a verb is chosen, which is the order people
@@ -16,10 +16,9 @@ export function Home({ compact = false }: { compact?: boolean }) {
   const [staged, setStaged] = useState<File | null>(null);
 
   const heroRef = useRef<HTMLElement>(null);
-  const toolsRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  useHeroSnap({ hero: heroRef, tools: toolsRef, left: titleRef, right: boxRef });
+  useHeroPart({ hero: heroRef, left: titleRef, right: boxRef });
 
   const kind: 'pdf' | 'image' | null = staged
     ? staged.type === 'application/pdf' || staged.name.toLowerCase().endsWith('.pdf')
@@ -68,7 +67,7 @@ export function Home({ compact = false }: { compact?: boolean }) {
         </section>
       )}
 
-      <section ref={toolsRef} className={compact ? '' : 'border-t border-line bg-band'}>
+      <section className={compact ? '' : 'border-t border-line bg-band'}>
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
           {compact ? (
             <h1 className="text-[34px] font-extrabold tracking-tight text-ink">All tools</h1>
