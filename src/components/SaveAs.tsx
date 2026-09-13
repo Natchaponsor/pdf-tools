@@ -19,7 +19,7 @@ type ExportFormat = 'pdf' | 'jpg' | 'png';
 
 /**
  * Lets the user edit the file name before saving. The extension is fixed and
- * shown as a suffix so it can't be lost, unless the result is a PDF — then
+ * shown as a suffix so it can't be lost, unless the result is a PDF, in which case
  * it becomes a format choice (PDF stays the default) that renders every page
  * to an image on save instead. An empty name falls back to the original stem.
  */

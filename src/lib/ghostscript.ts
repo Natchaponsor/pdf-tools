@@ -1,5 +1,5 @@
 /*
- * Ghostscript client — spawns the plain worker in public/workers/gs.worker.js
+ * Ghostscript client. Spawns the plain worker in public/workers/gs.worker.js
  * (single-threaded WASM, no cross-origin isolation) and runs `gs -sDEVICE=pdfwrite`
  * with the given extra args. Used by both the compressor and the greyscale tool.
  */
@@ -24,7 +24,7 @@ export async function runGhostscript(
 ): Promise<GsOutcome> {
   const buffer = source instanceof ArrayBuffer ? source : await source.arrayBuffer();
   const id = ++jobId;
-  // A fresh worker each run — Ghostscript holds a lot of state and memory.
+  // A fresh worker each run, because Ghostscript holds a lot of state and memory.
   const worker = new Worker(`${import.meta.env.BASE_URL}workers/gs.worker.js`);
   onProgress({ ratio: null, note: 'Loading the engine…' });
 

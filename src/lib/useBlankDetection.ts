@@ -5,10 +5,10 @@ import type { PageThumb } from './usePageThumbnails';
 const INK_THRESHOLD = 0.005;
 
 /**
- * Flags pages that look empty by sampling their thumbnail on a canvas — cheap
+ * Flags pages that look empty by sampling their thumbnail on a canvas. Cheap
  * because thumbnails are already small JPEGs. Runs on the main thread; no
  * worker needed for images this size. This is a first pass for review, not a
- * silent auto-remove — the caller always shows the result before acting.
+ * silent auto-remove: the caller always shows the result before acting.
  *
  * Pass an empty array while thumbnails are still loading; pass the full list
  * once they're all ready, and the hook analyses them progressively.
@@ -36,7 +36,7 @@ export function useBlankDetection(pages: PageThumb[]): {
         try {
           found[page.index] = await isPageBlank(page.url);
         } catch {
-          // Couldn't analyze it — leave it unflagged rather than guess.
+          // Couldn't analyze it, so leave it unflagged rather than guess.
         }
         if (!cancelled) setBlank({ ...found });
       }

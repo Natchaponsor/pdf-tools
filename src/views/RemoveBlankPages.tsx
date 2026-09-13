@@ -28,7 +28,7 @@ export function RemoveBlankPages() {
   const outUrl = useRef<string | null>(null);
 
   const { pages, pageCount, loading, error: loadError } = usePageThumbnails(file);
-  // Analyse only once every thumbnail is ready — keeps the detector's effect simple.
+  // Analyse only once every thumbnail is ready, which keeps the detector's effect simple.
   const { blank, analyzing } = useBlankDetection(loading ? NO_PAGES : pages);
 
   useEffect(() => {

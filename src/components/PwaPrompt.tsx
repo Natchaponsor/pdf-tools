@@ -3,7 +3,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 /**
  * Bottom-centre toast for service-worker lifecycle events.
  *
- * - "Update available — reload" when a new deploy has been fetched
+ * - "Update available, reload" when a new deploy has been fetched
  *   (`registerType: 'prompt'`, so nothing swaps until the user clicks).
  * - "Ready to work offline" once, on first install of the worker.
  */

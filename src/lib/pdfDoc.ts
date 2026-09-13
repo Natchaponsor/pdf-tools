@@ -1,6 +1,6 @@
 /*
  * PDF page reading/rendering via the shared MuPDF worker (see mupdfClient.ts).
- * Replaces a pdf.js dependency — MuPDF is already loaded for compression and
+ * Replaces a pdf.js dependency, since MuPDF is already loaded for compression and
  * renders pages reliably in the worker.
  */
 import { callMupdf } from './mupdfClient';
@@ -53,7 +53,7 @@ export async function renderPage(
   };
 }
 
-/** Render page 1 of a standalone PDF blob — used for result previews. */
+/** Render page 1 of a standalone PDF blob, used for result previews. */
 export async function renderFirstPage(
   source: Blob | ArrayBuffer,
   maxWidth = 360,
@@ -90,7 +90,7 @@ export interface ExportedImage {
   blob: Blob;
 }
 
-/** Render every page of a PDF blob to images — used to offer JPG/PNG at export time. */
+/** Render every page of a PDF blob to images, used to offer JPG/PNG at export time. */
 export async function convertPdfToImages(
   blob: Blob,
   format: RasterFormat,

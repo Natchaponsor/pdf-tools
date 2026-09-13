@@ -319,7 +319,7 @@ export function ScanDocuments() {
           )}
         </div>
       ) : (
-        /* 3 — review grid + export */
+        /* 3. review grid + export */
         <div className="space-y-4">
           <p className="text-sm text-ink-500 dark:text-white/60">
             {pages.length} {pages.length === 1 ? 'page' : 'pages'} · drag to reorder, tap ✕ to
@@ -520,7 +520,7 @@ function PageTile({
   );
 }
 
-/* ── Segmented (local copy — matches the other tool views) ─────────────────── */
+/* ── Segmented (local copy, matches the other tool views) ─────────────────── */
 
 function Segmented<T extends string>({
   label,

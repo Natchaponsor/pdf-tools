@@ -3,12 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 /**
  * Install affordance state for the PWA.
  *
- * - `installable` — Chrome/Edge/Android fired `beforeinstallprompt`; call
+ * - `installable`: Chrome/Edge/Android fired `beforeinstallprompt`; call
  *   `promptInstall()` to show the native dialog.
- * - `ios-hint` — iOS Safari has no prompt event; show a one-line
+ * - `ios-hint`: iOS Safari has no prompt event; show a one-line
  *   "Add to Home Screen" tip instead.
- * - `installed` — already running as a standalone app.
- * - `unsupported` — nothing to show (e.g. desktop Firefox).
+ * - `installed`: already running as a standalone app.
+ * - `unsupported`: nothing to show (e.g. desktop Firefox).
  */
 export type InstallState =
   | { kind: 'unsupported' }

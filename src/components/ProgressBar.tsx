@@ -1,5 +1,5 @@
 interface Props {
-  /** 0–1, or null for an indeterminate bar. */
+  /** 0 to 1, or null for an indeterminate bar. */
   ratio: number | null;
   label: string;
 }

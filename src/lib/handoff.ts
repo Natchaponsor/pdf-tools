@@ -4,7 +4,7 @@
  *
  * Two things fill it: "Continue with…" on a result card, and the home bench,
  * where a file is put down before a verb is chosen (which is the order people
- * actually think in — "this PDF is too big" comes before "I want the compress
+ * actually think in: "this PDF is too big" comes before "I want the compress
  * tool"). Deliberately not persisted to storage: it only lives for the current
  * page session and is consumed exactly once, so a tool visited any other way
  * (a fresh upload, a reload, a bookmark) behaves exactly as it always has.

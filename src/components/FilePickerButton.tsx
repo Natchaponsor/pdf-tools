@@ -6,7 +6,7 @@ interface Props {
   label?: string;
 }
 
-/** A plain text link that opens the OS file picker — the "add more" companion to FileDrop. */
+/** A plain text link that opens the OS file picker. The "add more" companion to FileDrop. */
 export function FilePickerButton({ onFiles, accept = 'application/pdf,.pdf', label = 'Add files' }: Props) {
   const ref = useRef<HTMLInputElement>(null);
   return (

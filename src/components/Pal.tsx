@@ -11,7 +11,7 @@ export type PalState = 'resting' | 'alert' | 'working' | 'done' | 'stuck';
  * else in the app animates a face. It is driven by app state rather than by
  * hover, so it works identically on a phone.
  *
- * Geometry is the logo's, unchanged — only the brows, eyes and mouth move.
+ * Geometry is the logo's, unchanged: only the brows, eyes and mouth move.
  */
 const FACES: Record<PalState, { brows: string | null; eyes: 'dot' | 'line' | 'arc'; mouth: string }> =
   {
@@ -22,7 +22,7 @@ const FACES: Record<PalState, { brows: string | null; eyes: 'dot' | 'line' | 'ar
     working: { brows: 'M17 28H26 M38 28H47', eyes: 'line', mouth: 'M27 44H37' },
     // Eyes become happy arcs. Only shown when something actually succeeded.
     done: { brows: null, eyes: 'arc', mouth: 'M25 42Q32 50 39 42' },
-    // Brows tilt in, mouth goes flat and slightly rueful. Never alarming —
+    // Brows tilt in, mouth goes flat and slightly rueful. Never alarming,
     // the copy beside it carries the problem and the recovery.
     stuck: { brows: 'M17 27L26 30 M47 27L38 30', eyes: 'dot', mouth: 'M26 45Q32 42 38 45' },
   };

@@ -6,7 +6,7 @@ type Tone = 'neutral' | 'selected' | 'danger';
 /**
  * One consistent hover/border treatment for a page-thumbnail tile, applied by
  * each view directly to its own existing interactive element (a native
- * button, or a drag handle) — this is what makes the hover highlight
+ * button, or a drag handle). This is what makes the hover highlight
  * identical everywhere without changing any view's click semantics.
  */
 export function tileBorderClass(tone: Tone): string {
@@ -27,7 +27,7 @@ interface Props {
   bottomRight?: ReactNode;
   children: ReactNode;
   /** For a draggable tile (Organize): dnd-kit's sortable ref/style go on the
-   * <li> itself, so the whole tile — image and badges together — moves as
+   * <li> itself, so the whole tile, image and badges together, moves as
    * one unit during drag. `attributes`/`listeners` stay on the view's own
    * inner element instead, exactly as before. */
   liRef?: Ref<HTMLLIElement>;
@@ -36,8 +36,8 @@ interface Props {
 
 /**
  * Wraps a tile's own interactive element with the shared corner overlays
- * (position badge, zoom button, status slots) as absolute siblings — never
- * descendants — so nesting this inside a view whose whole tile is already a
+ * (position badge, zoom button, status slots) as absolute siblings, never
+ * descendants, so nesting this inside a view whose whole tile is already a
  * native <button> stays valid HTML and doesn't disturb its click handling.
  */
 export function PageTileOverlay({

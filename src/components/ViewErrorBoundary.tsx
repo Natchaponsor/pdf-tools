@@ -12,7 +12,7 @@ interface State {
 
 /**
  * Catches failures from the lazy-loaded tool views. The common case is an
- * offline visit to a tool whose JS chunk was never cached — without this the
+ * offline visit to a tool whose JS chunk was never cached. Without this the
  * whole app would unmount to a blank screen.
  */
 export class ViewErrorBoundary extends Component<Props, State> {

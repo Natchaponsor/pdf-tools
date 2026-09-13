@@ -8,7 +8,7 @@ interface Props {
   blob: Blob;
   onReset: () => void;
   resetLabel?: string;
-  /** Tool id this result came from — enables "Continue with…" shortcuts. */
+  /** Tool id this result came from. Enables "Continue with…" shortcuts. */
   chainFrom?: string;
 }
 

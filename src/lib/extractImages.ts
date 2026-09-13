@@ -8,7 +8,7 @@ export interface ExtractedImage {
 /**
  * Pull every embedded raster out of a PDF. JPEGs (DCTDecode) are returned as
  * their original bytes untouched; everything else is decoded and re-encoded
- * as PNG. Stencil image masks are skipped — they aren't standalone images.
+ * as PNG. Stencil image masks are skipped, since they aren't standalone images.
  */
 export async function extractImages(file: File): Promise<ExtractedImage[]> {
   const buffer = await file.arrayBuffer();

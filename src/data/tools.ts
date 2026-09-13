@@ -206,7 +206,7 @@ function byId(ids: string[]): Tool[] {
  * Someone whose file is too big for an email is looking for SIZE; someone with
  * a photographed stack of pages is looking for ORDER. The old split (a flat
  * grid plus a "Sandbox" section) grouped by our confidence in the code, which
- * is our problem, not theirs — the rough ones now carry a mark on their own
+ * is our problem, not theirs. The rough ones now carry a mark on their own
  * row instead of being exiled to a section at the bottom.
  */
 export const TOOL_SECTIONS: ToolSection[] = [
@@ -249,7 +249,7 @@ export const toolByRoute = (route: string): Tool | undefined =>
 
 /**
  * A few natural next steps per tool, for the "Continue with…" row on a
- * result card. Deliberately short (3 max) and one-directional — this is a
+ * result card. Deliberately short (3 max) and one-directional. This is a
  * shortcut into a related tool, not a workflow graph to maintain in full.
  * Left off entirely where the next likely step isn't a PDF tool at all, or
  * where the result usually stands on its own (e.g. straight after Protect).

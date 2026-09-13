@@ -5,7 +5,7 @@ import { callMupdf } from './mupdfClient';
  * set, so the values are negative when read as a signed 32-bit int.
  */
 export const PERMISSIONS = {
-  /** Everything allowed — the file just needs the password to open. */
+  /** Everything allowed. The file just needs the password to open. */
   all: -1,
   /** Printing (and accessibility copy) allowed; editing, copying, annotating blocked. */
   printOnly: -1340,

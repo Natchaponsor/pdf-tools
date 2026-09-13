@@ -3,7 +3,7 @@
  *
  * One engine for: the lossless "Light" compression tier, first-page previews,
  * page counts, and page rendering for the organize / PDF-to-image tools.
- * The MuPDF WASM build is single-threaded — no cross-origin isolation needed.
+ * The MuPDF WASM build is single-threaded, so no cross-origin isolation is needed.
  * Vite rewrites mupdf.js's `new URL('mupdf-wasm.wasm', import.meta.url)` to a
  * hashed, base-path-aware asset URL, so no loader override is required.
  */
@@ -203,7 +203,7 @@ self.onmessage = async (event: MessageEvent<Job>) => {
                 let bytes: Uint8Array;
                 let ext: string;
                 if (filterName === 'DCTDecode') {
-                  // Already a JPEG stream — export the original bytes untouched.
+                  // Already a JPEG stream, so export the original bytes untouched.
                   bytes = val.readRawStream().asUint8Array();
                   ext = 'jpg';
                 } else {

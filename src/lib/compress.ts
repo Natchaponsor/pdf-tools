@@ -1,8 +1,8 @@
 /*
- * PDF compression — engine selection and worker orchestration.
+ * PDF compression: engine selection and worker orchestration.
  *
  * Benchmarked on a 44.9 MB / 24-page scanned PDF (see README):
- *   light     MuPDF lossless structural  ~0–15%   keeps text, instant
+ *   light     MuPDF lossless structural  ~0 to 15%   keeps text, instant
  *   balanced  Ghostscript /ebook  (150dpi)  ~95%  keeps vector text
  *   maximum   Ghostscript /screen (72dpi)   ~97%  keeps vector text
  */

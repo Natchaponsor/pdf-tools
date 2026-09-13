@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 /*
- * Text-to-speech via the browser's built-in SpeechSynthesis — no dependency,
+ * Text-to-speech via the browser's built-in SpeechSynthesis. No dependency,
  * no network, uses the voices installed on the device. The text is split into
  * short chunks and spoken one at a time so we can highlight the current chunk,
  * offer resume points, and dodge the Chrome bug where long utterances stall.

@@ -9,7 +9,7 @@ interface Props {
   filename: string;
 }
 
-/** "Continue with…" shortcuts on a result card — hands the file straight to another tool. */
+/** "Continue with…" shortcuts on a result card. Hands the file straight to another tool. */
 export function ChainSuggestions({ from, blob, filename }: Props) {
   const targets = from ? getChainTargets(from) : [];
   if (!targets.length) return null;

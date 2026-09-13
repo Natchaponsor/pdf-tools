@@ -1,5 +1,5 @@
 /*
- * Document scanner — auto edge detection + perspective "flatten", on-device.
+ * Document scanner: auto edge detection + perspective "flatten", on-device.
  *
  * OpenCV.js (self-hosted at /vendor/opencv/opencv.js, ~13 MB, WASM embedded) is
  * loaded lazily the first time a page is captured and then cached by the
@@ -7,7 +7,7 @@
  * Canny → blur → contours → largest 4-point polygon.
  */
 
-// OpenCV.js ships no usable types for this UMD build — `cv` is dynamically typed.
+// OpenCV.js ships no usable types for this UMD build, so `cv` is dynamically typed.
 type Cv = Record<string, any>;
 
 const CV_URL = `${import.meta.env.BASE_URL}vendor/opencv/opencv.js`;
@@ -65,7 +65,7 @@ export function orderQuad(pts: Point[]): Quad {
   return { tl: bySum[0], br: bySum[3], tr: byDiff[0], bl: byDiff[3] };
 }
 
-/** A quad inset ~6% from the edges — the fallback when auto-detection fails. */
+/** A quad inset ~6% from the edges. The fallback when auto-detection fails. */
 export function defaultQuad(w: number, h: number): Quad {
   const mx = w * 0.06;
   const my = h * 0.06;

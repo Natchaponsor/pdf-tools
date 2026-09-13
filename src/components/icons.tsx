@@ -2,7 +2,7 @@ import type { SVGProps } from 'react';
 
 /**
  * Original line icons for PaperPal. 24×24, 1.6 stroke, round caps/joins.
- * Intentionally simple and consistent — not derived from any icon set.
+ * Intentionally simple and consistent, not derived from any icon set.
  */
 function base(props: SVGProps<SVGSVGElement>) {
   return {
@@ -221,7 +221,7 @@ export function IconReadAloud(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-/** A partial ring for spinners — pair with `animate-spin`. */
+/** A partial ring for spinners. Pair with `animate-spin`. */
 export function IconLoader(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)}>
@@ -240,7 +240,7 @@ export function IconTrash(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-/** A plain return-arrow — deliberately distinct from IconRotate's page motif. */
+/** A plain return-arrow, deliberately distinct from IconRotate's page motif. */
 export function IconUndo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)}>
@@ -268,7 +268,7 @@ export function IconClose(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-/** GitHub mark — a filled glyph, so it doesn't use the line-icon base(). */
+/** GitHub mark. A filled glyph, so it doesn't use the line-icon base(). */
 export function IconGitHub(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
@@ -280,7 +280,7 @@ export function IconGitHub(props: SVGProps<SVGSVGElement>) {
 /**
  * The PaperPal mark: a folded page with a face.
  *
- * Two-tone by construction — the outline takes `currentColor` so the mark can
+ * Two-tone by construction: the outline takes `currentColor` so the mark can
  * sit on any ground, while the folded corner keeps its own pale fill. Pass
  * `fold` to retint that fill (e.g. on a dark surface). Matches
  * `public/logo.svg`, which is the same artwork with the brand colours baked in

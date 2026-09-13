@@ -21,7 +21,7 @@ export interface OcrOutcome extends OcrResult {
 interface Props {
   /** Primary button verb, e.g. "Translate" or "Read aloud". */
   actionLabel: string;
-  /** Label above the language picker — it's the document's language here. */
+  /** Label above the language picker. It's the document's language here. */
   langLabel?: string;
   onResult: (outcome: OcrOutcome) => void;
 }

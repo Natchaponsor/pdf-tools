@@ -50,7 +50,7 @@ export function RotatePdf() {
     setRotations((r) => ({ ...r, [i]: norm((r[i] ?? 0) + 90) }));
   }
 
-  // A single click rotates the page, but only after a short pause — long
+  // A single click rotates the page, but only after a short pause, because a long
   // enough to tell it apart from the first half of a double-click, which
   // opens the zoom preview instead of rotating twice.
   function handleTileClick(i: number) {

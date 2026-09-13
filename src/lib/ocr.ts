@@ -1,5 +1,5 @@
 /*
- * OCR — makes scanned PDFs searchable, entirely on the device.
+ * OCR. Makes scanned PDFs searchable, entirely on the device.
  *
  * MuPDF (shared worker) rasterises each page; Tesseract.js (its own worker)
  * recognises the text and returns a 1-page PDF with an invisible text layer
@@ -7,7 +7,7 @@
  *
  * Tesseract's worker script, WebAssembly core and language model are all
  * self-hosted under /vendor/tesseract (copied by scripts/sync-vendor.mjs) and
- * pointed at explicitly below — tesseract.js would otherwise fetch them from a
+ * pointed at explicitly below, because tesseract.js would otherwise fetch them from a
  * CDN, which would break the "nothing leaves your device" guarantee. The
  * service worker runtime-caches them on first use (see vite.config.ts).
  */
