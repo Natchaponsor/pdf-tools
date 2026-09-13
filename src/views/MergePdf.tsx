@@ -124,7 +124,7 @@ export function MergePdf() {
                         onClick={() => move(i, -1)}
                         disabled={i === 0 || busy}
                         aria-label="Move up"
-                        className="rounded-md px-2 py-1 text-ink-500 hover:bg-paper-100 disabled:opacity-30 dark:hover:bg-white/10"
+                        className="rounded-md px-2 py-1 text-ink-dim transition-colors hover:bg-ink-dim hover:text-page disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink-dim"
                       >
                         ↑
                       </button>
@@ -133,7 +133,7 @@ export function MergePdf() {
                         onClick={() => move(i, 1)}
                         disabled={i === items.length - 1 || busy}
                         aria-label="Move down"
-                        className="rounded-md px-2 py-1 text-ink-500 hover:bg-paper-100 disabled:opacity-30 dark:hover:bg-white/10"
+                        className="rounded-md px-2 py-1 text-ink-dim transition-colors hover:bg-ink-dim hover:text-page disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink-dim"
                       >
                         ↓
                       </button>
@@ -142,7 +142,7 @@ export function MergePdf() {
                         onClick={() => remove(it.key)}
                         disabled={busy}
                         aria-label={`Remove ${it.file.name}`}
-                        className="rounded-md px-2 py-1 text-sm text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
+                        className="rounded-md px-2 py-1 text-sm text-ink-dim transition-colors hover:bg-ink-dim hover:text-page"
                       >
                         ✕
                       </button>

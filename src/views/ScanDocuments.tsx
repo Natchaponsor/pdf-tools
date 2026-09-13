@@ -21,6 +21,7 @@ import { ToolShell } from '../components/ToolShell';
 import { Notice } from '../components/Notice';
 import { ProgressBar } from '../components/ProgressBar';
 import { SaveAs } from '../components/SaveAs';
+import { IconClose } from '../components/icons';
 import { scansToPdf } from '../lib/pdf';
 import { bytesToBlob } from '../lib/download';
 import { formatBytes } from '../lib/format';
@@ -512,9 +513,9 @@ function PageTile({
         type="button"
         onClick={onRemove}
         aria-label={`Remove page ${position}`}
-        className="absolute right-1 top-1 grid h-5 w-5 place-items-center rounded-full bg-black/60 text-xs text-white hover:bg-red-600"
+        className="absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-black/55 text-white transition-colors hover:bg-ink"
       >
-        ✕
+        <IconClose className="h-3.5 w-3.5" />
       </button>
     </li>
   );

@@ -9,7 +9,7 @@ function base(props: SVGProps<SVGSVGElement>) {
     viewBox: '0 0 24 24',
     fill: 'none',
     stroke: 'currentColor',
-    strokeWidth: 1.6,
+    strokeWidth: 1.9,
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
     ...props,
@@ -19,9 +19,11 @@ function base(props: SVGProps<SVGSVGElement>) {
 export function IconCompress(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)}>
-      <path d="M9 4v4H5M15 4v4h4M9 20v-4H5M15 20v-4h4" />
-      <path d="M12 9v6" />
-      <path d="m9.5 12 2.5 3 2.5-3" />
+      <rect x="4" y="9" width="16" height="6" rx="2" />
+      <path d="M12 2v4" />
+      <path d="m9.5 4 2.5 2 2.5-2" />
+      <path d="M12 22v-4" />
+      <path d="m9.5 20 2.5-2 2.5 2" />
     </svg>
   );
 }
@@ -47,9 +49,10 @@ export function IconSplit(props: SVGProps<SVGSVGElement>) {
 export function IconOrganize(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)}>
-      <rect x="3" y="4" width="7" height="9" rx="1.5" />
-      <rect x="14" y="8" width="7" height="9" rx="1.5" />
-      <path d="M10 8h4m0 0-2-2m2 2-2 2" />
+      <rect x="3" y="3" width="8" height="8" rx="1.5" />
+      <rect x="13" y="3" width="8" height="8" rx="1.5" />
+      <rect x="3" y="13" width="8" height="8" rx="1.5" />
+      <rect x="13" y="13" width="8" height="8" rx="1.5" />
     </svg>
   );
 }
@@ -175,9 +178,9 @@ export function IconGrayscale(props: SVGProps<SVGSVGElement>) {
 export function IconBlankPages(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base(props)}>
-      <rect x="3" y="3" width="12" height="16" rx="1.5" opacity="0.4" />
-      <rect x="8" y="6" width="13" height="16" rx="1.5" />
-      <path d="M11 11h7M11 14h5M11 17h6" />
+      <rect x="4" y="3" width="12" height="17" rx="2" />
+      <circle cx="17.5" cy="17.5" r="4.5" />
+      <path d="M15.5 17.5h4" />
     </svg>
   );
 }

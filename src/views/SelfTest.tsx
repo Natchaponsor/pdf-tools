@@ -54,7 +54,7 @@ export function SelfTest() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mx-auto w-full max-w-3xl space-y-4 px-4 py-10 sm:px-6">
       <h1 className="text-xl font-bold">Compression self-test</h1>
       <p className="text-sm text-ink-500">
         crossOriginIsolated: <code>{String(self.crossOriginIsolated)}</code> · SharedArrayBuffer:{' '}

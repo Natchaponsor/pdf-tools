@@ -332,7 +332,7 @@ function PageTile({
           type="button"
           onClick={onRotate}
           aria-label={`Rotate page ${position}`}
-          className="rounded-md p-1 text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
+          className="rounded-md p-1 text-ink-dim transition-colors hover:bg-ink-dim hover:text-page"
         >
           <IconRotate className="h-4 w-4" />
         </button>
@@ -340,7 +340,7 @@ function PageTile({
           type="button"
           onClick={onToggleDelete}
           aria-label={card.deleted ? `Restore page ${position}` : `Delete page ${position}`}
-          className="rounded-md p-1 text-ink-500 hover:bg-paper-100 dark:hover:bg-white/10"
+          className="rounded-md p-1 text-ink-dim transition-colors hover:bg-ink-dim hover:text-page"
         >
           {card.deleted ? <IconUndo className="h-4 w-4" /> : <IconTrash className="h-4 w-4" />}
         </button>

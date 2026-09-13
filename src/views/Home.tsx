@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { navigate } from '../lib/useHashRoute';
 import { setHandoff, takeHandoff } from '../lib/handoff';
 import { TOOL_SECTIONS, type Tool } from '../data/tools';
@@ -7,12 +7,19 @@ import { formatBytes } from '../lib/format';
 import { FileDrop } from '../components/FileDrop';
 import { Pal } from '../components/Pal';
 import { IconClose } from '../components/icons';
+import { useHeroSnap } from '../lib/useHeroSnap';
 
 export function Home({ compact = false }: { compact?: boolean }) {
   // A file handed over before a verb is chosen, which is the order people
   // actually think in: "this PDF is too big" comes before "I want the
   // compress tool".
   const [staged, setStaged] = useState<File | null>(null);
+
+  const heroRef = useRef<HTMLElement>(null);
+  const toolsRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  useHeroSnap({ hero: heroRef, tools: toolsRef, left: titleRef, right: boxRef });
 
   const kind: 'pdf' | 'image' | null = staged
     ? staged.type === 'application/pdf' || staged.name.toLowerCase().endsWith('.pdf')
@@ -23,12 +30,12 @@ export function Home({ compact = false }: { compact?: boolean }) {
   return (
     <>
       {!compact && (
-        <section className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
+        <section ref={heroRef} className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:py-14">
           {/* Title and hand-off side by side, on the same baseline: the thing
               you came to do is never below the fold, and the sentence
               explaining it is never separated from the box it explains. */}
           <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
-            <div>
+            <div ref={titleRef}>
               <h1 className="text-[38px] font-extrabold leading-[1.06] tracking-tight text-ink sm:text-[48px]">
                 PDF chores, done on your device.
               </h1>
@@ -38,7 +45,7 @@ export function Home({ compact = false }: { compact?: boolean }) {
               </p>
             </div>
 
-            <div>
+            <div ref={boxRef}>
               {staged ? (
                 <StagedCard
                   file={staged}
@@ -61,7 +68,7 @@ export function Home({ compact = false }: { compact?: boolean }) {
         </section>
       )}
 
-      <section className={compact ? '' : 'border-t border-line bg-band'}>
+      <section ref={toolsRef} className={compact ? '' : 'border-t border-line bg-band'}>
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
           {compact ? (
             <h1 className="text-[34px] font-extrabold tracking-tight text-ink">All tools</h1>
@@ -158,8 +165,8 @@ function ToolCard({
         }`}
       >
         {/* The icon chip is the mark's own silhouette, repeated seventeen times. */}
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[12px] bg-chip text-brand transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6">
-          <tool.icon className="h-5 w-5" />
+        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-[14px] bg-chip text-brand transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6">
+          <tool.icon className="h-[26px] w-[26px]" />
         </span>
         <span className="min-w-0 flex-1">
           <span className="flex flex-wrap items-center gap-2">
