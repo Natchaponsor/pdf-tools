@@ -1,6 +1,6 @@
 /*
  * Handing text off to another app. The translation itself happens in whatever
- * translator the user picks — the recognised text leaves Paperplane only when
+ * translator the user picks — the recognised text leaves PaperPal only when
  * they tap one of these.
  */
 

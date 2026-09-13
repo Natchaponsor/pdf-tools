@@ -8,7 +8,9 @@ export type ThemePref =
   | 'winter';
 export type ResolvedTheme = Exclude<ThemePref, 'system'>;
 
-const KEY = 'paperplane:theme';
+const KEY = 'paperpal:theme';
+/** Pre-rename key. Read once so the Paperplane-era choice survives the rebrand. */
+const LEGACY_KEY = 'paperplane:theme';
 const PREFS: ThemePref[] = ['system', 'light', 'dark', 'spring', 'summer', 'fall', 'winter'];
 const DARKISH: ResolvedTheme[] = ['dark', 'winter'];
 const mq = () => window.matchMedia('(prefers-color-scheme: dark)');
@@ -18,7 +20,7 @@ export const DEFAULT_THEME: ThemePref = 'light';
 
 export function getThemePref(): ThemePref {
   try {
-    const v = localStorage.getItem(KEY);
+    const v = localStorage.getItem(KEY) ?? localStorage.getItem(LEGACY_KEY);
     if (v === 'wygins') return 'spring'; // renamed
     if (v && (PREFS as string[]).includes(v)) return v as ThemePref;
   } catch {

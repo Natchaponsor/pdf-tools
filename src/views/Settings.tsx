@@ -27,7 +27,7 @@ export function Settings() {
           {install.kind === 'installable' && (
             <>
               <p className="text-sm text-ink-500 dark:text-white/60">
-                Add Paperplane to your device for a full-screen app and offline access.
+                Add PaperPal to your device for a full-screen app and offline access.
               </p>
               <button
                 type="button"
@@ -45,7 +45,7 @@ export function Settings() {
           )}
           {install.kind === 'installed' && (
             <p className="text-sm text-ink-500 dark:text-white/60">
-              Paperplane is installed and runs offline once each tool has been used.
+              PaperPal is installed and runs offline once each tool has been used.
             </p>
           )}
         </section>
@@ -86,7 +86,7 @@ export function Settings() {
       <section className="space-y-2">
         <h2 className="text-sm font-semibold text-ink-700 dark:text-white/80">About</h2>
         <p className="text-sm text-ink-500 dark:text-white/60">
-          Paperplane is open source under the AGPL-3.0 license. It&rsquo;s built with React, Vite,
+          PaperPal is open source under the AGPL-3.0 license. It&rsquo;s built with React, Vite,
           MuPDF, Ghostscript, and pdf-lib.
         </p>
         <a

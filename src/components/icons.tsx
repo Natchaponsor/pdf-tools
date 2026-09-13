@@ -1,7 +1,7 @@
 import type { SVGProps } from 'react';
 
 /**
- * Original line icons for Paperplane. 24×24, 1.6 stroke, round caps/joins.
+ * Original line icons for PaperPal. 24×24, 1.6 stroke, round caps/joins.
  * Intentionally simple and consistent — not derived from any icon set.
  */
 function base(props: SVGProps<SVGSVGElement>) {
@@ -273,6 +273,40 @@ export function IconGitHub(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
       <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.33.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10 10 0 0 0 22 12c0-5.52-4.48-10-10-10z" />
+    </svg>
+  );
+}
+
+/**
+ * The PaperPal mark: a folded page with a face.
+ *
+ * Two-tone by construction — the outline takes `currentColor` so the mark can
+ * sit on any ground, while the folded corner keeps its own pale fill. Pass
+ * `fold` to retint that fill (e.g. on a dark surface). Matches
+ * `public/logo.svg`, which is the same artwork with the brand colours baked in
+ * for the favicon and the PWA manifest.
+ */
+export function PaperPalMark({
+  fold = '#B9D1FF',
+  ...props
+}: SVGProps<SVGSVGElement> & { fold?: string }) {
+  return (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true" {...props}>
+      <path d="M42 7V22H57Z" fill={fold} />
+      <g
+        stroke="currentColor"
+        strokeWidth={4}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M42 7H18A11 11 0 0 0 7 18V46A11 11 0 0 0 18 57H46A11 11 0 0 0 57 46V22Z" />
+        <path d="M42 7V22H57" />
+        <path d="M17 29H26" />
+        <path d="M38 29H47" />
+        <path d="M26 43Q32 48 38 43" />
+      </g>
+      <circle cx="21.5" cy="35" r="3" fill="currentColor" />
+      <circle cx="42.5" cy="35" r="3" fill="currentColor" />
     </svg>
   );
 }

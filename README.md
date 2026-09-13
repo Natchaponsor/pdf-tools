@@ -1,4 +1,4 @@
-# Paperplane
+# PaperPal
 
 Private PDF tools that run **entirely in your browser** — compress, scan pages
 with your camera, translate a scan, have one read aloud, merge, split, organize,
@@ -14,13 +14,13 @@ leave your device.
 Live: **https://natchaponsor.github.io/pdf-tools/**
 
 <p align="center">
-  <img src="docs/screenshot-mobile.png" alt="Paperplane home screen on a phone: a two-column grid of PDF tool cards" width="300">
+  <img src="docs/screenshot-mobile.png" alt="PaperPal home screen on a phone: a two-column grid of PDF tool cards" width="300">
 </p>
 
 ## Why
 
 Most "compress a PDF" websites upload your document to a server you don't
-control. Paperplane does the whole job locally using WebAssembly builds of
+control. PaperPal does the whole job locally using WebAssembly builds of
 mature PDF engines, so a confidential contract or a pile of payslips never
 touches the network.
 
@@ -131,7 +131,7 @@ expected, and the app tells you so instead of pretending.
 
 ### Install / offline
 
-Paperplane is an installable PWA. **[`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/)**
+PaperPal is an installable PWA. **[`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/)**
 (Workbox) generates the service worker at build time — the Workbox runtime is
 pulled from `workbox-build` and **inlined into `dist/sw.js`**, so nothing is
 fetched from a CDN at runtime (open the network tab and check).

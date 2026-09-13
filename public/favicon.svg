@@ -1,5 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#2563eb"/>
-  <path d="M50 15 13 30l14 5 4 15 6-11 11 8z" fill="#fff"/>
-  <path d="M31 39l19-24-27 20z" fill="#a9c6fb"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Favicon variant: reversed out of a filled blue tile and stripped of the
+       eyebrows, so the mark still reads as a face at 16px where the full
+       lockup turns to mush. -->
+  <rect width="64" height="64" rx="14" fill="#2563EB"/>
+  <path d="M42 15V28H55Z" fill="#B9D1FF"/>
+  <g stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 15H21A9 9 0 0 0 12 24V40A9 9 0 0 0 21 49H46A9 9 0 0 0 55 40V28Z"/>
+    <path d="M42 15V28H55"/>
+    <path d="M26 39Q33 45 40 39"/>
+  </g>
+  <circle cx="25" cy="31" r="3.4" fill="#fff"/>
+  <circle cx="42" cy="31" r="3.4" fill="#fff"/>
 </svg>

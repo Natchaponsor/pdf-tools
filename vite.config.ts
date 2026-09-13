@@ -38,6 +38,10 @@ export default defineConfig({
         // within the app scope when offline.
         navigateFallback: `${base}index.html`,
         navigateFallbackAllowlist: [/^\/pdf-tools\//],
+        // The `paperplane-*` runtime cache names are deliberately NOT renamed.
+        // They are invisible internals, and renaming them would orphan the
+        // caches already on disk — forcing every existing user to re-download
+        // ~15 MB of OCR models and WASM engines for a cosmetic change.
         runtimeCaching: [
           {
             // Tesseract.js OCR: worker, WebAssembly core, and language models
@@ -85,8 +89,8 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: 'Paperplane',
-        short_name: 'Paperplane',
+        name: 'PaperPal',
+        short_name: 'PaperPal',
         description:
           'Private PDF tools that run entirely on your device. Compress, merge, split, convert — nothing is uploaded.',
         id: base,

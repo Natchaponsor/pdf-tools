@@ -18,3 +18,14 @@ public/scan45.pdf
 
 # local compress test fixtures
 public/small*.pdf
+
+# Locally installed agent skills and their lockfile — machine state, not source.
+.claude/skills/
+.agents/
+skills-lock.json
+
+# Impeccable design-skill working artifacts (briefs and config are tracked)
+.impeccable/review/
+.impeccable/build/
+.impeccable/mocks/
+.impeccable/questions/

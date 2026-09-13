@@ -1,6 +1,6 @@
 import { lazy, Suspense, type ComponentType, type ReactNode } from 'react';
 import { navigate, useHashRoute } from './lib/useHashRoute';
-import { IconGitHub } from './components/icons';
+import { IconGitHub, PaperPalMark } from './components/icons';
 import { PwaPrompt } from './components/PwaPrompt';
 import { ViewErrorBoundary } from './components/ViewErrorBoundary';
 import { ViewSkeleton } from './components/ViewSkeleton';
@@ -71,14 +71,10 @@ export function App() {
             type="button"
             onClick={() => navigate('/')}
             className="group flex items-center gap-2.5 text-lg font-bold text-ink-900 dark:text-white"
-            aria-label="Paperplane home"
+            aria-label="PaperPal home"
           >
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-600 text-white transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6 group-hover:scale-105">
-              <svg viewBox="0 0 24 24" className="h-[22px] w-[22px]" fill="currentColor">
-                <path d="M21 3 3 10.5l7 2.5 2 7 3-5.5 4 3z" />
-              </svg>
-            </span>
-            Paperplane
+            <PaperPalMark className="h-9 w-9 text-brand-600 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6 group-hover:scale-105 dark:text-brand-300" />
+            PaperPal
           </button>
           <nav className="flex items-center gap-1">
             <NavLink to="/tools" active={base === '/tools'}>
@@ -114,12 +110,8 @@ function SiteFooter() {
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white">
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-                  <path d="M21 3 3 10.5l7 2.5 2 7 3-5.5 4 3z" />
-                </svg>
-              </span>
-              <span className="text-lg font-bold text-white">Paperplane</span>
+              <PaperPalMark className="h-8 w-8 text-white" fold="rgba(255,255,255,0.45)" />
+              <span className="text-lg font-bold text-white">PaperPal</span>
             </div>
             <p className="mt-3 max-w-xs text-sm text-white/80">
               Manage your PDFs easily in your browser.
@@ -130,7 +122,7 @@ function SiteFooter() {
             href={REPO}
             target="_blank"
             rel="noreferrer noopener"
-            aria-label="Paperplane on GitHub"
+            aria-label="PaperPal on GitHub"
             className="mt-9 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/25 text-white/80 transition-colors hover:border-white/60 hover:text-white"
           >
             <IconGitHub className="h-5 w-5" />
