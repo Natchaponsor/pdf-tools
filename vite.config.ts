@@ -98,8 +98,10 @@ export default defineConfig({
         scope: base,
         display: 'standalone',
         orientation: 'portrait-primary',
-        theme_color: '#2563eb',
-        background_color: '#f4f6fa',
+        // The manifest cannot follow the in-app theme, so both sit on the
+        // default (light) palette rather than on the accent.
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
         icons: [
           { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
           { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' },

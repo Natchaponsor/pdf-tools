@@ -38,6 +38,25 @@ export function applyTheme(pref: ThemePref): void {
   const resolved = resolve(pref);
   document.documentElement.setAttribute('data-theme', resolved);
   document.documentElement.style.colorScheme = DARKISH.includes(resolved) ? 'dark' : 'light';
+  syncBrowserChrome();
+}
+
+/**
+ * Point `<meta name="theme-color">` at the page's own background.
+ *
+ * On a phone this is what the browser paints behind the page: the address bar
+ * area, the status bar, and whatever shows through the safe area. It was pinned
+ * to the brand blue, so every theme had a blue surround that had nothing to do
+ * with the palette in use. Read from the computed value rather than a second
+ * table of colours, so it can never drift from the theme it is meant to match.
+ */
+function syncBrowserChrome(): void {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) return;
+  const page = getComputedStyle(document.documentElement)
+    .getPropertyValue('--color-page')
+    .trim();
+  if (page) meta.setAttribute('content', page);
 }
 
 export function setThemePref(pref: ThemePref): void {
