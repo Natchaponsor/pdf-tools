@@ -1,9 +1,13 @@
 import { defineConfig } from '@vite-pwa/assets-generator/config';
 
-// One-off icon generation from public/favicon.svg. Run with:
-//   npx pwa-assets-generator
-// The PNGs it writes into public/ are committed; this config and the
-// generator itself are dev-only and not part of `npm run build`.
+// Kept for reference only. The PaperPal icon set was NOT produced by this
+// generator: it pulls in a vulnerable sharp, and the mark needs different
+// framing per target (the rounded tile is artwork on the regular icons, but
+// maskable icons must run full bleed with the mark inside the 80% safe zone).
+// They were rendered from the mark with headless Chrome instead, and the PNGs
+// in public/ are committed. Regenerate by re-running that script rather than
+// `npx pwa-assets-generator`, which would overwrite them with the wrong
+// framing.
 export default defineConfig({
   headLinkOptions: { preset: '2023' },
   preset: {

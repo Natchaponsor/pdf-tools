@@ -1,14 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- Favicon variant: reversed out of a filled blue tile and stripped of the
-       eyebrows, so the mark still reads as a face at 16px where the full
-       lockup turns to mush. -->
-  <rect width="64" height="64" rx="14" fill="#2563EB"/>
-  <path d="M42 15V28H55Z" fill="#B9D1FF"/>
+  <!-- Favicon variant: reversed out of a filled blue tile, eyebrows dropped and
+       the stroke thickened, because five separate features turn to mush in a
+       16px box. The fold sits clear of the eyes, which an earlier version did
+       not. The full mark with eyebrows is in logo.svg. -->
+  <rect width="64" height="64" rx="14" fill="#2563eb"/>
+  <path d="M41 14V25H54Z" fill="#b9d1ff"/>
   <g stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M42 15H21A9 9 0 0 0 12 24V40A9 9 0 0 0 21 49H46A9 9 0 0 0 55 40V28Z"/>
-    <path d="M42 15V28H55"/>
-    <path d="M26 39Q33 45 40 39"/>
+    <path d="M41 14H21A9 9 0 0 0 12 23V39A9 9 0 0 0 21 48H45A9 9 0 0 0 54 39V25Z"/>
+    <path d="M41 14V25H54"/>
+    <path d="M26 40Q33 46 40 40"/>
   </g>
-  <circle cx="25" cy="31" r="3.4" fill="#fff"/>
-  <circle cx="42" cy="31" r="3.4" fill="#fff"/>
+  <circle cx="25" cy="33" r="3.2" fill="#fff"/>
+  <circle cx="41" cy="33" r="3.2" fill="#fff"/>
 </svg>
