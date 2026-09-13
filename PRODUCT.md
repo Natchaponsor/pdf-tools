@@ -9,13 +9,13 @@ web
 ## Users
 
 The primary user is a person on a phone or laptop who has one PDF and one
-problem with it right now — it is too big to email, it is in the wrong order,
+problem with it right now: it is too big to email, it is in the wrong order,
 it is a photographed stack of pages, it needs a password removed. They are not
 a document professional and they are not in a workflow; they arrive, do one
 job, and leave.
 
 The situation that shapes everything: the document is often something they
-would not hand to a stranger — a contract, a payslip, an ID scan, a bank
+would not hand to a stranger: a contract, a payslip, an ID scan, a bank
 statement. That is why they are looking for an alternative to the usual
 upload-it-to-a-server converter sites.
 
@@ -26,8 +26,8 @@ pricing, because there is nothing to sell and no real social proof to cite.
 
 ## Product Purpose
 
-PaperPal does ordinary PDF chores — compress, merge, split, organize, rotate,
-convert, protect, scan, OCR — **entirely inside the browser**, with no backend,
+PaperPal does ordinary PDF chores (compress, merge, split, organize, rotate,
+convert, protect, scan, OCR) **entirely inside the browser**, with no backend,
 no account, and no request that carries a user's file anywhere.
 
 Success is a user completing their one job in under a minute and understanding,
@@ -38,7 +38,7 @@ device.
 
 Every mainstream competitor in this category ("compress a PDF online") uploads
 the document to a server the user does not control. PaperPal runs mature PDF
-engines — MuPDF, Ghostscript, Tesseract, OpenCV — as WebAssembly in the page
+engines (MuPDF, Ghostscript, Tesseract, OpenCV) as WebAssembly in the page
 itself.
 
 The claim a neighboring product cannot truthfully copy: **open the network tab
@@ -49,7 +49,7 @@ no backend to trust. This is the product, not a feature of it.
 
 - Roughly half of real use is on a phone, often one-handed, often to prepare a
   file for an email or an upload form that just rejected it for being too big.
-- The app is an installable PWA and works fully offline after first load —
+- The app is an installable PWA and works fully offline after first load,
   including the WASM engines, the OCR models, and every code-split tool view.
 - Hosted on GitHub Pages, which cannot set response headers. Confirmed working
   consequence: no COOP/COEP, no cross-origin isolation, no SharedArrayBuffer.
@@ -85,20 +85,20 @@ Durable technical constraints:
 - The live URL **stays `/pdf-tools/` for now**. The rename changes only what
   users see. A **custom domain is planned eventually**, so path and base-URL
   configuration should be structured so a real domain can be dropped in without
-  a second migration — and no new hardcoded absolute paths may be introduced.
+  a second migration, and no new hardcoded absolute paths may be introduced.
 
 **Explicitly undecided:** the custom domain name and its date.
 
 ## Brand Commitments
 
 - **Name: PaperPal.** Binding.
-- **Logo: the supplied two-tone blue mascot** — a rounded-square document with
+- **Logo: the supplied two-tone blue mascot.** A rounded-square document with
   a folded corner and a face (two eyebrows, two eyes, a smile), drawn in a
   uniform stroke with round joins. Version chosen: **v2**, the variant whose
   folded corner is filled pale blue rather than grey. Binding.
 - **Voice: plain, honest, unexcited.** The existing copy tells users when a
   file will not shrink instead of pretending otherwise ("Text-born PDFs that
-  are already efficient won't shrink much at any level — that's expected, and
+  are already efficient won't shrink much at any level, that's expected, and
   the app tells you so"). That candor is a brand commitment, not a copy style.
 - Author credit and AGPL-3.0 notice appear in the footer.
 - Seasonal themes (spring / summer / fall / winter) alongside light and dark

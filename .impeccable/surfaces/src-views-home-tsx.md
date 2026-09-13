@@ -31,11 +31,11 @@ call:
 
 ## Direction contract
 
-THESIS: The logo is not a badge in the corner — it is the product's manner.
+THESIS: The logo is not a badge in the corner. It is the product's manner.
 PaperPal is a helpful thing made of paper that reacts to what you hand it, and
 the whole surface is built from the mark's own geometry: uniform stroke, round
 joins, generous radii, two tones of blue and nothing else. It refuses the
-arrangement the category ships by refusing its neutrality — every other tool in
+arrangement the category ships by refusing its neutrality: every other tool in
 this space is a faceless white grid, and this one has a face.
 
 OWN-WORLD: White ground (#FFFFFF) with two distinct secondary grounds doing
@@ -45,7 +45,7 @@ catalogue". The grey is deliberately not a blue tint: two tinted grounds on
 one page read as a gradient rather than as two kinds of place. Ink #0F1420, secondary #5B6576. One saturated blue
 (#2563EB) for actions and the mark; the fold blue (#B9D1FF) fills illustration
 and chips; nothing else is coloured. Every container is a rounded rectangle
-from the mark's own family — 20px for working surfaces, 14px for controls,
+from the mark's own family: 20px for working surfaces, 14px for controls,
 full pills for buttons. Icons are redrawn at the logo's stroke weight and
 joins so the tool set and the mascot are visibly the same hand. Display type is
 Nunito, self-hosted: a rounded geometric with the same soft terminals as the
@@ -75,13 +75,13 @@ operate), restructured by user selection after seeing all three builds. The
 direction round is not re-run: the user has now seen the alternatives rendered
 and chosen between them, which is stronger evidence than another roll.
 
-Signature interaction — **the pal reacts**: the mascot is a single component
+Signature interaction, **the pal reacts**: the mascot is a single component
 with a small set of states (resting, alert when a file is dragged over,
 working, done, stuck) and it is the same character on the home screen, inside
 every drop zone, in every empty state and on every result. Nothing else in the
-app animates a face, and it never animates for decoration — each state maps to
+app animates a face, and it never animates for decoration. Each state maps to
 a real application state. Motion grammar: soft spring-ish ease on scale and
-translate only, 200–320ms, reduced-motion renders each state statically.
+translate only, 200 to 320ms, reduced-motion renders each state statically.
 
 HONEST RISK: assembling from liked parts tends toward the safe middle, and
 this is now closer to the category standard than v2 was. What still separates

@@ -3,7 +3,7 @@
 /* Self-hosted, same-origin. A tool that promises no third-party request for
    your files must not make one for its own lettering. Nunito is here because
    the wordmark is a pinned brand commitment and the headings should look like
-   it — the same rounded geometric skeleton and soft terminals — rather than
+   it, with the same rounded geometric skeleton and soft terminals, rather than
    merely sitting near it. */
 @import '@fontsource/nunito/latin-400.css';
 @import '@fontsource/nunito/latin-600.css';
@@ -20,7 +20,7 @@
    container on this surface is built from the mark's own geometry: uniform
    stroke, round joins, generous radii, two tones of blue and nothing else.
 
-   White is where you read. The pale blue recess is where work happens — it is
+   White is where you read. The pale blue recess is where work happens. It is
    the only ground that changes, and it always means "something of yours is
    here". Saturated blue is reserved for actions and the mark. */
 @theme {

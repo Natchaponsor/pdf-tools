@@ -24,7 +24,7 @@ export default defineConfig({
       workbox: {
         inlineWorkboxRuntime: true,
         // Precache the app shell only. The WASM blobs and the Ghostscript
-        // engine files in vendor/ are tens of MB — they get runtime-cached on
+        // engine files in vendor/ are tens of MB, so they get runtime-cached on
         // first use instead (see runtimeCaching below).
         globPatterns: ['**/*.{js,css,html,svg,woff,woff2}'],
         globIgnores: [
@@ -40,7 +40,7 @@ export default defineConfig({
         navigateFallbackAllowlist: [/^\/pdf-tools\//],
         // The `paperplane-*` runtime cache names are deliberately NOT renamed.
         // They are invisible internals, and renaming them would orphan the
-        // caches already on disk — forcing every existing user to re-download
+        // caches already on disk, forcing every existing user to re-download
         // ~15 MB of OCR models and WASM engines for a cosmetic change.
         runtimeCaching: [
           {
@@ -76,7 +76,7 @@ export default defineConfig({
           },
           {
             // Ghostscript engine (public/vendor/*) and the classic worker
-            // scripts (public/workers/*) — copied verbatim, not bundled.
+            // scripts (public/workers/*), copied verbatim, not bundled.
             urlPattern: ({ url }) =>
               url.pathname.includes('/vendor/') || url.pathname.includes('/workers/'),
             handler: 'CacheFirst',
@@ -92,7 +92,7 @@ export default defineConfig({
         name: 'PaperPal',
         short_name: 'PaperPal',
         description:
-          'Private PDF tools that run entirely on your device. Compress, merge, split, convert — nothing is uploaded.',
+          'Private PDF tools that run entirely on your device. Compress, merge, split, convert. Nothing is uploaded.',
         id: base,
         start_url: base,
         scope: base,

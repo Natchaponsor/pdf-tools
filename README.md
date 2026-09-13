@@ -1,6 +1,6 @@
 # PaperPal
 
-Private PDF tools that run **entirely in your browser** — compress, scan pages
+Private PDF tools that run **entirely in your browser**: compress, scan pages
 with your camera, translate a scan, have one read aloud, merge, split, organize,
 rotate, convert to and from images, add page numbers or watermarks,
 password-protect or unlock, grayscale, strip blank pages, pull out embedded
@@ -31,44 +31,44 @@ touches the network.
 | Tool | What it does |
 | --- | --- |
 | **Compress PDF** | Shrink one or several PDFs at once (shared 50 MB budget). Three quality levels, first-page preview and before/after size per file, download individually or as a `.zip`. |
-| **Translate a PDF** | OCR a scanned PDF on your device (English or Thai), read the recognised text, then hand it to your translator in one tap — the share sheet on a phone, Google Translate on the web. The text leaves the app only when you tap. You also get a searchable PDF. |
-| **Read a PDF aloud** | OCR a scan, then have the browser's built-in speech engine read it — play / pause / scrub by paragraph, choose a voice and speed, follow along with the highlighted text. Works offline, no audio is sent anywhere. |
+| **Translate a PDF** | OCR a scanned PDF on your device (English or Thai), read the recognised text, then hand it to your translator in one tap: the share sheet on a phone, Google Translate on the web. The text leaves the app only when you tap. You also get a searchable PDF. |
+| **Read a PDF aloud** | OCR a scan, then have the browser's built-in speech engine read it: play / pause / scrub by paragraph, choose a voice and speed, follow along with the highlighted text. Works offline, no audio is sent anywhere. |
 | **Scan documents** | Photograph pages with your phone camera. OpenCV finds each page's edges and perspective-corrects it to a flat rectangle (colour / greyscale / B&W). After each page: rescan, scan the next, or stop. Then reorder the pages in a grid and export one PDF. All on-device. |
 | **Merge PDFs** | Combine several PDFs into one, in an order you set. |
 | **Split PDF** | Pick pages from a thumbnail grid (tap to select, or All / None / Odd / Even / a range), then pull them out as one PDF or a `.zip` of single pages. |
 | **Organize pages** | Drag page thumbnails to reorder, rotate, or delete, then export a new PDF. |
 | **Rotate PDF** | Tap individual pages to turn them, or rotate the whole document left/right at once. |
-| **PDF to image** | Render pages to PNG or JPG at 72/150/300 DPI — one page, or a `.zip`. |
+| **PDF to image** | Render pages to PNG or JPG at 72/150/300 DPI: one page, or a `.zip`. |
 | **Images to PDF** | Combine JPG/PNG images into one PDF (fit-to-image, A4, or Letter). |
 | **Compress image** | Shrink JPG, PNG, or WebP files, several at a time. |
 | **Add page numbers** | Position, style (`1`, `Page 1`, `1 / N`), size, and start number. |
 | **Add watermark** | Diagonal or horizontal text with adjustable opacity and size. |
-| **Protect PDF** | Add an open password (AES-256), optionally block editing/copying — or remove a password you know. |
+| **Protect PDF** | Add an open password (AES-256), optionally block editing/copying, or remove a password you know. |
 | **Grayscale PDF** | Convert every colour page to black and white; text and vectors stay crisp. |
 | **Remove blank pages** | Auto-flags empty-looking pages from a thumbnail scan; you review and adjust, then export. |
-| **Extract images** | Pull every embedded raster out of a PDF — JPEGs keep their original bytes, everything else comes out as PNG. |
+| **Extract images** | Pull every embedded raster out of a PDF. JPEGs keep their original bytes, everything else comes out as PNG. |
 
 Every result screen lets you rename the file before saving (the extension is
 fixed; a blank name falls back to the generated default).
 
-### Compress PDF — how it works
+### Compress PDF: how it works
 
 | Level | Engine | Approach | Typical result\* |
 | --- | --- | --- | --- |
-| **Light** | MuPDF | Lossless clean-up: dedupe objects, object streams, recompress streams, subset fonts. Keeps selectable text and full image quality. | 0–20% smaller (more on bloated exports) |
-| **Balanced** | Ghostscript `/ebook` | Downsample images to 150 DPI + re-encode. Keeps vector text. | ~90–95% smaller on scans |
-| **Smallest** | Ghostscript `/screen` | Downsample images to 72 DPI + re-encode. | ~95–97% smaller on scans |
+| **Light** | MuPDF | Lossless clean-up: dedupe objects, object streams, recompress streams, subset fonts. Keeps selectable text and full image quality. | 0 to 20% smaller (more on bloated exports) |
+| **Balanced** | Ghostscript `/ebook` | Downsample images to 150 DPI + re-encode. Keeps vector text. | ~90 to 95% smaller on scans |
+| **Smallest** | Ghostscript `/screen` | Downsample images to 72 DPI + re-encode. | ~95 to 97% smaller on scans |
 
 \* Measured on a 44.9 MB, 24-page scanned-photo PDF, running in the browser on a
 laptop:
 
 ```
-Light      44.9 MB → 44.9 MB   (0% — nothing to strip on this file)   ~0.1 s
+Light      44.9 MB → 44.9 MB   (0%, nothing to strip on this file)   ~0.1 s
 Balanced   44.9 MB →  2.2 MB   (95% smaller)                          ~16 s
 Smallest   44.9 MB →  1.1 MB   (97% smaller)                          ~9 s
 ```
 
-Text-born PDFs that are already efficient won't shrink much at any level — that's
+Text-born PDFs that are already efficient won't shrink much at any level, and that's
 expected, and the app tells you so instead of pretending.
 
 ## Tech
@@ -78,72 +78,72 @@ expected, and the app tells you so instead of pretending.
 - **Hash-based routing** (`#/compress`). No history API, so a refresh or a deep
   link works on GitHub Pages with no server rewrites.
 - **Themes** (Settings → Appearance): **Light** (the default), System, Dark, plus
-  four seasonal palettes — **Spring / Summer / Fall / Winter** — where the home
+  four seasonal palettes (**Spring / Summer / Fall / Winter**) where the home
   feature blocks become solid-colour tiles with knockout text. Winter is a night
   palette and rides the same `dark:` variant as Dark. Each theme is a set of
   Tailwind v4 custom-property overrides scoped to `<html data-theme>`, so one
   rule re-skins every utility.
-- **Layout**: a centred tool grid — two columns on phones, three from the `sm`
+- **Layout**: a centred tool grid: two columns on phones, three from the `sm`
   breakpoint up; the site footer is a full-bleed band with the repo link and a
   feedback link.
-- **[`mupdf`](https://www.npmjs.com/package/mupdf)** — MuPDF.js WASM. One shared
+- **[`mupdf`](https://www.npmjs.com/package/mupdf)**. MuPDF.js WASM. One shared
   ES-module worker does the lossless compression tier, page counts and thumbnail
   rendering, first-page previews, AES-256 password protect/unlock, and image
   extraction (walking each page's XObject resources; JPEG streams come out as
   their original bytes, everything else is decoded to PNG).
 - **[`@jspawn/ghostscript-wasm`](https://www.npmjs.com/package/@jspawn/ghostscript-wasm)**
-  — Ghostscript 9.56 WASM. Powers the image-downsampling compression tiers and
+  Ghostscript 9.56 WASM. Powers the image-downsampling compression tiers and
   the grayscale conversion. Loaded lazily in a plain worker served from
   `public/` so its `.wasm` path stays correct under the Pages base path.
-- **[`pdf-lib`](https://www.npmjs.com/package/pdf-lib)** — merge, split, organize,
+- **[`pdf-lib`](https://www.npmjs.com/package/pdf-lib)**. Merge, split, organize,
   rotate, remove blank pages, images → PDF, page numbers, watermark, and
   stitching the OCR'd pages into a searchable PDF.
-- **[`tesseract.js`](https://www.npmjs.com/package/tesseract.js)** — v7, the
+- **[`tesseract.js`](https://www.npmjs.com/package/tesseract.js)**. v7, the
   Tesseract 5 OCR engine compiled to WASM. Shared by **Translate** and **Read
   aloud**: MuPDF rasterises each page, Tesseract recognises the text and adds an
   invisible layer, and pdf-lib stitches the pages into a searchable PDF. The
   worker script, the LSTM WASM core, and the English + Thai models
-  (`@tesseract.js-data/*`, ~1–3 MB gzipped each) are copied into
+  (`@tesseract.js-data/*`, ~1 to 3 MB gzipped each) are copied into
   `public/vendor/tesseract/` by `scripts/sync-vendor.mjs` and pointed at
-  explicitly — tesseract.js would otherwise fetch all of it from a CDN. The
+  explicitly, because tesseract.js would otherwise fetch all of it from a CDN. The
   worker is loaded from its real URL (not a `blob:`) so the service worker can
   cache it and its subresources for offline use.
-- **Translate** does the translation nowhere — it hands the recognised text to
+- **Translate** does the translation nowhere. It hands the recognised text to
   the OS share sheet (`navigator.share`) or opens Google Translate on the web.
   The text is only ever shared on an explicit tap.
-- **Read aloud** uses the browser's built-in `SpeechSynthesis` — no dependency,
+- **Read aloud** uses the browser's built-in `SpeechSynthesis`. No dependency,
   no network, the device's own voices. Text is chunked into short pieces spoken
   in sequence so the current paragraph can be highlighted and scrubbed.
 - **[`@techstark/opencv-js`](https://www.npmjs.com/package/@techstark/opencv-js)**
-  — OpenCV compiled to WASM, powering **Scan documents**: Canny edges →
+  OpenCV compiled to WASM, powering **Scan documents**: Canny edges →
   contours → largest 4-point polygon for auto edge detection, then
   `getPerspectiveTransform` / `warpPerspective` to flatten the page. A single
   ~13 MB self-contained file (WASM embedded), copied to
   `public/vendor/opencv/opencv.js` by `sync-vendor.mjs`, `<script>`-loaded
   lazily on first scan and runtime-cached. Camera access is a plain
-  `<input capture="environment">` — no `getUserMedia` viewfinder.
+  `<input capture="environment">`, with no `getUserMedia` viewfinder.
 - **[`browser-image-compression`](https://www.npmjs.com/package/browser-image-compression)**
-  — the image compressor. Run with `useWebWorker: false` on purpose: its worker
+  The image compressor. Run with `useWebWorker: false` on purpose: its worker
   mode fetches code from a CDN, which would break the privacy guarantee.
-- **[`jszip`](https://www.npmjs.com/package/jszip)** — multi-file `.zip` output.
+- **[`jszip`](https://www.npmjs.com/package/jszip)**. Multi-file `.zip` output.
 - **Blank-page detection** is a plain canvas ink-coverage check on the page
-  thumbnails — no extra dependency, no upload.
+  thumbnails. No extra dependency, no upload.
 
 ### Install / offline
 
 PaperPal is an installable PWA. **[`vite-plugin-pwa`](https://vite-pwa-org.netlify.app/)**
-(Workbox) generates the service worker at build time — the Workbox runtime is
+(Workbox) generates the service worker at build time. The Workbox runtime is
 pulled from `workbox-build` and **inlined into `dist/sw.js`**, so nothing is
 fetched from a CDN at runtime (open the network tab and check).
 
-- **Precache**: the app shell only — `index.html`, every JS/CSS chunk, the
+- **Precache**: the app shell only: `index.html`, every JS/CSS chunk, the
   icons and the web manifest (~1 MB). The tens-of-MB WASM engines are **not**
   precached.
 - **Runtime cache** (`CacheFirst`): `*.wasm`, the `vendor/` + `workers/` engine
   files, and the Tesseract OCR core + language model cache on first use, then
   work offline.
 - `navigateFallback` serves `index.html`, so hash routes resolve offline.
-- **Updates**: `registerType: 'prompt'` — a new deploy shows an
+- **Updates**: `registerType: 'prompt'`. A new deploy shows an
   "A new version is available / Reload" toast instead of swapping silently.
 - **Install**: an "Install app" button appears in **Settings** when the browser
   offers it; iOS Safari gets an "Add to Home Screen" hint instead.
@@ -164,7 +164,7 @@ GitHub Pages cannot set. This is verified end to end:
 - Confirmed on the live GitHub Pages deployment, on desktop and mobile browsers.
 
 If a future engine ever needs threads, the fallback would be
-[`coi-serviceworker`](https://github.com/gzuidhof/coi-serviceworker) — but it
+[`coi-serviceworker`](https://github.com/gzuidhof/coi-serviceworker), but it
 isn't used today.
 
 ## Run locally
