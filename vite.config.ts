@@ -102,24 +102,28 @@ export default defineConfig({
         // default (light) palette rather than on the accent.
         theme_color: '#ffffff',
         background_color: '#ffffff',
+        // The -v2 suffix is load bearing. iOS keys its home screen icon cache
+        // by URL and the service worker precaches these by name, so reusing a
+        // filename means a stale icon can outlive a deploy. Bump the suffix
+        // whenever the artwork changes.
         icons: [
-          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'pwa-192x192-v2.png', sizes: '192x192', type: 'image/png' },
+          { src: 'pwa-512x512-v2.png', sizes: '512x512', type: 'image/png' },
           {
-            src: 'maskable-icon-192x192.png',
+            src: 'maskable-icon-192x192-v2.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: 'maskable-icon-512x512.png',
+            src: 'maskable-icon-512x512-v2.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
           },
         ],
       },
-      includeAssets: ['favicon.svg', 'favicon.ico', 'apple-touch-icon-180x180.png'],
+      includeAssets: ['favicon-v2.svg', 'favicon.ico', 'apple-touch-icon-180x180-v2.png'],
       devOptions: { enabled: false },
     }),
   ],

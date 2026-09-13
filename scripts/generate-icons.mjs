@@ -9,6 +9,10 @@ const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const PORT = 9500 + Math.floor(Math.random() * 400);
 const OUT = process.argv[2];
 
+// Filenames carry a version suffix on purpose: iOS keys its home screen icon
+// cache by URL, so reusing a name lets a stale icon survive a deploy. Bump the
+// suffix here and in index.html and vite.config.ts together.
+
 const BLUE = '#2563eb';
 const FOLD = '#b9d1ff';
 
@@ -59,15 +63,15 @@ const simple = { mark: SIMPLE, cx: 33, cy: 31 };
 
 const targets = [
   // Regular icons: the rounded tile is part of the artwork.
-  { file: 'pwa-192x192.png', size: 192, radius: 14, scale: 0.78, ...full },
-  { file: 'pwa-512x512.png', size: 512, radius: 14, scale: 0.78, ...full },
+  { file: 'pwa-192x192-v2.png', size: 192, radius: 14, scale: 0.78, ...full },
+  { file: 'pwa-512x512-v2.png', size: 512, radius: 14, scale: 0.78, ...full },
   // Maskable: full bleed, because the launcher supplies the shape. Pulled in
   // to 0.62 so the mark's diagonal stays inside the 80% safe circle whatever
   // mask is applied.
-  { file: 'maskable-icon-192x192.png', size: 192, radius: 0, scale: 0.62, ...full },
-  { file: 'maskable-icon-512x512.png', size: 512, radius: 0, scale: 0.62, ...full },
+  { file: 'maskable-icon-192x192-v2.png', size: 192, radius: 0, scale: 0.62, ...full },
+  { file: 'maskable-icon-512x512-v2.png', size: 512, radius: 0, scale: 0.62, ...full },
   // iOS rounds the corners itself and crops very little, so this runs fuller.
-  { file: 'apple-touch-icon-180x180.png', size: 180, radius: 0, scale: 0.72, ...full },
+  { file: 'apple-touch-icon-180x180-v2.png', size: 180, radius: 0, scale: 0.72, ...full },
   // Source for the .ico.
   { file: 'favicon-48.png', size: 48, radius: 10, scale: 0.92, ...simple },
 ];
